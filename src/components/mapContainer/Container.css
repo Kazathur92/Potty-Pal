@@ -1,0 +1,11 @@
+.map {
+  /* display:flex; */
+ /* justify-content: center; */
+
+}
+
+.infoWindows {
+  color: blue;
+  border-radius: 15px;
+  background-color: cadetblue;
+}

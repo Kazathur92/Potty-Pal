@@ -1,0 +1,19 @@
+.registrationFormDiv {
+/* display:flex; */
+/* justify-content: center; */
+/* flex-flow: wrap; */
+/* flex-direction: row; */
+/* flex-flow: wrap; */
+}
+
+.registrationForm {
+  /* display: flex; */
+  /* justify-content: space-evenly; */
+  /* flex-direction: row; */
+  /* flex-wrap: wrap; */
+  /* flex-flow: */
+}
+
+.userBar2 {
+margin-top: -200px;
+}
