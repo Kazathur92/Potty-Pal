@@ -1,0 +1,55 @@
+{
+  "users": [
+    {
+      "name": "Alfonso",
+      "lastName": "Miranda",
+      "userName": "Kazathur",
+      "email": "gabmin21@hotmail.com",
+      "password": "Zodian0821!",
+      "DOB": "1992-09-21",
+      "id": 1
+    },
+    {
+      "name": "Stephanie",
+      "lastName": "Goldstein",
+      "userName": "Stephy",
+      "email": "bipeta@hotmail.com",
+      "password": "woopy",
+      "DOB": "1987-01-24",
+      "id": 2
+    },
+    {
+      "name": "",
+      "lastName": "",
+      "userName": "",
+      "email": "",
+      "password": "",
+      "DOB": "",
+      "id": 3
+    },
+    {
+      "name": "",
+      "lastName": "",
+      "userName": "",
+      "email": "adad",
+      "password": "adada",
+      "DOB": "",
+      "id": 4
+    }
+  ],
+  "favorites": [
+    {}
+  ],
+  "bathrooms": [
+    {}
+  ],
+  "users_bathrooms": [
+    {}
+  ],
+  "users_favorites": [
+    {}
+  ],
+  "rated": [
+    {}
+  ]
+}

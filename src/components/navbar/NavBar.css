@@ -1,0 +1,151 @@
+.nav {
+  /* display: flex; */
+  /* flex-direction: row-reverse; */
+
+  /* text-align: right; */
+  background-color: rgb(6, 104, 143);
+  height: 140px;
+}
+
+.navRight {
+  text-align: right;
+  margin-right:65px;
+}
+
+.navLeft {
+  text-align: left;
+}
+
+.navRegister {
+  /* justify-content: right; */
+  /* text-align: right; */
+  font-weight: bold;
+  color: rgba(245, 245, 245, 0.877);
+  /* margin-top: 80px; */
+  margin-right:20px;
+}
+
+.loginButton {
+  /* justify-content: right; */
+  /* text-align: right; */
+  border-radius: 15px;
+  font-weight: bold;
+  margin-top: 25px;
+  /* margin-bottom: -30px; */
+  margin-right: 20px;
+  /* size: 5px; */
+  width: 70px;
+  height: 30px;
+
+}
+
+.homeLink {
+float:left;
+  font-weight: bold;
+  color: rgba(245, 245, 245, 0.877);
+  margin-left:35px;
+  margin-top: 60px;
+  /* margin-bottom: -20px; */
+}
+
+.textboxTitles2 {
+  display:flex;
+  justify-content: flex-end;
+  /* margin-top: 300px; */
+  /* justify-content: space-evenly; */
+  /* flex-direction: row-reverse */
+  /* text-align: right; */
+}
+
+.textBoxEmailTitle {
+  font-weight: bold;
+  color:  rgba(245, 245, 245, 0.877);
+margin-right: 104px;
+}
+
+.textBoxPassTitle {
+  font-weight: bold;
+  color:  rgba(245, 245, 245, 0.877);
+  margin-right: 72px;
+}
+
+.textboxes2 {
+
+  text-align: right;
+  margin-right: 20px;
+
+}
+
+.emailTextBox {
+margin-right: 20px;
+/* margin-bottom: -100px; */
+}
+
+.passTextBox {
+
+}
+
+.userBar {
+  margin-top: 0px;
+}
+
+.logOutButtonField {
+
+  float:left;
+  margin-top: 10px;
+  margin-left: -67px;
+}
+
+.logOutButton {
+  width: 90px;
+  height: 30px;
+  font-weight: bold;
+  border-radius: 15px;
+}
+
+.addButton {
+  /* padding: 20px; */
+  font-weight: bold;
+  border-radius: 15px;
+  width: 100px;
+  height: 50px;
+  margin-top: 165px;
+  margin-bottom: 30px;
+}
+
+.favoritesButton {
+  font-weight: bold;
+  border-radius: 15px;
+  width: 100px;
+  height: 50px;
+  margin-top: 25px;
+  margin-bottom: 30px;
+
+  margin-left: 20px;
+}
+
+.trendingButton {
+  font-weight: bold;
+  border-radius: 15px;
+  width: 100px;
+  height: 50px;
+  margin-top: 25px;
+  margin-right: 110px;
+  margin-left: 20px;
+}
+
+.border {
+  border: solid 3px skyblue;
+}
+
+.noBorder {
+
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
+}
