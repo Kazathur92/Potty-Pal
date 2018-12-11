@@ -17,33 +17,20 @@
       "password": "woopy",
       "DOB": "1987-01-24",
       "id": 2
-    },
-    {
-      "name": "",
-      "lastName": "",
-      "userName": "",
-      "email": "",
-      "password": "",
-      "DOB": "",
-      "id": 3
-    },
-    {
-      "name": "",
-      "lastName": "",
-      "userName": "",
-      "email": "adad",
-      "password": "adada",
-      "DOB": "",
-      "id": 4
     }
   ],
   "favorites": [
     {}
   ],
-  "bathrooms": [
-    {}
+  "markers": [
+    {
+      "id": 1,
+      "name": "NSS",
+      "address": "woopy ln",
+      "pos": "lat: 36.1627, lng: -86.7716"
+    }
   ],
-  "users_bathrooms": [
+  "users_marker": [
     {}
   ],
   "users_favorites": [

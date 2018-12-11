@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-// import SideNav from "../sideNav/SideNav"
-// import "../sideNav/SideNav.css"
-// import { Button } from 'react'
 import './NavBar.css'
 
 
@@ -13,7 +10,6 @@ export default class NavBar extends Component {
     emailTextBox: "",
     passTextBox: ""
   }
-
 
 
   handleFieldChange = evt => {
@@ -53,7 +49,6 @@ console.log("hi")
 
   render() {
 
-
     let textboxTitlesField = ""
     let textboxesField = ""
     let navButtons = ""
@@ -66,7 +61,7 @@ console.log("hi")
             <button id="logOutButton" className="logOutButton" onClick={this.props.logOutButton}>Log Out</button>
           </div>
           <div className="userBar">
-            <button type="submit" className="addButton noBorder" onClick={this.handleFieldChange}>Add Bathroom</button>
+            <button type="submit" className="addButton noBorder" onClick={this.props.addNewMarker}>Add Bathroom</button>
             <button className="favoritesButton" onClick={this.handleFieldChange}>Favorites</button>
             <button className="trendingButton" onClick={this.handleFieldChange}>Trending</button>
           </div>
@@ -119,29 +114,21 @@ console.log("hi")
           </div>
           <div id="textboxesTitle" className="textboxesTitle">
             {textboxTitlesField}
-            {/* <p className="textBoxEmailTitle">Email: </p>
-            <p className="textBoxPassTitle">Password: </p> */}
+
           </div>
           <div id="textBoxes" className="textBoxes">
 
             {textboxesField}
-            {/* <input id="emailTextBox" className="emailTextBox" type="text" placeholder="email"></input>
 
-            <input id="passTextBox" className="passTextBox" type="text" placeholder="password"></input> */}
           </div>
           {navButtons}
-          {/* <div className="navRight">
 
-
-            <button className="loginButton" id="loginButton" onClick={this.props.userBarStateChange}>Log In</button>
-            <Link className="navRegister" id="navRegister" to="/registration" onClick={this.hideLoggin}>Register</Link>
-          </div> */}
           {userBar}
         </nav>
         <header className="App-footer"></header>
-        {/* <SideNav onClick={this.buttonClicked}/> */}
       </div>
     )
   }
 
 }
+

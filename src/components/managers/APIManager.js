@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 const LocalRemoteURL = "http://localhost:8088"
+const GeolocationRemoteURL = "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs"
 const MapsRemoteURL = ""
 
 export default class APIManager {
@@ -19,6 +20,13 @@ export default class APIManager {
     return fetch(`${MapsRemoteURL}/${this.route}/${id}`).then(e => e.json())
   }
 
+  getGeolocation() {
+    return fetch(`${GeolocationRemoteURL}`, { method: "POST", headers: {
+      "Content-Type": "application/json"
+    },
+    body: ""}).then(data => data.json())
+  }
+
 
 
   getAllLocal(route) {
@@ -30,6 +38,7 @@ export default class APIManager {
 
     return fetch(`${MapsRemoteURL}/${this.route}`).then(e => e.json())
   }
+
 
 
 
