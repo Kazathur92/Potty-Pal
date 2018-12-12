@@ -19,7 +19,9 @@ import './App.css';
 class App extends Component {
 
   state = {
-    interactionBar: false,
+    localStorage: false,
+    sessionStorage: false,
+    // interactionBar: false,
     textboxTitles: true,
     textBoxes: true,
     navButtons: true,
@@ -34,16 +36,31 @@ class App extends Component {
 
   //loads all markers
   componentDidMount() {
-    const newState = {}
+    // const newState = {}
 
     MarkerManager.MarkerManagerGetAll()
-      .then(markers => newState.markers = markers)
+      .then(markers => this.setState({ markers: markers }))
 
+    //todo ask if this will work if they move to a different location
+    //without having to reload the page.
     GeolocationManager.getCurrentGeolocation()
-      .then(currentGeo => this.setState({currentGeo: currentGeo.location}))
+      .then(currentGeo => this.setState({ currentGeo: currentGeo.location }))
 
 
   }
+
+  // ============================AUTHENTICATION===========================
+
+  // isAuthenticated = () => {
+
+  // let authorized = sessionStorage.getItem("credentials") !== null
+
+  // }
+
+
+
+
+  //=====================================================================
 
   //==================Navigation Bar===============================
 
@@ -52,16 +69,18 @@ class App extends Component {
     // console.log(evt.target.parentNode.parentNode.parentNode.childNodes[3])
     // evt.target.parentNode.parentNode.parentNode.childNodes[3].childNodes[0].classList.remove("hidden")
     // evt.target.parentNode.parentNode.parentNode.childNodes[3].childNodes[1].classList.remove("hidden")
-    console.log(this.state.currentGeo)
+    console.log(this.state.markers)
     this.setState({
-      interactionBar: !this.state.interactionBar,
+      localStorage: !this.state.localStorage,
+      sessionStorage: !this.state.sessionStorage,
+      // interactionBar: !this.state.interactionBar,
       textboxTitles: !this.state.textboxTitles,
       textBoxes: !this.state.textBoxes,
       navButtons: !this.state.navButtons
       // loginButton: !this.state.loginButton,
       // navRegister: !this.state.navRegister
     })
-
+    console.log(this.state.markers)
     localStorage.removeItem(
       "credentials",
       JSON.stringify({
@@ -87,6 +106,8 @@ class App extends Component {
     console.log("hi")
 
     this.setState({
+      localStorage: !this.state.localStorage,
+      sessionStorage: !this.state.sessionStorage,
       interactionBar: !this.state.interactionBar,
       loginButton: !this.state.loginButton,
       navRegister: !this.state.navRegister,
@@ -108,7 +129,7 @@ class App extends Component {
 
   }
 
-//changes the state of the nav bar (login, register, and textboxes)
+  //changes the state of the nav bar (login, register, and textboxes)
   navBarStateChange = () => {
     console.log("hi")
 
@@ -165,6 +186,26 @@ class App extends Component {
   //==========================C.R.U.D================================
   addUser = (newUser) => UserManager.UserManagerPost(newUser)
 
+  addMarker = (newMarker) => {
+    MarkerManager.MarkerManagerPostAndList(newMarker)
+    .then(allMarkers => this.setState({ markers: allMarkers }))
+  }
+
+  deleteMarker = (id) => {
+    console.log("hi")
+    MarkerManager.MarkerManagerDeleteAndList(id)
+      .then(allMarkers => this.setState({ markers: allMarkers }))
+  }
+
+  editMarker = (editedMarker, id) => {
+    console.log(editedMarker)
+    MarkerManager.MarkerManagerPatchAndList(editedMarker, id)
+      .then(allMarkers => this.setState({ markers: allMarkers }))
+  }
+
+
+
+
 
   //==================================================================
 
@@ -197,14 +238,24 @@ class App extends Component {
           registerStateChange={this.registerStateChange}
           //C.R.U.D functions
           addUser={this.addUser}
+          addMarker={this.addMarker}
+          deleteMarker={this.deleteMarker}
+          editMarker={this.editMarker}
           //state props
+          localStorage={this.state.localStorage}
+          sessionStorage={this.state.sessionStorage}
           interactionBar={this.state.interactionBar}
           textboxTitles={this.state.textboxTitles}
           textBoxes={this.state.textBoxes}
           navButtons={this.state.navButtons}
           currentLocationButton={this.state.currentLocationButton}
           addressLocationButton={this.state.addressLocationButton}
-          currentGeo={this.state.currentGeo}>
+          currentGeo={this.state.currentGeo}
+          markers={this.state.markers}
+          //authentication
+          isAuthenticated={this.isAuthenticated}
+        >
+
         </ApplicationViews>
 
       </div>

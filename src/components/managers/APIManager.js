@@ -21,10 +21,12 @@ export default class APIManager {
   }
 
   getGeolocation() {
-    return fetch(`${GeolocationRemoteURL}`, { method: "POST", headers: {
-      "Content-Type": "application/json"
-    },
-    body: ""}).then(data => data.json())
+    return fetch(`${GeolocationRemoteURL}`, {
+      method: "POST", headers: {
+        "Content-Type": "application/json"
+      },
+      body: ""
+    }).then(data => data.json())
   }
 
 
@@ -44,7 +46,10 @@ export default class APIManager {
 
   deleteLocal(id, route) {
 
-    return fetch(`${LocalRemoteURL}/${this.route}`), { method: "DELETE" }
+    return fetch(`${LocalRemoteURL}/${this.route}/${id}`, { method: "DELETE" })
+    // .then(e => e.json())
+    // .then(() => fetch(`${LocalRemoteURL}/${this.route}`))
+    // .then(e => e.json())
   }
 
   deleteMaps(id, route) {
@@ -54,34 +59,41 @@ export default class APIManager {
 
 
 
-  postLocal(newUser) {
+  postLocal(newItem) {
 
     return fetch(`${LocalRemoteURL}/${this.route}/`, {
       method: "POST",
+      // sensor: true,
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(newUser)
+      body: JSON.stringify(newItem)
     })
   }
 
 
-postMaps(id, route) {
+  postMaps(id, route) {
 
-  return fetch(`${MapsRemoteURL}/${this.route}`), { method: "POST" }
+    return fetch(`${MapsRemoteURL}/${this.route}`), { method: "POST" }
 
-}
+  }
 
 
 
-patchLocal(id, route) {
+  patchLocal(editedMarker, id, route) {
 
-  return fetch(`${LocalRemoteURL}/${this.route}`), { method: "PATCH" }
-}
+    return fetch(`${LocalRemoteURL}/${this.route}/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(editedMarker)
+    })
+  }
 
-patchMaps(id, route) {
+  patchMaps(id, route) {
 
-  return fetch(`${MapsRemoteURL}/${this.route}`), { method: "PATCH" }
-}
+    return fetch(`${MapsRemoteURL}/${this.route}/${id}`, { method: "PATCH" })
 
+  }
 }

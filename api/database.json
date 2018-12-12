@@ -24,14 +24,18 @@
   ],
   "markers": [
     {
-      "id": 1,
       "name": "NSS",
-      "address": "woopy ln",
-      "pos": "lat: 36.1627, lng: -86.7716"
+      "location": "",
+      "lat": 36.1377366,
+      "lng": -86.756712,
+      "id": 1
     }
   ],
-  "users_marker": [
-    {}
+  "users_markers": [
+    {
+      "markerId": 1,
+      "userId": 1
+    }
   ],
   "users_favorites": [
     {}

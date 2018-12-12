@@ -13,17 +13,11 @@ import './App.css';
 
 export default class ApplicationViews extends Component {
 
-consoleLog = () => {
-  console.log(this.props.currentGeo)
-}
-
-
+  consoleLog = () => {
+    console.log(this.props.currentGeo)
+  }
 
   render() {
-
-
-
-
     return (
       <div>
         <NavBar
@@ -41,7 +35,7 @@ consoleLog = () => {
           currentLocationButton={this.props.currentLocationButton}
           addressLocationButton={this.props.addressLocationButton}>
         </NavBar>
-
+        {/* <button onClick={this.consoleLog}>console log current location</button> */}
         <React.Fragment>
 
           <Route path="/" render={(props) => {
@@ -49,15 +43,29 @@ consoleLog = () => {
           }}
           />
 
+
           <Route path="/home" render={(props) => {
+
             return <React.Fragment>
               <MapContainer
                 //state change functions
                 userBarMakeSelectionState={this.props.userBarMakeSelectionState}
+                logOutButton={this.props.logOutButton}
+                //C.R.U.D
+                addMarker={this.props.addMarker}
+                deleteMarker={this.props.deleteMarker}
+                editMarker={this.props.editMarker}
                 //state props
+                localStorage={this.props.localStorage}
+                sessionStorage={this.props.sessionStorage}
                 currentLocationButton={this.props.currentLocationButton}
                 addressLocationButton={this.props.addressLocationButton}
                 currentGeo={this.props.currentGeo}
+                interactionBar={this.props.inretactionBar}
+                markers={this.props.markers}
+                //authentication
+                isAuthenticated={this.props.isAuthenticated}
+
               />
 
             </React.Fragment>

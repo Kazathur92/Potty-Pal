@@ -52,24 +52,24 @@ console.log("hi")
     let textboxTitlesField = ""
     let textboxesField = ""
     let navButtons = ""
-    let userBar = ""
+    // let userBar = ""
 
-    if (this.props.interactionBar) {
-      userBar = (
-        <div>
-          <div id="logOutButtonField" className="logOutButtonField">
-            <button id="logOutButton" className="logOutButton" onClick={this.props.logOutButton}>Log Out</button>
-          </div>
-          <div className="userBar">
-            <button type="submit" className="addButton noBorder" onClick={this.props.addNewMarker}>Add Bathroom</button>
-            <button className="favoritesButton" onClick={this.handleFieldChange}>Favorites</button>
-            <button className="trendingButton" onClick={this.handleFieldChange}>Trending</button>
-          </div>
-        </div>
-      );
-    } else {
-      userBar = null
-    }
+    // if (this.props.interactionBar) {
+    //   userBar = (
+    //     <div>
+    //       <div id="logOutButtonField" className="logOutButtonField">
+    //         <button id="logOutButton" className="logOutButton" onClick={this.props.logOutButton}>Log Out</button>
+    //       </div>
+    //       <div className="userBar">
+    //         <button type="submit" className="addButton noBorder" onClick={this.props.addNewMarker}>Add Bathroom</button>
+    //         <button className="favoritesButton" onClick={this.handleFieldChange}>Favorites</button>
+    //         <button className="trendingButton" onClick={this.handleFieldChange}>Trending</button>
+    //       </div>
+    //     </div>
+    //   );
+    // } else {
+    //   userBar = null
+    // }
 
     if (this.props.textboxTitles) {
       textboxTitlesField = (
@@ -123,7 +123,7 @@ console.log("hi")
           </div>
           {navButtons}
 
-          {userBar}
+          {/* {userBar} */}
         </nav>
         <header className="App-footer"></header>
       </div>
