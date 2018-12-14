@@ -134,7 +134,9 @@ userVerification_Step1 = () => {
     return (
       <div>
         <nav className="nav">
+
           {homeLink}
+          {/* <h1 className="appTitle">Potty Pal</h1> */}
           {/* <div className="navLeft">
             <Link className="homeLink" id="navHome" to="/home" onClick={this.props.homeStateChange}>Home</Link>
           </div> */}
@@ -148,10 +150,11 @@ userVerification_Step1 = () => {
 
           </div>
           {navButtons}
-
+          <h1 className="appTitle">Potty Pal</h1>
           {/* {userBar} */}
         </nav>
-        <header className="App-footer"></header>
+        <header className="App-footer">
+        </header>
       </div>
     )
   }
