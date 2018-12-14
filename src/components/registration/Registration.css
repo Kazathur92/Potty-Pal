@@ -1,19 +1,102 @@
 .registrationFormDiv {
-/* display:flex; */
-/* justify-content: center; */
-/* flex-flow: wrap; */
-/* flex-direction: row; */
-/* flex-flow: wrap; */
+border: solid 3px black;
+padding: 150px;
+
+
+}
+
+.registrationFormTitle {
+  color: rgba(245, 245, 245, 0.877);
+  margin-top: -230px;
+  margin-bottom: 190px;
+
 }
 
 .registrationForm {
-  /* display: flex; */
-  /* justify-content: space-evenly; */
-  /* flex-direction: row; */
-  /* flex-wrap: wrap; */
-  /* flex-flow: */
+  margin-top: -120px;
+
 }
 
-.userBar2 {
-margin-top: -200px;
+.fullNameDiv {
+  display:flex;
+  flex-direction: column;
+float: left;
+margin-left: 150px;
+/* border: solid 3px black;
+border-radius: 15px;
+padding: 70px; */
+}
+
+.formNameLabel {
+  color: rgba(245, 245, 245, 0.877);
+  margin-bottom: 5px;
+}
+
+.formNameInput {
+
+}
+
+.formLastNameLabel {
+  color: rgba(245, 245, 245, 0.877);
+margin-top:10px;
+margin-bottom: 5px;
+}
+
+.formLastNameInput {
+
+
+}
+
+.digialCredentialsDiv {
+  display:flex;
+  flex-direction: column;
+  float: left;
+  margin-left: 150px;
+}
+
+.formUserNameLabel {
+  color: rgba(245, 245, 245, 0.877);
+  margin-bottom: 5px;
+}
+.formUserNameInput {
+  width: 10px;
+  height: 20px;
+}
+
+.formEmailLabel {
+  color: rgba(245, 245, 245, 0.877);
+  margin-top:10px;
+  margin-bottom: 5px;
+}
+.formPassLabel {
+  color: rgba(245, 245, 245, 0.877);
+  margin-top:10px;
+  margin-bottom: 5px;
+}
+.formConfPassLabel {
+  color: rgba(245, 245, 245, 0.877);
+  margin-top:10px;
+  margin-bottom: 5px;
+}
+.optionalFieldDiv {
+  display:flex;
+  flex-direction: column;
+  float: right;
+  margin-right: 150px;
+}
+.formDOBLabel {
+  color: rgba(245, 245, 245, 0.877);
+  margin-bottom: 5px;
+}
+.registerBtnDiv {
+  display:flex;
+  flex-direction: column;
+margin-top: 430px;
+}
+
+.formBtnInput {
+  border-radius: 15px;
+  width: 150px;
+  height: 40px;
+  margin-left: 425px;
 }

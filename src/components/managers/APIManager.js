@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 
 const LocalRemoteURL = "http://localhost:8088"
-const MapsRemoteURL = ""
+const GeolocationRemoteURL = "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs"
+// const MapsRemoteURL = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=restrooms&location=${36.1627},%20${-86.7816}&radius=10000&key=AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs`
+const MapsRemoteURL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=restrooms"
 
 export default class APIManager {
 
@@ -19,6 +21,15 @@ export default class APIManager {
     return fetch(`${MapsRemoteURL}/${this.route}/${id}`).then(e => e.json())
   }
 
+  getGeolocation() {
+    return fetch(`${GeolocationRemoteURL}`, {
+      method: "POST", headers: {
+        "Content-Type": "application/json"
+      },
+      body: ""
+    }).then(data => data.json())
+  }
+
 
 
   getAllLocal(route) {
@@ -26,16 +37,23 @@ export default class APIManager {
     return fetch(`${LocalRemoteURL}/${this.route}`).then(e => e.json())
   }
 
-  getAllMaps(route) {
+  getAllMaps(...props) {
 
-    return fetch(`${MapsRemoteURL}/${this.route}`).then(e => e.json())
+    return fetch(`${MapsRemoteURL}${props}`).then(e => e.json())
   }
+
 
 
 
   deleteLocal(id, route) {
 
-    return fetch(`${LocalRemoteURL}/${this.route}`), { method: "DELETE" }
+    return fetch(`${LocalRemoteURL}/${this.route}/${id}`, { method: "DELETE" }).catch(function() {
+      alert("error")
+  })
+    // .then(e => e.json())
+    // .then(() => fetch(`${LocalRemoteURL}/${this.route}`))
+    // .then(e => e.json())
+
   }
 
   deleteMaps(id, route) {
@@ -45,34 +63,41 @@ export default class APIManager {
 
 
 
-  postLocal(newUser) {
+  postLocal(newItem) {
 
     return fetch(`${LocalRemoteURL}/${this.route}/`, {
       method: "POST",
+      // sensor: true,
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(newUser)
+      body: JSON.stringify(newItem)
     })
   }
 
 
-postMaps(id, route) {
+  postMaps(id, route) {
 
-  return fetch(`${MapsRemoteURL}/${this.route}`), { method: "POST" }
+    return fetch(`${MapsRemoteURL}/${this.route}`), { method: "POST" }
 
-}
+  }
 
 
 
-patchLocal(id, route) {
+  patchLocal(editedMarker, id, route) {
 
-  return fetch(`${LocalRemoteURL}/${this.route}`), { method: "PATCH" }
-}
+    return fetch(`${LocalRemoteURL}/${this.route}/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(editedMarker)
+    })
+  }
 
-patchMaps(id, route) {
+  patchMaps(id, route) {
 
-  return fetch(`${MapsRemoteURL}/${this.route}`), { method: "PATCH" }
-}
+    return fetch(`${MapsRemoteURL}/${this.route}/${id}`, { method: "PATCH" })
 
+  }
 }

@@ -1,152 +1,274 @@
 import React, { Component } from 'react';
-// import { google } from 'google-maps-react';
+import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
+import ReactDOM from 'react-dom';
 import NavBar from "./components/navbar/NavBar"
-import TEST from "./components/test/test";
-// import Firebase from "./components/firebase/Firebase"
-import Routes from "./Routes"
+import ApplicationViews from "./ApplicationViews"
+import MarkerManager from "./components/managers/MarkerManager"
+import UserManager from "./components/managers/UserManager"
+import GeolocationManager from "./components/managers/GeolocationManager"
+import BathroomManager from './components/managers/BathroomManager';
 import './App.css';
-// import Firebase from './components/firebase/Firebase';
+// import Geolocation from "./components/geolocation/Geolocation"
+// import TEST from "./components/test/test";
+// import Firebase from "./components/firebase/Firebase"
+
+// import GeoFetch from "./components/geolocation/GeoFetch"
+
+
 
 
 class App extends Component {
 
   state = {
-    interactionBar: false,
+    localStorage: false,
+    sessionStorage: false,
+    // interactionBar: false,
     textboxTitles: true,
     textBoxes: true,
     navButtons: true,
     logOutButton: false,
+    homeLink: false,
+    registerButton: false,
+    // interactionBar: false,
     loginEmail: "",
-    loginPassword: ""
+    loginPassword: "",
+    currentLocationButton: false,
+    addressLocationButton: false,
+    //data
+    users: [],
+    markers: [],
+    bathrooms: [],
+    currentGeo: {}
+  }
+
+//36.1627},%20${-86.7{()=> 816
+
+getDataTest = () => {
+
+  return fetch("https://maps.googleapis.com/maps/api/place/textsearch/json?query=restrooms&location=36.1627,%20-86.7816&radius=10000", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      key: "AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs"
+
+    }
+  })
+// return fetch("https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=public+bathroom&inputtype=textquery&fields=photos,formatted_address,geometry&locationbias=circle:10000@36.1627,%20-86.7816&key=AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs")
+//   // .then(e => console.log(e.json()))
+  .then(e => e.json())
+    .then((e) => console.log("data here", e))
+}
+
+
+  //loads all markers
+  componentDidMount() {
+    // const newState = {}
+
+    GeolocationManager.getCurrentGeolocation()
+    .then(currentGeo => this.setState({ currentGeo: currentGeo.location }))
+
+//this will show the bathrooms in current location according to a query
+    // BathroomManager.BathroomManagerGetAll(`&location=36.1627,%20-86.7816&radius=10000&key=AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs`)
+    //   .then(allBathrooms => this.setState({ bathrooms: allBathrooms }))
+        // this.setState({ bathrooms: allBathrooms }))
+
+    UserManager.UserManagerGetAll()
+      .then(users => this.setState({ users: users }))
+
+    MarkerManager.MarkerManagerGetAll()
+      .then(markers => this.setState({ markers: markers }))
+
+    //todo ask if this will work if they move to a different location
+    //without having to reload the page.
 
   }
 
+  // ============================AUTHENTICATION===========================
 
-  logOutButton = (evt) => {
-    console.log(evt.target.parentNode.parentNode.parentNode.childNodes[3])
-    // evt.target.parentNode.parentNode.parentNode.childNodes[3].childNodes[0].classList.remove("hidden")
-    // evt.target.parentNode.parentNode.parentNode.childNodes[3].childNodes[1].classList.remove("hidden")
+
+
+
+  userVerification_Step2 = () => {
+
+    console.log("before verification", this.state.sessionStorage)
+
     this.setState({
-      interactionBar: !this.state.interactionBar,
-      textboxTitles: !this.state.textboxTitles,
-      textBoxes: !this.state.textBoxes,
-      navButtons: !this.state.navButtons
-      // loginButton: !this.state.loginButton,
-      // navRegister: !this.state.navRegister
+      localStorage: !this.state.localStorage,
+      sessionStorage: !this.state.sessionStorage,
 
     })
 
-    localStorage.removeItem(
-      "credentials",
-      JSON.stringify({
-        email: this.state.emailTextBox,
-        password: this.state.passTextBox
-      })
-    )
+    console.log("after verification", this.state.sessionStorage)
+  };
 
 
-    sessionStorage.removeItem(
-      "credentials",
-      JSON.stringify({
-        email: this.state.emailTextBox,
-        password: this.state.passTextBox
-      })
-    )
+
+
+  //=====================================================================
+
+  //==================Navigation Bar===============================
+
+  //session and local storage
+  logOutButton = () => {
+    console.log(this.state.bathrooms)
+    this.setState({
+      localStorage: !this.state.localStorage,
+      sessionStorage: !this.state.sessionStorage,
+      textboxTitles: !this.state.textboxTitles,
+      textBoxes: !this.state.textBoxes,
+      navButtons: !this.state.navButtons,
+      registerButton: false
+    })
+    console.log(this.state.currentGeo)
+    localStorage.clear()
+    sessionStorage.clear()
   }
+  //====================================================
 
-
-
+  //=================More State Changes==============================================
+  //changes the state of the user bar (add bathroom, favorites, trending, logout)
   userBarStateChange = () => {
     console.log("hi")
 
     this.setState({
-      interactionBar: !this.state.interactionBar,
-      loginButton: !this.state.loginButton,
-      navRegister: !this.state.navRegister,
+      localStorage: !this.state.localStorage,
+      sessionStorage: !this.state.sessionStorage,
       textboxTitles: !this.state.textboxTitles,
       textBoxes: !this.state.textBoxes,
-      navButtons: !this.state.navButtons
-      // loginButton: !this.state.loginButton,
-      // navRegister: !this.state.navRegister
+      navButtons: !this.state.navButtons,
+
+
     })
   }
 
+  //changes the state of the userbar's selection bar(use current location, use address)
+  userBarMakeSelectionState = () => {
+
+    this.setState({
+      currentLocationButton: false,
+      addressLocationButton: false,
+    })
+
+  }
+
+  //changes the state of the nav bar (login, register, and textboxes)
   navBarStateChange = () => {
     console.log("hi")
 
     this.setState({
       textboxTitles: !this.state.textboxTitles,
       textBoxes: !this.state.textBoxes,
-      navButtons: !this.state.navButtons
+      navButtons: !this.state.navButtons,
+      homeLink: true
     })
   }
 
+  //changes state of nav bar once user hits the home link
   homeStateChange = () => {
 
     if (this.state.textboxTitles && this.state.textBoxes && this.state.navButtons === false) {
       this.setState({
-        textboxTitles: !this.state.textboxTitles,
-        textBoxes: !this.state.textBoxes,
-        navButtons: !this.state.navButtons
-      })
-    }
-
-    // if(this.state.textBoxes === false) {
-    //   this.setState({
-    //     textBoxes: !this.state.textBoxes,
-    //   })
-    // }
-
-    // if(this.state.navButtons === false) {
-    //   this.setState({
-    //     navButtons: !this.state.navButtons
-    //   })
-    // }
-    else {
-      this.setState({
-        interactionBar: false,
         textboxTitles: true,
         textBoxes: true,
         navButtons: true
       })
     }
+
+    else {
+      this.setState({
+        interactionBar: false,
+        textboxTitles: true,
+        textBoxes: true,
+        navButtons: true,
+        homeLink: false
+      })
+    }
   }
 
+  //changes state of user bar once user hits register button in registration form
   registerStateChange = () => {
 
     this.setState({
-      interactionBar: !this.state.interactionBar,
+      sessionStorage: true,
+      interactionBar: true,
+      homeLink: false,
+      registerButton: true
     })
 
   }
+  //=============================================================
 
-  // TEST()
+
+  //==========================C.R.U.D================================
+  addUser = (newUser) => UserManager.UserManagerPost(newUser)
+
+  addMarker = (newMarker) => {
+    MarkerManager.MarkerManagerPostAndList(newMarker)
+      .then(allMarkers => this.setState({ markers: allMarkers })).catch(function() {
+        alert("error") })
+  }
+
+  deleteMarker = (id) => {
+    console.log("hi")
+    MarkerManager.MarkerManagerDeleteAndList(id)
+      .then(allMarkers => this.setState({ markers: allMarkers }))
+  }
+
+  editMarker = (editedMarker, id) => {
+    console.log(editedMarker, id)
+    MarkerManager.MarkerManagerPatchAndList(editedMarker, id)
+      .then(allMarkers => this.setState({ markers: allMarkers }))
+  }
+
+
+
+
+
+  //==================================================================
 
   render() {
     return (
       <div className="App">
-        {/* <TEST /> */}
-        <NavBar
+
+          {/* consoleLog */}
+          {/* <button onClick={() => this.getDataTest()}>Test</button> */}
+
+
+        <ApplicationViews
+          //state changing functions
           logOutButton={this.logOutButton}
           userBarStateChange={this.userBarStateChange}
-          navBarStateChange={this.navBarStateChange}
-          homeStateChange={this.homeStateChange}
-          interactionBar={this.state.interactionBar}
-          textboxTitles={this.state.textboxTitles}
-          textBoxes={this.state.textBoxes}
-          navButtons={this.state.navButtons}
-        ></NavBar>
-        <Routes
-          logOutButton={this.logOutButton}
-          userBarStateChange={this.userBarStateChange}
+          userBarMakeSelectionState={this.userBarMakeSelectionState}
           navBarStateChange={this.navBarStateChange}
           homeStateChange={this.homeStateChange}
           registerStateChange={this.registerStateChange}
-          interactionBar={this.state.interactionBar}
+          //C.R.U.D functions
+          addUser={this.addUser}
+          addMarker={this.addMarker}
+          deleteMarker={this.deleteMarker}
+          editMarker={this.editMarker}
+          //state props
+          localStorage={this.state.localStorage}
+          sessionStorage={this.state.sessionStorage}
+          registerButton={this.state.registerButton}
           textboxTitles={this.state.textboxTitles}
           textBoxes={this.state.textBoxes}
-          navButtons={this.state.navButtons}>
-        </Routes>
+          navButtons={this.state.navButtons}
+          currentLocationButton={this.state.currentLocationButton}
+          addressLocationButton={this.state.addressLocationButton}
+          homeLink={this.state.homeLink}
+
+          //Data
+          currentGeo={this.state.currentGeo}
+          markers={this.state.markers}
+          users={this.state.users}
+          //authentication
+          isAuthenticated={this.isAuthenticated}
+          userVerification_Step2={this.userVerification_Step2}
+        >
+
+        </ApplicationViews>
+
       </div>
     );
   }

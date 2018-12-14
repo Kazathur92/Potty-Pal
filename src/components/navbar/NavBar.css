@@ -85,35 +85,34 @@ margin-right: 20px;
 
 }
 
-.userBar {
+/* .userBar {
   margin-top: 0px;
-}
+} */
 
-.logOutButtonField {
+/* .logOutButtonField {
 
   float:left;
   margin-top: 10px;
   margin-left: -67px;
-}
+} */
 
-.logOutButton {
+/* .logOutButton {
   width: 90px;
   height: 30px;
   font-weight: bold;
   border-radius: 15px;
-}
+} */
 
-.addButton {
-  /* padding: 20px; */
+/* .addButton {
   font-weight: bold;
   border-radius: 15px;
   width: 100px;
   height: 50px;
   margin-top: 165px;
   margin-bottom: 30px;
-}
+} */
 
-.favoritesButton {
+/* .favoritesButton {
   font-weight: bold;
   border-radius: 15px;
   width: 100px;
@@ -122,9 +121,9 @@ margin-right: 20px;
   margin-bottom: 30px;
 
   margin-left: 20px;
-}
+} */
 
-.trendingButton {
+/* .trendingButton {
   font-weight: bold;
   border-radius: 15px;
   width: 100px;
@@ -132,15 +131,15 @@ margin-right: 20px;
   margin-top: 25px;
   margin-right: 110px;
   margin-left: 20px;
-}
+} */
 
 .border {
   border: solid 3px skyblue;
 }
 
-.noBorder {
+/* .noBorder {
 
-}
+} */
 
 .hidden {
   visibility: hidden;
