@@ -28,8 +28,8 @@
       "lat": 36.1528529,
       "lng": -86.8307035,
       "public": true,
-      "changingStation": false,
-      "handicapAccess": false,
+      "changingStation": "no",
+      "handicapAccess": "no",
       "user_Id": 1,
       "id": 3
     },
@@ -38,21 +38,11 @@
       "lat": 36.2438706,
       "lng": -86.9046183,
       "public": true,
-      "changingStation": false,
-      "handicapAccess": false,
+      "changingStation": "no",
+      "handicapAccess": "no",
       "user_Id": 1,
       "id": 4,
       "name": "Proctor Barn"
-    },
-    {
-      "name": "house",
-      "location": "",
-      "lat": 36.2338963,
-      "lng": -86.6963462,
-      "changingStation": false,
-      "handicapAccess": false,
-      "user_Id": 1,
-      "id": 5
     },
     {
       "name": "NSS",
@@ -60,10 +50,20 @@
       "lat": 36.1325338,
       "lng": -86.75656420000001,
       "public": true,
+      "changingStation": "no",
+      "handicapAccess": "no",
+      "user_Id": 1,
+      "id": 6
+    },
+    {
+      "name": "Home",
+      "location": "2929 Steamboat Dr.",
+      "lat": 36.2338963,
+      "lng": -86.6963462,
       "changingStation": false,
       "handicapAccess": false,
       "user_Id": 1,
-      "id": 6
+      "id": 7
     }
   ],
   "users_markers": [

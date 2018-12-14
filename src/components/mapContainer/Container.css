@@ -269,3 +269,84 @@ color: rgba(245, 245, 245, 0.877);
 
 }
 /* ===================================CURRENT LOCATION DIV END====================  */
+
+
+/* ======================================EDIT MARKER BOX START============================ */
+
+.editDiv {
+margin-top: -140px;
+
+}
+
+.editBackBtn {
+float: left;
+margin-top: 30px;
+margin-left: 360px;
+}
+
+.editTitle {
+  font-size: 25px;
+letter-spacing: 3px;
+  color: rgba(245, 245, 245, 0.877);
+  margin-top: 40px;
+  margin-right: 380px;
+}
+
+.editBoxesDiv {
+display: flex;
+flex-direction: column;
+float: left;
+margin-left: 30px;
+margin-top: -15px;
+}
+
+.editNameLabel{
+  font-size: 12px;
+  color: rgba(245, 245, 245, 0.877);
+}
+
+.editNameBox {
+  height: 10px;
+}
+
+.editLocationLabel {
+  font-size: 12px;
+  color: rgba(245, 245, 245, 0.877);
+
+}
+
+.editLocationBox {
+  height: 10px;
+}
+
+
+.editCheckDiv {
+display:flex;
+flex-direction: column;
+float: left;
+margin-top: -15px;
+margin-left: 25px;
+}
+
+.editBabyCheckLabel {
+  font-size: 10px;
+  color: rgba(245, 245, 245, 0.877);
+}
+
+.editBabyStation {
+
+}
+
+.editHandiAccessLabel {
+  font-size: 10px;
+  color: rgba(245, 245, 245, 0.877);
+}
+
+.editHandiAccess {
+
+}
+
+.editSubmitBtn {
+margin-bottom: 43px;
+margin-right: 350px;
+}

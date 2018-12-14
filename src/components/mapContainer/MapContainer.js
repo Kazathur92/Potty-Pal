@@ -239,6 +239,26 @@ export class MapContainer extends Component {
     }
   }
 
+
+//========================================CHECKBOXES START======================
+
+// handleCheckBoxChange = (evt) => {
+//   if (evt.target.checked) {
+//     const
+
+//   }
+// }
+
+
+
+//========================================CHECKBOXES END=========================
+
+
+
+
+
+
+
   //==================================================================
 
   handleLogOutStateChanges = () => {
@@ -546,11 +566,22 @@ export class MapContainer extends Component {
     if (this.state.editButton) {
       infoWindowEditBoxes = (
 
-        <div>
-          <button onClick={this.handleEditBackButton}>Back</button>
-          <input key={this.props.marker} id="editedName" type="text" placeholder="New Bathroom Name" onChange={this.handleEditTextboxState}></input>
-          <input key={this.props.marker} id="editedLocationName" type="text" placeholder="New Bathroom Location" onChange={this.handleEditTextboxState}></input>
-          <button onClick={() => this.handleSubmitChangesButtonState()}>Submit Changes</button>
+        <div className="editDiv">
+         <button className="editBackBtn" onClick={this.handleEditBackButton}>Back</button>
+        <h1 className="editTitle">Edit this Marker</h1>
+          <div className="editBoxesDiv">
+          <label className="editNameLabel">Bathroom Name: </label>
+          <input className="editNameBox" key={this.props.marker} id="editedName" type="text" placeholder="New Bathroom Name" onChange={this.handleEditTextboxState}></input>
+          <label className="editLocationLabel">Location Name: </label>
+          <input className="editLocationBox" key={this.props.marker} id="editedLocationName" type="text" placeholder="New Bathroom Location" onChange={this.handleEditTextboxState}></input>
+          </div>
+          <div className="editCheckDiv">
+            <label className="editBabyCheckLabel">Baby Changing Station: </label>
+            <input className="editBabyStation" type="checkbox"></input>
+            <label className="editHandiAccessLabel">Handicap Access: </label>
+            <input className="editHandiAccess" type="checkbox"></input>
+          </div>
+          <button className="editSubmitBtn" onClick={() => this.handleSubmitChangesButtonState()}>Submit Changes</button>
         </div>
       );
     }
