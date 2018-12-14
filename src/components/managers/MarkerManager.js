@@ -15,11 +15,13 @@ class MarkerManager extends APIManager {
   }
 
   MarkerManagerDeleteAndList(id) {
-    return this.deleteLocal(id).then(() => this.getAllLocal())
+    return this.deleteLocal(id).then(() => this.getAllLocal()).catch(function() {
+      alert("error")
+  })
   }
 
   MarkerManagerPatchAndList(editedMarker, id) {
-    return this.patchLocal(id).then(() => this.getAllLocal())
+    return this.patchLocal(editedMarker, id).then(() => this.getAllLocal())
   }
 }
 

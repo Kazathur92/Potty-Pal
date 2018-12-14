@@ -11,12 +11,15 @@ export default class InfoWindowEx extends Component {
     }
   }
 
+
   onInfoWindowOpen = () => {
     ReactDOM.render(React.Children.only(this.props.children), this.containerElement);
     this.infoWindowRef.current.infowindow.setContent(this.containerElement);
   }
 
   render() {
-    return <InfoWindow onOpen={this.onInfoWindowOpen} ref={this.infoWindowRef} {...this.props} />
+    return <InfoWindow onOpen={this.onInfoWindowOpen} onClose={this.props.onInfoWindowClose}  ref={this.infoWindowRef} {...this.props}>
+    <h1>DENIED!</h1>
+    </InfoWindow>
   }
 }

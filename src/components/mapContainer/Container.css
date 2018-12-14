@@ -54,3 +54,218 @@
   margin-right: 110px;
   margin-left: 20px;
 }
+
+/* ==============================INTERACTION BAR START====================== */
+
+.interactionBar {
+  margin-top: -100px;
+}
+
+/* ==============================INTERACTION BAR END========================  */
+
+
+
+
+/* ==================================SELECTION BAR START===================== */
+
+.addBathroomSelectionBar {
+  margin-top: -4px;
+  margin-bottom: -16px;
+}
+
+
+/* ==================================SELECTION BAR END===================== */
+
+
+
+
+/* ===============================SEARCH LOCATION DIV======================= */
+.searchLocationBox {
+  margin-top: -130px;
+}
+
+.searchWindowTitle {
+  margin-top: 30px;
+  margin-bottom: 7px;
+  margin-left: 250px;
+  font-size: 25px;
+  letter-spacing: 3px;
+  color: rgba(245, 245, 245, 0.877);
+}
+
+.searchTextBoxes {
+  display: flex;
+  float:left;
+  flex-direction: column;
+  margin-top: -6px;
+  margin-left: 320px;
+}
+
+.searchCheckBoxes {
+  display: flex;
+  float:left;
+  flex-direction: column;
+  margin-top: -5px;
+  margin-left: 25px;
+}
+
+.currentNameLabel {
+  font-size: 12px;
+  color: rgba(245, 245, 245, 0.877);
+  margin-right: 10px;
+}
+
+.locationLabel {
+  font-size: 12px;
+  color: rgba(245, 245, 245, 0.877);
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.babyStationCheckLabel {
+  font-size: 10px;
+color: rgba(245, 245, 245, 0.877);
+
+}
+
+#babyStationCheck {
+  margin-right: 20px;
+}
+
+.handiAccessCheckLabel {
+  font-size: 10px;
+  color: rgba(245, 245, 245, 0.877);
+}
+
+#handiAccessCheck {
+
+}
+
+.currentNameTextbox {
+
+}
+
+#currentName {
+  height: 10px;
+}
+
+.locationTextbox {
+
+
+}
+
+#location {
+  height: 10px;
+}
+
+.markItButton {
+  margin-top: 8px;
+  margin-right: 232px;
+  margin-bottom: 43px;
+}
+
+.searchBackButton {
+  float: left;
+  margin-top: 34px;
+  margin-left: 200px;
+  margin-right: -350px;
+}
+
+.searchSwitchModeBtn {
+float: right;
+margin-top: 20px;
+margin-right: 70px;
+}
+/* ===============================SEARCH LOCATION DIV END======================= */
+
+/* ===================================CURRENT LOCATION DIV START==================== */
+
+.currentLocationBoxes {
+margin-top: -118px;
+}
+
+.currLocBackBtn {
+float: left;
+margin-top: 35px;
+margin-left: 200px;
+margin-right: -350px;
+}
+
+.currLocTitle {
+font-size: 25px;
+letter-spacing: 3px;
+color: rgba(245, 245, 245, 0.877);
+margin-left: 200px;
+}
+
+.currLocTextBoxes {
+display: flex;
+float: left;
+flex-direction: column;
+margin-left: 320px;
+}
+
+.currLocNameLabel {
+  font-size: 12px;
+  color: rgba(245, 245, 245, 0.877);
+  margin-top: -15px;
+  margin-right: 10px;
+}
+
+.currLocName {
+ height: 10px;
+}
+
+.currLocationNameLabel {
+  font-size: 12px;
+  color: rgba(245, 245, 245, 0.877);
+}
+
+.currLocationName {
+  height: 10px;
+}
+
+.currCheckBoxes {
+display: flex;
+float: left;
+flex-direction: column;
+margin-top: -14px;
+margin-left: 25px;
+}
+
+.currBabyStationCheckLabel {
+  font-size: 10px;
+color: rgba(245, 245, 245, 0.877);
+}
+
+.currBabyStationCheck {
+
+}
+
+.currHandiAccessCheckLabel {
+  font-size: 10px;
+color: rgba(245, 245, 245, 0.877);
+}
+
+.currHandiAccessCheck {
+
+}
+
+.currMarkIt {
+  margin-top: -3px;
+/* margin-bottom: -11px; */
+}
+
+.currMarkItButton {
+  margin-top: -20px;
+  margin-right: 422px;
+  margin-bottom: 43px;
+}
+
+.currSwitchModeBtn {
+  float: right;
+  margin-top: 20px;
+  margin-right: 70px;
+
+}
+/* ===================================CURRENT LOCATION DIV END====================  */

@@ -33,7 +33,16 @@ export default class ApplicationViews extends Component {
           textBoxes={this.props.textBoxes}
           navButtons={this.props.navButtons}
           currentLocationButton={this.props.currentLocationButton}
-          addressLocationButton={this.props.addressLocationButton}>
+          addressLocationButton={this.props.addressLocationButton}
+          homeLink={this.props.homeLink}
+          interactionBar={this.props.interactionBar}
+          registrationButton={this.props.registrationButton}
+          //Data
+          users={this.props.users}
+          currentGeo={this.props.currentGeo}
+          //authentication
+          userVerification_Step2={this.props.userVerification_Step2}
+          >
         </NavBar>
         {/* <button onClick={this.consoleLog}>console log current location</button> */}
         <React.Fragment>
@@ -60,9 +69,13 @@ export default class ApplicationViews extends Component {
                 sessionStorage={this.props.sessionStorage}
                 currentLocationButton={this.props.currentLocationButton}
                 addressLocationButton={this.props.addressLocationButton}
-                currentGeo={this.props.currentGeo}
                 interactionBar={this.props.inretactionBar}
+                homeLink={this.props.homeLink}
+                registerButton={this.props.registerButton}
+                //Data
+                currentGeo={this.props.currentGeo}
                 markers={this.props.markers}
+                users={this.props.users}
                 //authentication
                 isAuthenticated={this.props.isAuthenticated}
 
@@ -81,6 +94,11 @@ export default class ApplicationViews extends Component {
               //C.R.U.D functions
               addUser={this.props.addUser}
             //state props
+            homeLink={this.props.homeLink}
+            interactionBar={this.props.interactionBar}
+            registerButton={this.props.registerButton}
+            //Data
+            users={this.props.users}
             />
           }}
           />

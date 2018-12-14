@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 
 const LocalRemoteURL = "http://localhost:8088"
 const GeolocationRemoteURL = "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs"
-const MapsRemoteURL = ""
+// const MapsRemoteURL = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=restrooms&location=${36.1627},%20${-86.7816}&radius=10000&key=AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs`
+const MapsRemoteURL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=restrooms"
 
 export default class APIManager {
 
@@ -36,9 +37,9 @@ export default class APIManager {
     return fetch(`${LocalRemoteURL}/${this.route}`).then(e => e.json())
   }
 
-  getAllMaps(route) {
+  getAllMaps(...props) {
 
-    return fetch(`${MapsRemoteURL}/${this.route}`).then(e => e.json())
+    return fetch(`${MapsRemoteURL}${props}`).then(e => e.json())
   }
 
 
@@ -46,10 +47,13 @@ export default class APIManager {
 
   deleteLocal(id, route) {
 
-    return fetch(`${LocalRemoteURL}/${this.route}/${id}`, { method: "DELETE" })
+    return fetch(`${LocalRemoteURL}/${this.route}/${id}`, { method: "DELETE" }).catch(function() {
+      alert("error")
+  })
     // .then(e => e.json())
     // .then(() => fetch(`${LocalRemoteURL}/${this.route}`))
     // .then(e => e.json())
+
   }
 
   deleteMaps(id, route) {
