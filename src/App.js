@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
+import Geocode from "react-geocode"
 import ReactDOM from 'react-dom';
 import NavBar from "./components/navbar/NavBar"
 import ApplicationViews from "./ApplicationViews"
 import MarkerManager from "./components/managers/MarkerManager"
 import UserManager from "./components/managers/UserManager"
-import GeolocationManager from "./components/managers/GeolocationManager"
+// import GeolocationManager from "./components/managers/GeolocationManager"
 import BathroomManager from './components/managers/BathroomManager';
 import './App.css';
 // import Geolocation from "./components/geolocation/Geolocation"
@@ -38,39 +39,50 @@ class App extends Component {
     users: [],
     markers: [],
     bathrooms: [],
-    currentGeo: {}
+    currentGeo: {},
+    //Geocode npm
+    userLocation: { lat: 40.6627, lng: -86.7816 }, //without the currentGeo
+    loading: true,
   }
 
-//36.1627},%20${-86.7{()=> 816
+  //36.1627},%20${-86.7{()=> 816
 
-getDataTest = () => {
+  getDataTest = () => {
 
-  return fetch("https://maps.googleapis.com/maps/api/place/textsearch/json?query=restrooms&location=36.1627,%20-86.7816&radius=10000", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      key: "AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs"
 
-    }
-  })
-// return fetch("https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=public+bathroom&inputtype=textquery&fields=photos,formatted_address,geometry&locationbias=circle:10000@36.1627,%20-86.7816&key=AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs")
-//   // .then(e => console.log(e.json()))
-  .then(e => e.json())
-    .then((e) => console.log("data here", e))
-}
+    // return fetch("https://maps.googleapis.com/maps/api/place/textsearch/json?query=restrooms&location=36.1627,%20-86.7816&radius=10000", {
+    return fetch("https://maps.googleapis.com/maps/api/place/textsearch/json?query=public+bathroom&location=36.1627,%20-86.7816&radius=10000&expand:place_id&key=AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        key: "AIzaSyDt5XcKR4N-Gm0W525I90N-xunjpzPZhNA"
+
+      }
+    })
+      // return fetch("https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=public+bathroom&inputtype=textquery&fields=photos,formatted_address,geometry&locationbias=circle:10000@36.1627,%20-86.7816&key=AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs")
+      //   // .then(e => console.log(e.json()))
+      .then(e => e.json())
+      .then(e => this.setState({ bathrooms: e.results }))
+      // .then((e) => console.log("data here", e))
+  }
 
 
   //loads all markers
   componentDidMount() {
-    // const newState = {}
 
-    GeolocationManager.getCurrentGeolocation()
-    .then(currentGeo => this.setState({ currentGeo: currentGeo.location }))
 
-//this will show the bathrooms in current location according to a query
+
+    //This renders the user bar if the user has not logged out, but just refreshed
+    this.ifSessionStorageFound()
+
+
+    // GeolocationManager.getCurrentGeolocation()
+    //   .then(currentGeo => this.setState({ currentGeo: currentGeo.location }))
+
+    //this will show the bathrooms in current location according to a query, not in use because it has nashville coords
     // BathroomManager.BathroomManagerGetAll(`&location=36.1627,%20-86.7816&radius=10000&key=AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs`)
-    //   .then(allBathrooms => this.setState({ bathrooms: allBathrooms }))
-        // this.setState({ bathrooms: allBathrooms }))
+    //   .then(allBathrooms => this.setState({ bathrooms: allBathrooms.results }))
+
 
     UserManager.UserManagerGetAll()
       .then(users => this.setState({ users: users }))
@@ -81,10 +93,39 @@ getDataTest = () => {
     //todo ask if this will work if they move to a different location
     //without having to reload the page.
 
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        const { latitude, longitude } = position.coords;
+
+        BathroomManager.BathroomManagerGetAll(`&location=${latitude},%20${longitude}&radius=10000&key=AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs`)
+        .then(allBathrooms => this.setState({ bathrooms: allBathrooms.results }))
+
+        this.setState({
+          userLocation: { lat: latitude, lng: longitude },
+          loading: false
+        });
+      },
+      () => {
+        this.setState({ loading: false })
+      }
+    )
+
   }
 
   // ============================AUTHENTICATION===========================
 
+  ifSessionStorageFound = () => {
+    if (sessionStorage.getItem("userID") !== null) {
+
+      this.setState({
+        localStorage: !this.state.localStorage,
+        sessionStorage: !this.state.sessionStorage,
+        textboxTitles: !this.state.textboxTitles,
+        textBoxes: !this.state.textBoxes,
+        navButtons: !this.state.navButtons,
+      })
+    }
+  }
 
 
 
@@ -131,13 +172,9 @@ getDataTest = () => {
     console.log("hi")
 
     this.setState({
-      localStorage: !this.state.localStorage,
-      sessionStorage: !this.state.sessionStorage,
       textboxTitles: !this.state.textboxTitles,
       textBoxes: !this.state.textBoxes,
       navButtons: !this.state.navButtons,
-
-
     })
   }
 
@@ -204,8 +241,9 @@ getDataTest = () => {
 
   addMarker = (newMarker) => {
     MarkerManager.MarkerManagerPostAndList(newMarker)
-      .then(allMarkers => this.setState({ markers: allMarkers })).catch(function() {
-        alert("error") })
+      .then(allMarkers => this.setState({ markers: allMarkers })).catch(function () {
+        alert("error")
+      })
   }
 
   deleteMarker = (id) => {
@@ -221,17 +259,22 @@ getDataTest = () => {
   }
 
 
-
+consoleLog = () => {
+  console.log(this.state.userLocation)
+}
 
 
   //==================================================================
 
   render() {
+    const { loading, userLocation } = this.state
+
     return (
       <div className="App">
 
-          {/* consoleLog */}
-          {/* <button onClick={() => this.getDataTest()}>Test</button> */}
+        {/* consoleLog */}
+        {/* <button onClick={this.consoleLog}>Console Log</button> */}
+        {/* <button onClick={() => this.getDataTest()}>Test</button> */}
 
 
         <ApplicationViews
@@ -262,6 +305,8 @@ getDataTest = () => {
           currentGeo={this.state.currentGeo}
           markers={this.state.markers}
           users={this.state.users}
+          bathrooms={this.state.bathrooms}
+          userLocaion={userLocation}
           //authentication
           isAuthenticated={this.isAuthenticated}
           userVerification_Step2={this.userVerification_Step2}

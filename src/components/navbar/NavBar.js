@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import UserManager from "../managers/UserManager"
 import './NavBar.css'
 
 
@@ -19,46 +20,34 @@ export default class NavBar extends Component {
     this.setState(stateToChange);
   };
 
-//   loginUser = () => {
-// console.log("hi")
-//     sessionStorage.setItem(
-//       "credentials",
-//       JSON.stringify({
-//         email: this.state.emailTextBox,
-//         password: this.state.passTextBox
-//       })
-//     )
+  //   loginUser = () => {
+  // console.log("hi")
+  //     sessionStorage.setItem(
+  //       "credentials",
+  //       JSON.stringify({
+  //         email: this.state.emailTextBox,
+  //         password: this.state.passTextBox
+  //       })
+  //     )
 
-//     this.props.userBarStateChange()
-//   }
+  //     this.props.userBarStateChange()
+  //   }
 
 
-userVerification_Step1 = () => {
-  let testResult;
-  for (let i = 0; i < this.props.users.length; i++) {
-    console.log(this.props.users)
-    if (this.props.users[i].email.indexOf(this.state.emailTextBox) > -1) {
-      // now check password
-      console.log(this.props.users[i])
-      if (this.props.users[i].password === this.state.passTextBox) {
-        // log in: store user ID (from matching object) in session storage
-        sessionStorage.setItem("userID", this.props.users[i].id);
-        sessionStorage.setItem("username", this.props.users[i].userName);
-        testResult = "You are logged in!";
+  userVerification_Step1 = () => {
+    UserManager.checkUser(this.state.emailTextBox, this.state.passTextBox).then((response) => {
+      if (response.length > 0) {
+        sessionStorage.setItem("userID", response[0].id);
+        sessionStorage.setItem("username", response[0].userName);
         this.props.userBarStateChange()
         this.props.userVerification_Step2()
-        break;
-      } else {
-        testResult = "Your password does not match. Please try again.";
-        break;
       }
-    } else {
-      testResult = "No username found. Please register a new account.";
+      else {
+        alert("Your email or password does not match. Please try again.")
+      }
     }
-  }
-  // tell the user the result of the test
-  console.log(testResult);
-};
+    )
+  };
 
 
 
@@ -67,30 +56,12 @@ userVerification_Step1 = () => {
     let textboxTitlesField = ""
     let textboxesField = ""
     let navButtons = ""
-    // let userBar = ""
-
-    // if (this.props.interactionBar) {
-    //   userBar = (
-    //     <div>
-    //       <div id="logOutButtonField" className="logOutButtonField">
-    //         <button id="logOutButton" className="logOutButton" onClick={this.props.logOutButton}>Log Out</button>
-    //       </div>
-    //       <div className="userBar">
-    //         <button type="submit" className="addButton noBorder" onClick={this.props.addNewMarker}>Add Bathroom</button>
-    //         <button className="favoritesButton" onClick={this.handleFieldChange}>Favorites</button>
-    //         <button className="trendingButton" onClick={this.handleFieldChange}>Trending</button>
-    //       </div>
-    //     </div>
-    //   );
-    // } else {
-    //   userBar = null
-    // }
 
     if (this.props.homeLink) {
       homeLink = (
         <div className="navLeft">
-        <Link className="homeLink" id="navHome" to="/home" onClick={this.props.homeStateChange}>Home</Link>
-      </div>
+          <Link className="homeLink" id="navHome" to="/home" onClick={this.props.homeStateChange}>Home</Link>
+        </div>
       );
     } else {
       homeLink = null
@@ -122,9 +93,9 @@ userVerification_Step1 = () => {
       navButtons = (
         <div className="navRight">
 
-        <button className="loginButton" id="loginButton" onClick={this.userVerification_Step1}>Log In</button>
-        <Link className="navRegister" id="navRegister" to="/registration" onClick={this.props.navBarStateChange}>Register</Link>
-      </div>
+          <button className="loginButton" id="loginButton" onClick={this.userVerification_Step1}>Log In</button>
+          <Link className="navRegister" id="navRegister" to="/registration" onClick={this.props.navBarStateChange}>Register</Link>
+        </div>
       );
     } else {
       navButtons = null
@@ -150,7 +121,7 @@ userVerification_Step1 = () => {
 
           </div>
           {navButtons}
-          <h1 className="appTitle">Potty Pal</h1>
+          {/* <h1 className="appTitle">Potty Pal</h1> */}
           {/* {userBar} */}
         </nav>
         <header className="App-footer">

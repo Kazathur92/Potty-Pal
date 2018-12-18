@@ -22,6 +22,7 @@ export default class ApplicationViews extends Component {
       <div>
         <NavBar
           //state changing functions
+          {...this.props}
           logOutButton={this.props.logOutButton}
           userBarStateChange={this.props.userBarStateChange}
           userBarMakeSelectionState={this.props.userBarMakeSelectionState}
@@ -40,9 +41,9 @@ export default class ApplicationViews extends Component {
           //Data
           users={this.props.users}
           currentGeo={this.props.currentGeo}
-          //authentication
-          userVerification_Step2={this.props.userVerification_Step2}
-          >
+        //authentication
+        // userVerification_Step2={this.props.userVerification_Step2}
+        >
         </NavBar>
         {/* <button onClick={this.consoleLog}>console log current location</button> */}
         <React.Fragment>
@@ -76,6 +77,7 @@ export default class ApplicationViews extends Component {
                 currentGeo={this.props.currentGeo}
                 markers={this.props.markers}
                 users={this.props.users}
+                bathrooms={this.props.bathrooms}
                 //authentication
                 isAuthenticated={this.props.isAuthenticated}
 
@@ -93,12 +95,12 @@ export default class ApplicationViews extends Component {
               registerStateChange={this.props.registerStateChange}
               //C.R.U.D functions
               addUser={this.props.addUser}
-            //state props
-            homeLink={this.props.homeLink}
-            interactionBar={this.props.interactionBar}
-            registerButton={this.props.registerButton}
-            //Data
-            users={this.props.users}
+              //state props
+              homeLink={this.props.homeLink}
+              interactionBar={this.props.interactionBar}
+              registerButton={this.props.registerButton}
+              //Data
+              users={this.props.users}
             />
           }}
           />

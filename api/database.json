@@ -24,12 +24,13 @@
   ],
   "markers": [
     {
+      "name": "Davidson County Public Works",
       "location": "3800 Charlotte Ave, Nashville, TN 37209",
       "lat": 36.1528529,
       "lng": -86.8307035,
       "public": true,
-      "changingStation": "no",
-      "handicapAccess": "no",
+      "changingStation": false,
+      "handicapAccess": true,
       "user_Id": 1,
       "id": 3
     },
@@ -38,32 +39,38 @@
       "lat": 36.2438706,
       "lng": -86.9046183,
       "public": true,
-      "changingStation": "no",
-      "handicapAccess": "no",
+      "changingStation": false,
+      "handicapAccess": false,
       "user_Id": 1,
       "id": 4,
       "name": "Proctor Barn"
     },
     {
-      "name": "NSS",
+      "name": "3rd Floor",
       "location": "Nashville Software School",
       "lat": 36.1325338,
       "lng": -86.75656420000001,
       "public": true,
-      "changingStation": "no",
-      "handicapAccess": "no",
-      "user_Id": 1,
+      "changingStation": false,
+      "handicapAccess": true,
+      "user_Id": 2,
       "id": 6
     },
     {
-      "name": "Home",
-      "location": "2929 Steamboat Dr.",
-      "lat": 36.2338963,
-      "lng": -86.6963462,
+      "name": "NSS",
+      "location": "Nashville Software School",
       "changingStation": false,
       "handicapAccess": false,
       "user_Id": 1,
       "id": 7
+    },
+    {
+      "name": "NSS",
+      "location": "Nashville Software School",
+      "changingStation": false,
+      "handicapAccess": false,
+      "user_Id": 1,
+      "id": 8
     }
   ],
   "users_markers": [

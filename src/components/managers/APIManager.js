@@ -3,7 +3,8 @@ import React, { Component } from 'react'
 const LocalRemoteURL = "http://localhost:8088"
 const GeolocationRemoteURL = "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs"
 // const MapsRemoteURL = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=restrooms&location=${36.1627},%20${-86.7816}&radius=10000&key=AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs`
-const MapsRemoteURL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=restrooms"
+// const MapsRemoteURL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=restrooms" //worked on postman
+const MapsRemoteURL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=public+bathroom"
 
 export default class APIManager {
 

@@ -22,6 +22,8 @@ const style = {
 
 export class MapContainer extends Component {
 
+  userID = parseInt(sessionStorage.getItem("userID"))
+
   state = {
     //google-maps-react
     showingInfoWindow: false,
@@ -37,10 +39,10 @@ export class MapContainer extends Component {
     infoWindowContent: true,
     editFields: false,
     editButton: false,
-    changingStation: false,
-    handicapAccess: false,
+    changingStation: "",
+    handicapAccess: "",
     //satates for values
-    userLocation: { lat: 40.6627, lng: 86.7816 }, //without the currentGeo
+    userLocation: { lat: 40.6627, lng: -86.7816 }, //without the currentGeo
     loading: true,
     location: "",
     lat: "",
@@ -49,10 +51,13 @@ export class MapContainer extends Component {
     currentName: "",
     currentLocationName: "",
     editedName: "",
-    editedLocationName: ""
+    editedLocationName: "",
+    //states for checkboxes
+    babyStationCheck: false,
+    handicapAccessCheck: false
   }
 
-  //only use if not using currengGeo state
+  //Only use if not using currengGeo state
   // without the currentGeo
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(
@@ -63,21 +68,22 @@ export class MapContainer extends Component {
           userLocation: { lat: latitude, lng: longitude },
           loading: false
         });
-        console.log(this.state.userLocation)
+        // console.log(this.state.userLocation)
       },
       () => {
         this.setState({ loading: false })
       }
     )
+
   }
 
   //==========================GEOCODE API FETCH and POST ======================
   geocodeLocation = () => {
     Geocode.setApiKey("AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs")
-    console.log('location: ', this.state.location)
+    // console.log('location: ', this.state.location)
     Geocode.fromAddress(this.state.location).then(
       response => {
-        console.log('happened 3', response)
+        // console.log('happened 3', response)
         const latitude = response.results[0].geometry.location.lat;
         // console.log("latitude",latitude);
         const longitude = response.results[0].geometry.location.lng;
@@ -87,7 +93,6 @@ export class MapContainer extends Component {
           lng: longitude
         })
 
-        let userID = sessionStorage.getItem("userID")
 
         // console.log("lat state", this.state.lat)
         let bathroom = {
@@ -96,9 +101,9 @@ export class MapContainer extends Component {
           lat: this.state.lat,
           lng: this.state.lng,
           public: true,
-          changingStation: false,
-          handicapAccess: false,
-          user_Id: +userID
+          changingStation: this.state.babyStationCheck,
+          handicapAccess: this.state.handicapAccessCheck,
+          user_Id: +this.userID
         }
         this.props.addMarker(bathroom);
       },
@@ -109,20 +114,7 @@ export class MapContainer extends Component {
   }
   //==================================================================================
 
-  // isAuthenticated = () => { sessionStorage.getItem("credentials") !== null}
-  //  isAuthenticated = () => {
-
-  //   let authorized = false
-
-  //    if (sessionStorage.getItem("credentials")) {
-  //      authorized = true
-  //    }
-  //    else {
-  //      authorized = false
-  //    }
-  //  }
-
-
+  //dont think you need
   getInitialState() {
     return {
       showingInfoWindow: false,
@@ -131,6 +123,7 @@ export class MapContainer extends Component {
     }
   }
 
+  //need
   onMapClick = () => {
     if (this.state.showingInfoWindow) {
       this.setState({
@@ -143,6 +136,7 @@ export class MapContainer extends Component {
     }
   }
 
+  //need
   onMarkerClick = (props, marker, e) => {
 
     if (this.state.showingInfoWindow) {
@@ -165,10 +159,8 @@ export class MapContainer extends Component {
     }
   }
 
-  //not in use
+  //need
   onInfoWindowClose = () => {
-    // if (this.state.showingInfoWindow) {
-
     this.setState({
       showingInfoWindow: false,
       activeMarker: null,
@@ -176,14 +168,10 @@ export class MapContainer extends Component {
       infoWindowContent: true,
 
     })
-    console.log(this.state.showingInfoWindow)
-
-    // }
   }
 
   //======================ADD BATHROOM SELECTIONS=====================
   handleAddressBoxState = () => {
-    console.log("hi")
     this.setState({
       addressButton: !this.state.addressButton,
       currentLocationButton: false,
@@ -240,18 +228,36 @@ export class MapContainer extends Component {
   }
 
 
-//========================================CHECKBOXES START======================
+  //========================================CHECKBOXES START======================
 
-// handleCheckBoxChange = (evt) => {
-//   if (evt.target.checked) {
-//     const
+  handleBabyStationCheckChange = (evt) => {
+    if (evt.target.checked) {
 
-//   }
-// }
+      this.setState({
+        babyStationCheck: true
+      })
+    } else {
+      this.setState({
+        babyStationCheck: false
+      })
 
+    }
+  }
 
+  handleHandiAccessCheckChange = (evt) => {
+    if (evt.target.checked) {
+      this.setState({
+        handicapAccessCheck: true
+      })
+    } else {
+      this.setState({
+        handicapAccessCheck: false
+      })
 
-//========================================CHECKBOXES END=========================
+    }
+  }
+
+  //========================================CHECKBOXES END=========================
 
 
 
@@ -272,14 +278,10 @@ export class MapContainer extends Component {
   }
   //+
   handleTextBoxState = (evt) => {
-    // console.log(evt)
-    // console.log("targetid", evt.target.id)
-    // console.log("targetValue", evt.target.value)
-    // console.log("selectedPlace", this.state.selectedPlace)
     const stateToChange = {}
     stateToChange[evt.target.id] = evt.target.value
     this.setState(stateToChange)
-    console.log(stateToChange)
+    // console.log(stateToChange)
   }
 
 
@@ -291,7 +293,9 @@ export class MapContainer extends Component {
       editButton: true,
       userBarSelection: false,
       currentLocationButton: false,
-      addressButton: false
+      addressButton: false,
+      babyStationCheck: false,
+      handicapAccessCheck: false,
     })
 
   }
@@ -308,18 +312,11 @@ export class MapContainer extends Component {
 
   //this handles the state of the value from the textboxes inside the info window
   handleEditTextboxState = (evt) => {
-    // console.log(evt)
-    // console.log("markerID", this.state.activeMarker.id)
-    console.log("targetid", evt.target.id)
-    // console.log("markerValue", this.state.activeMarker.value)
-    console.log("targetValue", evt.target.value)
-    // console.log("selectedPlace", this.state.selectedPlace)
-    // console.log("selectedPlaceValue", this.state.selectedPlace.value)
 
     const stateToChange = {}
     stateToChange[evt.target.id] = evt.target.value
     this.setState(stateToChange)
-    console.log(stateToChange)
+    // console.log(stateToChange)
 
   }
 
@@ -341,7 +338,7 @@ export class MapContainer extends Component {
     }
   }
 
-
+  //need
   renderChildren() {
 
     const { children } = this.props;
@@ -372,45 +369,61 @@ export class MapContainer extends Component {
   //current location POST
   constructNewCurrentGeoBathroom = () => {
 
-    let userID = sessionStorage.getItem("userID")
-
     if (this.state.currentName === "") {
       window.alert("Bathroom needs a name");
     } else {
       const newCurrentGeoBathroom = {
         name: this.state.currentName,
         location: this.state.currentLocationName,
-        lat: this.props.currentGeo.lat,
-        lng: this.props.currentGeo.lng,
+        // lat: this.props.currentGeo.lat,
+        // lng: this.props.currentGeo.lng,
+        lat: this.state.userLocation.lat,
+        lng: this.state.userLocation.lng,
         changingStation: false,
         handicapAccess: false,
-        user_Id: +userID
+        user_Id: +this.userID
       }
       this.props.addMarker(newCurrentGeoBathroom);
     }
 
   }
 
-  //EDIT
+  //EDIT MARKER FUNCTION
   constructNewEditedMarker = () => {
 
     const editedMarker = {
       name: this.state.editedName,
       location: this.state.editedLocationName,
+      changingStation: this.state.babyStationCheck,
+      handicapAccess: this.state.handicapAccessCheck
     }
-
     this.props.editMarker(editedMarker, this.state.activeMarker.id)
+  }
+
+
+  deleteCurrentMarker = (id) => {
+
+
+    this.setState({
+      showingInfoWindow: false
+    })
+    this.props.deleteMarker(id)
+
   }
   //=====================================================
 
 
   //CONSOLE LOG
   consoleLog = () => {
-    console.log(this.state.currentName)
-    console.log(this.state.selectedPlace.id)
+    console.log("selected place", this.state.selectedPlace)
+    console.log("active Marker id", this.state.activeMarker)
+    console.log("this id", this.id)
+    console.log("currentLocation state", this.props.bathrooms)
   }
 
   render() {
+    //this is so icons in the markers can load
+    const { google } = this.props;
 
     //only use if not using currentGeo state in initialCenter of Map component tag
     const { loading, userLocation } = this.state
@@ -418,6 +431,11 @@ export class MapContainer extends Component {
     if (loading) {
       return null
     }
+
+
+    // if (loading) {
+    //   return null
+    // }
     //====================================================
 
 
@@ -450,9 +468,9 @@ export class MapContainer extends Component {
           </div>
           <div className="searchCheckBoxes">
             <label className="babyStationCheckLabel">Baby Changing Station: </label>
-            <input id="babyStationCheck" type="checkbox"></input>
+            <input id="babyStationCheck" onClick={this.handleBabyStationCheckChange} type="checkbox"></input>
             <label className="handiAccessCheckLabel">Handicap Access: </label>
-            <input id="handiAccessCheck" type="checkbox"></input>
+            <input id="handiAccessCheck" onClick={this.handleHandiAccessCheckChange} type="checkbox"></input>
           </div>
           <div>
             <button className="markItButton" onClick={this.constructNewBathroom}>Mark It</button>
@@ -485,6 +503,7 @@ export class MapContainer extends Component {
       userBar = null
     }
 
+
     if (this.state.userBarSelection) {
       userBarSelectionButtons = (
         <div className="addBathroomSelectionBar">
@@ -512,9 +531,9 @@ export class MapContainer extends Component {
           </div>
           <div className="currCheckBoxes">
             <label className="currBabyStationCheckLabel">Baby Changing Station: </label>
-            <input className="currBabyStationCheck" type="checkbox"></input>
+            <input className="currBabyStationCheck" type="checkbox" onClick={this.handleBabyStationCheckChange} ></input>
             <label className="currHandiAccessCheckLabel">Handicap Access: </label>
-            <input className="currHandiAceesCheck" type="checkbox"></input>
+            <input className="currHandiAceesCheck" type="checkbox" onClick={this.handleHandiAccessCheckChange}></input>
           </div>
           <div className="currMarkIt">
             <button className="currMarkItButton" onClick={this.constructNewCurrentGeoBathroom}>Mark It</button>
@@ -529,15 +548,17 @@ export class MapContainer extends Component {
 
     //========================INFO WINDOW CONTENT========================
 
+
     if (this.props.sessionStorage) {
       infoWindowButtons = (
         <div>
           <button id="editButton" type="button" onClick={this.handleInfoWindowContentState}>
             Edit Marker
       </button>
-          <button id="deleteButton" type="button" onClick={() => this.props.deleteMarker(this.state.activeMarker.id)}>
+          <button id="deleteButton" type="button" onClick={() => this.deleteCurrentMarker(this.state.activeMarker.id)}>
             Delete Marker
       </button>
+          <button onClick={this.consoleLog}>Console Log</button>
         </div>
       )
     } else {
@@ -547,14 +568,16 @@ export class MapContainer extends Component {
 
 
     if (this.state.showingInfoWindow && this.state.infoWindowContent) {
+      // console.log(this.state.selectedPlace)
       infoWindowContent = (
 
         <div id="infoWindowContent">
           <h2 id="currentName" >{this.state.selectedPlace.name}</h2>
           <p id="currentLocationName">{this.state.selectedPlace.address}</p>
-          <p>changing Station: {this.state.selectedPlace.changingStation}</p>
+          <p>Baby Changing Station: {this.state.selectedPlace.changingStation}</p>
           <p>Handicap Access: {this.state.selectedPlace.handicapAccess}</p>
-          {infoWindowButtons}
+          {/* this is an If statement inside a render, a ternary */}
+          {this.state.selectedPlace.userId === this.userID ? infoWindowButtons : null}
         </div>
       );
     }
@@ -562,24 +585,25 @@ export class MapContainer extends Component {
       infoWindowContent = null
     }
 
+
     //@
     if (this.state.editButton) {
       infoWindowEditBoxes = (
 
         <div className="editDiv">
-         <button className="editBackBtn" onClick={this.handleEditBackButton}>Back</button>
-        <h1 className="editTitle">Edit this Marker</h1>
+          <button className="editBackBtn" onClick={this.handleEditBackButton}>Back</button>
+          <h1 className="editTitle">Edit this Marker</h1>
           <div className="editBoxesDiv">
-          <label className="editNameLabel">Bathroom Name: </label>
-          <input className="editNameBox" key={this.props.marker} id="editedName" type="text" placeholder="New Bathroom Name" onChange={this.handleEditTextboxState}></input>
-          <label className="editLocationLabel">Location Name: </label>
-          <input className="editLocationBox" key={this.props.marker} id="editedLocationName" type="text" placeholder="New Bathroom Location" onChange={this.handleEditTextboxState}></input>
+            <label className="editNameLabel">Bathroom Name: </label>
+            <input className="editNameBox" key={this.props.marker} id="editedName" type="text" placeholder="New Bathroom Name" onChange={this.handleEditTextboxState}></input>
+            <label className="editLocationLabel">Location Name: </label>
+            <input className="editLocationBox" key={this.props.marker} id="editedLocationName" type="text" placeholder="New Bathroom Location" onChange={this.handleEditTextboxState}></input>
           </div>
           <div className="editCheckDiv">
-            <label className="editBabyCheckLabel">Baby Changing Station: </label>
-            <input className="editBabyStation" type="checkbox"></input>
+            <label className="editBabyCheckLabel" >Baby Changing Station: </label>
+            <input className="editBabyStation" type="checkbox" onClick={this.handleBabyStationCheckChange}></input>
             <label className="editHandiAccessLabel">Handicap Access: </label>
-            <input className="editHandiAccess" type="checkbox"></input>
+            <input className="editHandiAccess" type="checkbox" onClick={this.handleHandiAccessCheckChange}></input>
           </div>
           <button className="editSubmitBtn" onClick={() => this.handleSubmitChangesButtonState()}>Submit Changes</button>
         </div>
@@ -590,11 +614,29 @@ export class MapContainer extends Component {
     }
     //=========================================================================
 
-
-
-
-
     let makeMarker = this.props.markers.map(currentMarker => {
+
+      let changingStationLabel = ""
+      let handicapAccessLabel = ""
+
+      if (currentMarker.changingStation) {
+
+        changingStationLabel = "yes"
+
+      } else {
+
+        changingStationLabel = "no"
+      }
+
+      if (currentMarker.handicapAccess) {
+
+        handicapAccessLabel = "yes"
+
+      } else {
+
+        handicapAccessLabel = "no"
+      }
+
       return (
         <Marker
           key={currentMarker.id}
@@ -602,12 +644,40 @@ export class MapContainer extends Component {
           onClick={this.onMarkerClick}
           name={currentMarker.name}
           address={currentMarker.location}
+          userId={currentMarker.user_Id}
+          icon={{
+            url: "https://cdn0.iconfinder.com/data/icons/map-markers-2-1/512/xxx023-512.png",
+            anchor: new google.maps.Point(32, 32),
+            scaledSize: new google.maps.Size(64, 64)
+          }}
+          changingStation={changingStationLabel}
+          handicapAccess={handicapAccessLabel}
           position={currentMarker}
           draggable={true}
           onDragend={this.centerMoved} />
       )
-
     })
+
+    let makeDefaultMarkers = this.props.bathrooms.map(currentBathroom => {
+
+      return (
+        <Marker
+          key={currentBathroom.id}
+          id={currentBathroom.id}
+          onClick={this.onMarkerClick}
+          name={currentBathroom.name}
+          address={currentBathroom.formatted_address}
+          icon={{
+            url: "https://cdn0.iconfinder.com/data/icons/map-markers-2-1/512/xxx023-512.png",
+            anchor: new google.maps.Point(32, 32),
+            scaledSize: new google.maps.Size(64, 64)
+          }}
+          // changingStation={changingStationLabel}
+          // handicapAccess={handicapAccessLabel}
+          position={currentBathroom.geometry.location} />
+      )
+    })
+
 
     let makeinfoWindows = this.props.markers.map(currentInfoWindow => {
       return (
@@ -618,7 +688,7 @@ export class MapContainer extends Component {
           visible={this.state.showingInfoWindow}
           selectedPlace={this.state.selectedPlace}
           onInfoWindowClose={this.onInfoWindowClose}
-          icon={icon}
+
         >
 
           <div >
@@ -630,14 +700,9 @@ export class MapContainer extends Component {
 
     })
 
-    //
     //======================END of CONDITIONAL STATEMENTS==================================
 
 
-    var icon = {
-      url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiknkRWF5-KdXhXi529gXPrqMPloBU-dqS3p3Qoiiq8ONyKgBZ", // url
-      scaledSize: new this.props.google.maps.Size(90, 42), // scaled size
-    }
 
     // ================USING GOOGLE-MAPS-REACT====================================
 
@@ -658,128 +723,8 @@ export class MapContainer extends Component {
 
             onClick={this.onMapClick}>
 
-            {/* icon={{
-              url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiknkRWF5-KdXhXi529gXPrqMPloBU-dqS3p3Qoiiq8ONyKgBZ",
-               anchor: new google.maps.Point(32,32),
-              scaledSize: new google.maps.Size(64,64)
-             }} */}
-
-            <Marker
-              onClick={this.onMarkerClick}
-              name={"Shelby Park"}
-              address={"Nashville, TN 37206"}
-              position={{ lat: 36.1676, lng: -86.7297 }}
-              draggable={true}
-              onDragend={this.centerMoved} />
-
-
-            <Marker
-              onClick={this.onMarkerClick}
-              name={"Whitsett Park"}
-              address={"375 Wimpole Dr, Nashville, TN 37211"}
-              position={{ lat: 36.1197, lng: -86.7245 }}
-              draggable={true}
-              onDragend={this.centerMoved} />
-
-            <Marker
-              onClick={this.onMarkerClick}
-              name={"H.G. Hill Park"}
-              address={"6710 Charlotte Pike, Nashville, TN 37209"}
-              position={{ lat: 36.0926, lng: -86.7121 }}
-              draggable={true}
-              onDragend={this.centerMoved} />
-
-            <Marker
-              onClick={this.onMarkerClick}
-              name={"Grand Ole Opry"}
-              address={"2804 Opryland Dr, Nashville, TN 37214"}
-              position={{ lat: 36.2069, lng: -86.6921 }}
-              draggable={true}
-              onDragend={this.centerMoved} />
-
-            <Marker
-              onClick={this.onMarkerClick}
-              name={"Paragon Mills Park"}
-              address={"465 Benita Dr, Nashville, TN 37211"}
-              position={{ lat: 36.0926, lng: -86.7121 }}
-              draggable={true}
-              onDragend={this.centerMoved} />
-
-            <Marker
-              onClick={this.onMarkerClick}
-              name={"Percy Warner Park"}
-              address={"50 Vaughn Rd, Nashville, TN 37221"}
-              position={{ lat: 36.0611, lng: -86.8980 }}
-              draggable={true}
-              onDragend={this.centerMoved} />
-
-            <Marker
-              onClick={this.onMarkerClick}
-              name={"Centennial Park"}
-              address={"2500 West End Ave, Nashville, TN 37203"}
-              position={{ lat: 36.1490, lng: -86.8120 }}
-              draggable={true}
-              onDragend={this.centerMoved} />
-
-            <Marker
-              onClick={this.onMarkerClick}
-              name={"Music City Central"}
-              address={"400 Charlotte Ave, Nashville, TN 37219"}
-              position={{ lat: 36.1664, lng: -86.7815 }}
-              draggable={true}
-              onDragend={this.centerMoved} />
-
-            <Marker
-              onClick={this.onMarkerClick}
-              name={"Nashville Public Square Park"}
-              address={"Union St & 3rd Ave N, Nashville, TN 37243"}
-              position={{ lat: 36.1666, lng: -86.7781 }}
-              draggable={true}
-              onDragend={this.centerMoved} />
-
-            <Marker
-              onClick={this.onMarkerClick}
-              name={"Elizabeth Park"}
-              address={"1701 Arthur Ave, Nashville, TN 37208"}
-              position={{ lat: 36.1759, lng: -86.8057 }}
-              draggable={true}
-              onDragend={this.centerMoved} />
-
-            <Marker
-              onClick={this.onMarkerClick}
-              name={"Metro Government of Nashville & Davidson County - Parks and Recreation"}
-              address={"511 Oman St, Nashville, TN 37203"}
-              position={{ lat: 36.1472, lng: -86.8207 }}
-              draggable={true}
-              onDragend={this.centerMoved} />
-
-            <Marker
-              onClick={this.onMarkerClick}
-              name={"Nashville Public Library"}
-              address={"615 Church St, Nashville, TN 37219"}
-              position={{ lat: 36.1621, lng: -86.7817 }}
-              draggable={true}
-              onDragend={this.centerMoved} />
-
-            <Marker
-              onClick={this.onMarkerClick}
-              name={"Proctor Barn"}
-              address={"5601-, 5615 Old Hickory Blvd, Nashville, TN 37218"}
-              position={{ lat: 34.3428, lng: -85.3415 }}
-              draggable={true}
-              onDragend={this.centerMoved} />
-
-            <Marker
-              onClick={this.onMarkerClick}
-              name={"Cedar Hill Parl"}
-              address={"6860 Old Hickory Blvd, Madison, TN 37115"}
-              position={{ lat: 36.2718, lng: -86.7481 }}
-              draggable={true}
-              onDragend={this.centerMoved} />
-
             {makeMarker}
-
-            {/* <Geolocation /> */}
+            {makeDefaultMarkers}
 
             {makeinfoWindows}
             {/* <InfoWindowEx
@@ -810,6 +755,10 @@ export default GoogleApiWrapper({
   (MapContainer)
 
   //===================================================END==============================================
+
+
+
+
 
 
 
