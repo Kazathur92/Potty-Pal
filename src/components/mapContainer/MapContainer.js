@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Map, InfoWindow, Marker, GoogleApiWrapper, google } from 'google-maps-react';
+import StarRatingComponent from 'react-star-rating-component';
 import Geolocation from "../geolocation/Geolocation"
 import Geocode from "react-geocode"
 import { geolocated } from 'react-geolocated';
@@ -20,7 +21,25 @@ const style = {
 }
 
 
+
 export class MapContainer extends Component {
+
+  //============RATING COMPONENT============
+  // constructor() {
+  //   super();
+
+  // this.state = {
+  //   rating: 1
+  // };
+  // }
+
+  onStarClick(nextValue, prevValue, name) {
+    this.setState({ rating: nextValue });
+  }
+  //========================================
+
+
+
 
   userID = parseInt(sessionStorage.getItem("userID"))
 
@@ -31,6 +50,8 @@ export class MapContainer extends Component {
     selectedPlace: {},
     newMarker: false,
     currentLocation: "",
+    //rating-component
+    rating: 1,
     //buttons state to show or not show
     addressButton: false,
     currentLocationButton: false,
@@ -395,7 +416,8 @@ export class MapContainer extends Component {
       name: this.state.editedName,
       location: this.state.editedLocationName,
       changingStation: this.state.babyStationCheck,
-      handicapAccess: this.state.handicapAccessCheck
+      handicapAccess: this.state.handicapAccessCheck,
+      rating: this.state.rating
     }
     this.props.editMarker(editedMarker, this.state.activeMarker.id)
   }
@@ -415,27 +437,32 @@ export class MapContainer extends Component {
 
   //CONSOLE LOG
   consoleLog = () => {
-    console.log("selected place", this.state.selectedPlace)
+    console.log("selectedPlace", this.state.selectedPlace)
+    console.log("selected place rating", this.state.selectedPlace.rating)
     console.log("active Marker id", this.state.activeMarker)
-    console.log("this id", this.id)
-    console.log("currentLocation state", this.props.bathrooms)
+    console.log("infoWindow", this.currentInfoWindow)
+    // console.log("this id", this.id)
+    // console.log("currentLocation state", this.props.bathrooms)
+    console.log(this.state.rating)
   }
 
+
+  //RENDER
   render() {
+
+    const { rating } = this.state;
+
     //this is so icons in the markers can load
     const { google } = this.props;
 
     //only use if not using currentGeo state in initialCenter of Map component tag
     const { loading, userLocation } = this.state
 
+
     if (loading) {
       return null
     }
 
-
-    // if (loading) {
-    //   return null
-    // }
     //====================================================
 
 
@@ -577,6 +604,12 @@ export class MapContainer extends Component {
           <p>Baby Changing Station: {this.state.selectedPlace.changingStation}</p>
           <p>Handicap Access: {this.state.selectedPlace.handicapAccess}</p>
           {/* this is an If statement inside a render, a ternary */}
+          <StarRatingComponent
+              name="rate1"
+              starCount={5}
+              value={this.state.selectedPlace.rating}
+              onStarClick={this.onStarClick.bind(this)}
+            />
           {this.state.selectedPlace.userId === this.userID ? infoWindowButtons : null}
         </div>
       );
@@ -605,6 +638,12 @@ export class MapContainer extends Component {
             <label className="editHandiAccessLabel">Handicap Access: </label>
             <input className="editHandiAccess" type="checkbox" onClick={this.handleHandiAccessCheckChange}></input>
           </div>
+          {/* <StarRatingComponent
+            name="rate1"
+            starCount={5}
+            value={rating}
+            onStarClick={this.onStarClick.bind(this)}
+          /> */}
           <button className="editSubmitBtn" onClick={() => this.handleSubmitChangesButtonState()}>Submit Changes</button>
         </div>
       );
@@ -645,11 +684,13 @@ export class MapContainer extends Component {
           name={currentMarker.name}
           address={currentMarker.location}
           userId={currentMarker.user_Id}
+          rating={currentMarker.rating}
           icon={{
-            url: "https://cdn0.iconfinder.com/data/icons/map-markers-2-1/512/xxx023-512.png",
+            url: "https://cdn3.iconfinder.com/data/icons/map-and-location-fill/144/Place_Restroom-512.png",
             anchor: new google.maps.Point(32, 32),
-            scaledSize: new google.maps.Size(64, 64)
+            scaledSize: new google.maps.Size(30, 30)
           }}
+          monkey={"Wow, look at that"}
           changingStation={changingStationLabel}
           handicapAccess={handicapAccessLabel}
           position={currentMarker}
@@ -667,10 +708,11 @@ export class MapContainer extends Component {
           onClick={this.onMarkerClick}
           name={currentBathroom.name}
           address={currentBathroom.formatted_address}
+          rating={currentBathroom.rating}
           icon={{
             url: "https://cdn0.iconfinder.com/data/icons/map-markers-2-1/512/xxx023-512.png",
             anchor: new google.maps.Point(32, 32),
-            scaledSize: new google.maps.Size(64, 64)
+            scaledSize: new google.maps.Size(30, 30)
           }}
           // changingStation={changingStationLabel}
           // handicapAccess={handicapAccessLabel}
@@ -688,12 +730,15 @@ export class MapContainer extends Component {
           visible={this.state.showingInfoWindow}
           selectedPlace={this.state.selectedPlace}
           onInfoWindowClose={this.onInfoWindowClose}
-
         >
-
           <div >
             {infoWindowContent}
-
+            {/* <StarRatingComponent
+              name="rate1"
+              starCount={5}
+              value={currentInfoWindow.rating}
+              onStarClick={this.onStarClick.bind(this)}
+            /> */}
           </div>
         </InfoWindowEx>
       )

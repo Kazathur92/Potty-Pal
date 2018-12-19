@@ -6,7 +6,7 @@ import NavBar from "./components/navbar/NavBar"
 import ApplicationViews from "./ApplicationViews"
 import MarkerManager from "./components/managers/MarkerManager"
 import UserManager from "./components/managers/UserManager"
-// import GeolocationManager from "./components/managers/GeolocationManager"
+import GeolocationManager from "./components/managers/GeolocationManager"
 import BathroomManager from './components/managers/BathroomManager';
 import './App.css';
 // import Geolocation from "./components/geolocation/Geolocation"
@@ -63,7 +63,7 @@ class App extends Component {
       //   // .then(e => console.log(e.json()))
       .then(e => e.json())
       .then(e => this.setState({ bathrooms: e.results }))
-      // .then((e) => console.log("data here", e))
+    // .then((e) => console.log("data here", e))
   }
 
 
@@ -75,30 +75,23 @@ class App extends Component {
     //This renders the user bar if the user has not logged out, but just refreshed
     this.ifSessionStorageFound()
 
-
-    // GeolocationManager.getCurrentGeolocation()
-    //   .then(currentGeo => this.setState({ currentGeo: currentGeo.location }))
-
-    //this will show the bathrooms in current location according to a query, not in use because it has nashville coords
-    // BathroomManager.BathroomManagerGetAll(`&location=36.1627,%20-86.7816&radius=10000&key=AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs`)
-    //   .then(allBathrooms => this.setState({ bathrooms: allBathrooms.results }))
-
-
+    //gets CURRENT GEO
+    GeolocationManager.getCurrentGeolocation()
+      .then(currentGeo => this.setState({ currentGeo: currentGeo.location }))
+    //gets USERS
     UserManager.UserManagerGetAll()
       .then(users => this.setState({ users: users }))
-
+    //gets MARKERS
     MarkerManager.MarkerManagerGetAll()
       .then(markers => this.setState({ markers: markers }))
 
-    //todo ask if this will work if they move to a different location
-    //without having to reload the page.
 
     navigator.geolocation.getCurrentPosition(
       position => {
         const { latitude, longitude } = position.coords;
 
-        BathroomManager.BathroomManagerGetAll(`&location=${latitude},%20${longitude}&radius=10000&key=AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs`)
-        .then(allBathrooms => this.setState({ bathrooms: allBathrooms.results }))
+        BathroomManager.BathroomManagerGetAll(`&location=${latitude},%20${longitude}&radius=10000`)
+          .then(allBathrooms => this.setState({ bathrooms: allBathrooms.results }))
 
         this.setState({
           userLocation: { lat: latitude, lng: longitude },
@@ -141,9 +134,6 @@ class App extends Component {
 
     console.log("after verification", this.state.sessionStorage)
   };
-
-
-
 
   //=====================================================================
 
@@ -259,9 +249,9 @@ class App extends Component {
   }
 
 
-consoleLog = () => {
-  console.log(this.state.userLocation)
-}
+  consoleLog = () => {
+    console.log(this.state.userLocation)
+  }
 
 
   //==================================================================

@@ -29,6 +29,7 @@
       "lat": 36.1528529,
       "lng": -86.8307035,
       "public": true,
+      "rating": 0,
       "changingStation": false,
       "handicapAccess": true,
       "user_Id": 1,
@@ -39,6 +40,7 @@
       "lat": 36.2438706,
       "lng": -86.9046183,
       "public": true,
+      "rating": 0,
       "changingStation": false,
       "handicapAccess": false,
       "user_Id": 1,
@@ -51,26 +53,23 @@
       "lat": 36.1325338,
       "lng": -86.75656420000001,
       "public": true,
+      "rating": 2,
       "changingStation": false,
       "handicapAccess": true,
       "user_Id": 2,
       "id": 6
     },
     {
-      "name": "NSS",
-      "location": "Nashville Software School",
+      "name": "home",
+      "location": "2929 Steamboat dr",
+      "lat": 36.2378181,
+      "lng": -86.6981151,
+      "public": true,
+      "rating": 4,
       "changingStation": false,
       "handicapAccess": false,
       "user_Id": 1,
-      "id": 7
-    },
-    {
-      "name": "NSS",
-      "location": "Nashville Software School",
-      "changingStation": false,
-      "handicapAccess": false,
-      "user_Id": 1,
-      "id": 8
+      "id": 9
     }
   ],
   "users_markers": [

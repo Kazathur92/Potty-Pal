@@ -3,8 +3,8 @@ import APIManager from "./APIManager"
 
 class BathroomManager extends APIManager {
 
-  BathroomManagerGetAll(...props) {
-    return this.getAllMaps(...props)
+  BathroomManagerGetAll(query) {
+    return this.getAllMaps(query)
 
 
   }

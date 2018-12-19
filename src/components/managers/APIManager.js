@@ -4,7 +4,7 @@ const LocalRemoteURL = "http://localhost:8088"
 const GeolocationRemoteURL = "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs"
 // const MapsRemoteURL = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=restrooms&location=${36.1627},%20${-86.7816}&radius=10000&key=AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs`
 // const MapsRemoteURL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=restrooms" //worked on postman
-const MapsRemoteURL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=public+bathroom"
+// const MapsRemoteURL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=public+bathroom"
 
 export default class APIManager {
 
@@ -17,11 +17,6 @@ export default class APIManager {
     return fetch(`${LocalRemoteURL}/${this.route}/${id}`).then(e => e.json())
   }
 
-  getMaps(id, route) {
-
-    return fetch(`${MapsRemoteURL}/${this.route}/${id}`).then(e => e.json())
-  }
-
   getGeolocation() {
     return fetch(`${GeolocationRemoteURL}`, {
       method: "POST", headers: {
@@ -31,20 +26,15 @@ export default class APIManager {
     }).then(data => data.json())
   }
 
-
-
   getAllLocal(route) {
 
     return fetch(`${LocalRemoteURL}/${this.route}`).then(e => e.json())
   }
 
-  getAllMaps(...props) {
+  getAllMaps(query) {
 
-    return fetch(`${MapsRemoteURL}${props}`).then(e => e.json())
+    return fetch(`http://localhost:6060/api/maps?${query}`).then(e => e.json())
   }
-
-
-
 
   deleteLocal(id, route) {
 
@@ -56,13 +46,6 @@ export default class APIManager {
     // .then(e => e.json())
 
   }
-
-  deleteMaps(id, route) {
-
-    return fetch(`${MapsRemoteURL}/${this.route}`), { method: "DELETE" }
-  }
-
-
 
   postLocal(newItem) {
 
@@ -76,15 +59,6 @@ export default class APIManager {
     })
   }
 
-
-  postMaps(id, route) {
-
-    return fetch(`${MapsRemoteURL}/${this.route}`), { method: "POST" }
-
-  }
-
-
-
   patchLocal(editedMarker, id, route) {
 
     return fetch(`${LocalRemoteURL}/${this.route}/${id}`, {
@@ -96,9 +70,4 @@ export default class APIManager {
     })
   }
 
-  patchMaps(id, route) {
-
-    return fetch(`${MapsRemoteURL}/${this.route}/${id}`, { method: "PATCH" })
-
-  }
 }
