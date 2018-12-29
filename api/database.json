@@ -29,7 +29,7 @@
       "lat": 36.1528529,
       "lng": -86.8307035,
       "public": true,
-      "rating": 0,
+      "rating": 3,
       "changingStation": false,
       "handicapAccess": true,
       "user_Id": 1,
@@ -40,7 +40,7 @@
       "lat": 36.2438706,
       "lng": -86.9046183,
       "public": true,
-      "rating": 0,
+      "rating": 1,
       "changingStation": false,
       "handicapAccess": false,
       "user_Id": 1,
@@ -60,16 +60,14 @@
       "id": 6
     },
     {
-      "name": "home",
-      "location": "2929 Steamboat dr",
-      "lat": 36.2378181,
-      "lng": -86.6981151,
-      "public": true,
-      "rating": 4,
+      "name": "HOME",
+      "location": "2929 steamboat dr",
+      "lat": 36.237725,
+      "lng": -86.69819079999999,
       "changingStation": false,
       "handicapAccess": false,
       "user_Id": 1,
-      "id": 9
+      "id": 7
     }
   ],
   "users_markers": [

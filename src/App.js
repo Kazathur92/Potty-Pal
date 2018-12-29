@@ -1,18 +1,12 @@
 import React, { Component } from 'react';
-import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
-import Geocode from "react-geocode"
-import ReactDOM from 'react-dom';
-import NavBar from "./components/navbar/NavBar"
 import ApplicationViews from "./ApplicationViews"
-import MarkerManager from "./components/managers/MarkerManager"
-import UserManager from "./components/managers/UserManager"
-import GeolocationManager from "./components/managers/GeolocationManager"
+import MarkerManager from "./components/managers/MarkerManager";
+import UserManager from "./components/managers/UserManager";
+import GeolocationManager from "./components/managers/GeolocationManager";
 import BathroomManager from './components/managers/BathroomManager';
 import './App.css';
-// import Geolocation from "./components/geolocation/Geolocation"
 // import TEST from "./components/test/test";
 // import Firebase from "./components/firebase/Firebase"
-
 // import GeoFetch from "./components/geolocation/GeoFetch"
 
 
@@ -21,16 +15,19 @@ import './App.css';
 class App extends Component {
 
   state = {
+    //Authentication states
     localStorage: false,
     sessionStorage: false,
-    // interactionBar: false,
+    //RegistrationForm Modal state
+    show: false,
+    //NavBar states
     textboxTitles: true,
     textBoxes: true,
     navButtons: true,
     logOutButton: false,
     homeLink: false,
     registerButton: false,
-    // interactionBar: false,
+   //NavBar values states
     loginEmail: "",
     loginPassword: "",
     currentLocationButton: false,
@@ -46,6 +43,11 @@ class App extends Component {
   }
 
   //36.1627},%20${-86.7{()=> 816
+
+  close = () => this.setState({
+    show: false
+     });
+
 
   getDataTest = () => {
 
@@ -148,7 +150,7 @@ class App extends Component {
       textboxTitles: !this.state.textboxTitles,
       textBoxes: !this.state.textBoxes,
       navButtons: !this.state.navButtons,
-      registerButton: false
+      // registerButton: false
     })
     console.log(this.state.currentGeo)
     localStorage.clear()
@@ -183,10 +185,12 @@ class App extends Component {
     console.log("hi")
 
     this.setState({
-      textboxTitles: !this.state.textboxTitles,
-      textBoxes: !this.state.textBoxes,
-      navButtons: !this.state.navButtons,
-      homeLink: true
+      // textboxTitles: !this.state.textboxTitles,
+      // textBoxes: !this.state.textBoxes,
+      // navButtons: !this.state.navButtons,
+      homeLink: true,
+      registerButton: true,
+      show: true
     })
   }
 
@@ -219,7 +223,7 @@ class App extends Component {
       sessionStorage: true,
       interactionBar: true,
       homeLink: false,
-      registerButton: true
+      registerButton: false
     })
 
   }
@@ -265,8 +269,6 @@ class App extends Component {
         {/* consoleLog */}
         {/* <button onClick={this.consoleLog}>Console Log</button> */}
         {/* <button onClick={() => this.getDataTest()}>Test</button> */}
-
-
         <ApplicationViews
           //state changing functions
           logOutButton={this.logOutButton}
@@ -275,6 +277,7 @@ class App extends Component {
           navBarStateChange={this.navBarStateChange}
           homeStateChange={this.homeStateChange}
           registerStateChange={this.registerStateChange}
+          close={this.close}
           //C.R.U.D functions
           addUser={this.addUser}
           addMarker={this.addMarker}
@@ -290,7 +293,7 @@ class App extends Component {
           currentLocationButton={this.state.currentLocationButton}
           addressLocationButton={this.state.addressLocationButton}
           homeLink={this.state.homeLink}
-
+          show={this.state.show}
           //Data
           currentGeo={this.state.currentGeo}
           markers={this.state.markers}
@@ -303,7 +306,6 @@ class App extends Component {
         >
 
         </ApplicationViews>
-
       </div>
     );
   }

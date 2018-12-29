@@ -26,26 +26,47 @@
 }
 
 .navRegister {
-  /* justify-content: right; */
-  /* text-align: right; */
+  margin-top: 25px;
+  margin-right:20px;
   font-weight: bold;
   color: rgba(245, 245, 245, 0.877);
-  /* margin-top: 80px; */
-  margin-right:20px;
+  background-color: #02c1db;
+  border-top-color: #02c1db;
+  border-bottom-color: #02c1db;
+  border-left-color: #02c1db;
+  border-right-color: #02c1db;
+}
+
+.navRegister:hover {
+  font-weight: bold;
+  color: rgba(245, 245, 245, 0.877);
+  background-color: #00889b;
+  border-top-color: #00889b;
+  border-bottom-color: #00889b;
+  border-left-color: #00889b;
+  border-right-color: #00889b;
 }
 
 .loginButton {
-  /* justify-content: right; */
-  /* text-align: right; */
-  border-radius: 15px;
   font-weight: bold;
   margin-top: 25px;
-  /* margin-bottom: -30px; */
   margin-right: 20px;
-  /* size: 5px; */
-  width: 70px;
-  height: 30px;
+  color: rgba(245, 245, 245, 0.877);
+  background-color: #98009b;
+  border-top-color: #98009b;
+  border-bottom-color: #98009b;
+  border-left-color: #98009b;
+  border-right-color: #98009b;
+}
 
+.loginButton:hover {
+  font-weight: bold;
+  color: rgba(245, 245, 245, 0.877);
+  background-color: #700572;
+  border-top-color: #700572;
+  border-bottom-color: #700572;
+  border-left-color: #700572;
+  border-right-color: #700572;
 }
 
 .homeLink {
@@ -94,54 +115,6 @@ margin-right: 20px;
 
 }
 
-/* .userBar {
-  margin-top: 0px;
-} */
-
-/* .logOutButtonField {
-
-  float:left;
-  margin-top: 10px;
-  margin-left: -67px;
-} */
-
-/* .logOutButton {
-  width: 90px;
-  height: 30px;
-  font-weight: bold;
-  border-radius: 15px;
-} */
-
-/* .addButton {
-  font-weight: bold;
-  border-radius: 15px;
-  width: 100px;
-  height: 50px;
-  margin-top: 165px;
-  margin-bottom: 30px;
-} */
-
-/* .favoritesButton {
-  font-weight: bold;
-  border-radius: 15px;
-  width: 100px;
-  height: 50px;
-  margin-top: 25px;
-  margin-bottom: 30px;
-
-  margin-left: 20px;
-} */
-
-/* .trendingButton {
-  font-weight: bold;
-  border-radius: 15px;
-  width: 100px;
-  height: 50px;
-  margin-top: 25px;
-  margin-right: 110px;
-  margin-left: 20px;
-} */
-
 .border {
   border: solid 3px skyblue;
 }
@@ -156,4 +129,49 @@ margin-right: 20px;
 
 .visible {
   visibility: visible;
+}
+
+.fakeUserBar {
+    background-color: #282c34;
+    min-height: 50px;
+}
+
+/* =====================================REGISTRATION FORM========================*/
+
+.registrationForm {
+  background-color: #282c34;
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* justify-content: center; */
+  /* float: center; */
+}
+
+.formTitle {
+  /* display: flex; */
+  /* justify-content: center; */
+  /* display: flex; */
+  /* flex-direction: column; */
+}
+
+.formContent {
+  display: flex;
+  flex-direction: column;
+  /* float: center; */
+  /* justify-content: center; */
+}
+
+.formName {
+  color: rgba(245, 245, 245, 0.877);
+}
+
+.formLastName {
+  color: rgba(245, 245, 245, 0.877);
+}
+
+.formEmail {
+  color: rgba(245, 245, 245, 0.877);
+}
+
+.formPass {
+  color: rgba(245, 245, 245, 0.877);
 }

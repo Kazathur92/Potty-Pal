@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import { Route, Redirect } from 'react-router-dom'
-import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
-import ReactDOM from 'react-dom';
 import NavBar from "./components/navbar/NavBar"
 import RegistrationForm from "./components/registration/RegistrationForm"
 import MapContainer from "./components/mapContainer/MapContainer.js"
@@ -28,6 +26,10 @@ export default class ApplicationViews extends Component {
           userBarMakeSelectionState={this.props.userBarMakeSelectionState}
           navBarStateChange={this.props.navBarStateChange}
           homeStateChange={this.props.homeStateChange}
+          close={this.props.close}
+          registerStateChange={this.props.registerStateChange}
+          //C.R.U.D functions
+          addUser={this.props.addUser}
           //state props
           interactionBar={this.props.interactionBar}
           textboxTitles={this.props.textboxTitles}
@@ -36,17 +38,18 @@ export default class ApplicationViews extends Component {
           currentLocationButton={this.props.currentLocationButton}
           addressLocationButton={this.props.addressLocationButton}
           homeLink={this.props.homeLink}
-          interactionBar={this.props.interactionBar}
-          registrationButton={this.props.registrationButton}
+          registerButton={this.props.registerButton}
+          show={this.props.show}
           //Data
           users={this.props.users}
           currentGeo={this.props.currentGeo}
-        //authentication
-        // userVerification_Step2={this.props.userVerification_Step2}
+        // authentication
+        sessionStorage={this.props.sessionStorage}
+        userVerification_Step2={this.props.userVerification_Step2}
         >
         </NavBar>
         {/* <button onClick={this.consoleLog}>console log current location</button> */}
-        <React.Fragment>
+
 
           <Route path="/" render={(props) => {
             return <Redirect to="/home" />
@@ -57,7 +60,7 @@ export default class ApplicationViews extends Component {
           <Route path="/home" render={(props) => {
 
             return <React.Fragment>
-              <MapContainer
+               <MapContainer
                 //state change functions
                 userBarMakeSelectionState={this.props.userBarMakeSelectionState}
                 logOutButton={this.props.logOutButton}
@@ -104,8 +107,6 @@ export default class ApplicationViews extends Component {
             />
           }}
           />
-        </React.Fragment>
-
       </div>
     )
 

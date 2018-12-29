@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { Map, InfoWindow, Marker, GoogleApiWrapper, google } from 'google-maps-react';
+import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
+// import { button, Header, Image, Modal, Transition, Segment } from 'semantic-ui-react'
+import { Button, Modal } from "react-bulma-components/full";
 import StarRatingComponent from 'react-star-rating-component';
-import Geolocation from "../geolocation/Geolocation"
+import { slideInDown, flipInX, headShake } from 'react-animations'
+import Radium, { StyleRoot } from 'radium';
 import Geocode from "react-geocode"
-import { geolocated } from 'react-geolocated';
 import InfoWindowEx from '../infoWindowEx/InfoWindowEx'
 
 // import GoogleMapReact from 'google-map-react'; //using google-map-react
@@ -12,6 +14,7 @@ import "./Container.css"
 // =================USING GOOGLE-MAPS-REACT==============================
 const style = {
   // justifyContent: 'left',
+  // backgroundColor: 'blue',
   borderRadius: '15px',
   border: 'solid 5px black',
   margin: 'auto',
@@ -20,7 +23,35 @@ const style = {
   height: '70%'
 }
 
+//=============================ANIMATIONS==============================
+const slideDownAnimation = {
+  slideInDown: {
+    animation: "1s",
+    animationName: Radium.keyframes(slideInDown, "sildeInDown")
+  }
+}
 
+// const slideUpAnimation = {
+//   slideUpOut: {
+//     duration: "1s",
+//     animationName: Radium.keyframes(slideOutUp, "sildeOutUp")
+//   }
+// }
+
+const flipInAnimation = {
+  flipInX: {
+    animation: "1s",
+    animationName: Radium.keyframes(flipInX, "flipInX")
+  }
+}
+
+const headShakeAnimation = {
+  headShake: {
+    animation: "3s",
+    animationName: Radium.keyframes(headShake, "headShake")
+  }
+}
+//=========================================================================
 
 export class MapContainer extends Component {
 
@@ -56,6 +87,7 @@ export class MapContainer extends Component {
     addressButton: false,
     currentLocationButton: false,
     // interactionBar: false,
+    show: false,
     userBarSelection: false,
     infoWindowContent: true,
     editFields: false,
@@ -196,7 +228,8 @@ export class MapContainer extends Component {
     this.setState({
       addressButton: !this.state.addressButton,
       currentLocationButton: false,
-      userBarSelection: false
+      userBarSelection: false,
+      show: true
 
     })
   }
@@ -205,22 +238,28 @@ export class MapContainer extends Component {
     this.setState({
       addressButton: false,
       currentLocationButton: true,
-      userBarSelection: false
+      userBarSelection: false,
+      show: true
     })
   }
 
   handleAddBathroomSelectionState = () => {
-    this.setState({ userBarSelection: true })
-  }
-
-  handleBackButtonState = () => {
+    //modal
     this.setState({
-      addressButton: false,
-      currentLocationButton: false,
       userBarSelection: true,
     })
   }
 
+  handleBackButtonState = () => {
+    //modal
+    this.setState({
+      addressButton: false,
+      currentLocationButton: false,
+      userBarSelection: true,
+      // show: true,
+    })
+  }
+  //animation
   handleCloseButtonState = () => {
     this.setState({
       userBarSelection: false
@@ -294,7 +333,8 @@ export class MapContainer extends Component {
     this.setState({
       interactionBar: false,
       addressButton: false,
-      userBarSelection: false
+      userBarSelection: false,
+      currentLocationButton: false,
     })
   }
   //+
@@ -393,6 +433,14 @@ export class MapContainer extends Component {
     if (this.state.currentName === "") {
       window.alert("Bathroom needs a name");
     } else {
+      //modal
+      this.setState({
+        show: false,
+        addressButton: false,
+        currentLocationButton: false,
+        userBarSelection: true,
+      })
+
       const newCurrentGeoBathroom = {
         name: this.state.currentName,
         location: this.state.currentLocationName,
@@ -434,6 +482,13 @@ export class MapContainer extends Component {
   }
   //=====================================================
 
+  //modal
+  close = () => this.setState({
+    show: false,
+    addressButton: false,
+    currentLocationButton: false,
+    userBarSelection: true,
+  });
 
   //CONSOLE LOG
   consoleLog = () => {
@@ -468,6 +523,8 @@ export class MapContainer extends Component {
 
 
     //==CONDITIONAL STATEMENT VARIABLES==
+    //=======logout========
+    let logOutButton = ""
     //=====user bar==============
     let userBar = ""
     let userBarSelectionButtons = ""
@@ -481,94 +538,112 @@ export class MapContainer extends Component {
 
 
     //=================================START of CONDITIONAL STATEMENTS=============================
-    if (this.state.addressButton) {
+    if (this.state.addressButton && this.props.sessionStorage) {
       searchBox = (
-        <div className="searchLocationBox">
-          <button className="searchBackButton" onClick={this.handleBackButtonState}>Back</button>
-          <button className="searchSwitchModeBtn" onClick={this.handleSearchSwitchModeButton}>By Current Location</button>
-          <h1 className="searchWindowTitle">Add by Location Name</h1>
-          <div className="searchTextBoxes">
-            <label className="currentNameLabel">Bathroom Name: </label>
-            <input id="currentName" className="currentNameTextbox" size="15" type="text" placeholder="Bathroom Name" onChange={this.handleTextBoxState}></input>
-            <label className="locationLabel">Which location?</label>
-            <input id="location" className="locationTextbox" type="text" placeholder="Search Location" onChange={this.handleTextBoxState}></input>
+        <Modal show={this.state.show} onClose={this.close} {...this.props.modal} closeOnBlur={true}>
+          <div className="searchLocationBox modal-content">
+            <button className="searchBackButton" onClick={this.handleBackButtonState}>Back</button>
+            <button className="searchSwitchModeBtn" onClick={this.handleSearchSwitchModeButton}>By Current Location</button>
+            <h1 className="searchWindowTitle">Add by Location Name</h1>
+            <div className="searchTextBoxes">
+              <label className="currentNameLabel">Bathroom Name: </label>
+              <input id="currentName" className="currentNameTextbox" size="15" type="text" placeholder="Bathroom Name" onChange={this.handleTextBoxState}></input>
+              <label className="locationLabel">Which location?</label>
+              <input id="location" className="locationTextbox" type="text" placeholder="Search Location" onChange={this.handleTextBoxState}></input>
+            </div>
+            <div className="searchCheckBoxes">
+              <label className="babyStationCheckLabel">Baby Changing Station: </label>
+              <input id="babyStationCheck" onClick={this.handleBabyStationCheckChange} type="checkbox"></input>
+              <label className="handiAccessCheckLabel">Handicap Access: </label>
+              <input id="handiAccessCheck" onClick={this.handleHandiAccessCheckChange} type="checkbox"></input>
+            </div>
+            <div>
+              <button className="markItButton" onClick={this.constructNewBathroom}>Mark It</button>
+            </div>
           </div>
-          <div className="searchCheckBoxes">
-            <label className="babyStationCheckLabel">Baby Changing Station: </label>
-            <input id="babyStationCheck" onClick={this.handleBabyStationCheckChange} type="checkbox"></input>
-            <label className="handiAccessCheckLabel">Handicap Access: </label>
-            <input id="handiAccessCheck" onClick={this.handleHandiAccessCheckChange} type="checkbox"></input>
-          </div>
-          <div>
-            <button className="markItButton" onClick={this.constructNewBathroom}>Mark It</button>
-          </div>
-        </div>
+        </Modal>
       );
     } else {
       searchBox = null
     }
 
-    //not working
-    if (this.props.sessionStorage === true && this.state.addressButton === false && this.state.currentLocationButton === false && this.state.editButton === false)
-    // if (this.props.sessionStorage)
-    {
-      userBar = (
-        <div id="interactionBar" className="interactionBar">
-          <div id="logOutButtonField" className="logOutButtonField">
-            <button id="logOutButton" className="logOutButton" onClick={this.handleLogOutStateChanges}>Log Out</button>
-          </div>
-          <div className="userBar">
-            <button type="submit" className="addButton noBorder" onClick={this.handleAddBathroomSelectionState}>Add Bathroom</button>
-            <button className="favoritesButton" onClick={this.handleFieldChange}>Favorites</button>
-            <button className="trendingButton" onClick={this.handleFieldChange}>Trending</button>
-          </div>
-        </div>
-      );
-    }
 
-    else {
+    //==================================================USER BAR=====================================================
+    if (this.props.sessionStorage === true && this.state.addressButton === false && this.state.currentLocationButton === false && this.state.editButton === false) {
+      userBar = (
+        <StyleRoot>
+          <div className="userBar" style={flipInAnimation.flipInX}>
+            <Button type="submit" className="addButton is-normal is-rounded" style={headShakeAnimation.headShake} onClick={this.handleAddBathroomSelectionState}>Add Bathroom</Button>
+            <Button className="favoritesButton is-normal is-rounded" onClick={this.handleFieldChange}>Favorites</Button>
+            <Button className="trendingButton is-normal is-rounded" onClick={this.handleFieldChange}>Trending</Button>
+          </div>
+        </StyleRoot>
+      );
+    } else {
       userBar = null
     }
+    //=============================================USER BAR END=====================================================
 
+
+    //============================LOG OUT BUTTON==============================
+    if (this.props.sessionStorage === true) {
+      logOutButton = (
+        <StyleRoot>
+          <Button id="logOutButton" style={flipInAnimation.flipInX} className="logOutButton is-normal is-rounded" onClick={this.handleLogOutStateChanges}>Log Out</Button>
+        </StyleRoot>
+      )
+    } else {
+      logOutButton = null
+    }
+    //=============================LOG OUT END=================================
 
     if (this.state.userBarSelection) {
       userBarSelectionButtons = (
-        <div className="addBathroomSelectionBar">
-          <button onClick={this.handleCloseButtonState}>Close</button>
-          <button onClick={this.handleCurrentLocationBoxState}>Current Location</button>
-          <button onClick={this.handleAddressBoxState}>Search Address</button>
-        </div>
+        <StyleRoot>
+          <div key={7} className="addBathroomSelectionBar" style={slideDownAnimation.slideInDown}>
+            <Button key={2} className="is-normal" onClick={this.handleCloseButtonState}>
+            <span className="icon is-normal">
+              <i className="fas fa-info-circle"></i>
+            </span>
+            </Button>
+            <Button key={3} onClick={this.handleCurrentLocationBoxState}>Current Location</Button>
+            <Button key={4} onClick={this.handleAddressBoxState}>Search Address</Button>
+          </div>
+        </StyleRoot>
       );
     } else {
       userBarSelectionButtons = null
     }
     //@
-    if (this.state.currentLocationButton) {
+    if (this.state.currentLocationButton && this.props.sessionStorage) {
       currentLocationTextboxes = (
         // new Marker("name")
-        <div className="currentLocationBoxes">
-          <button className="currLocBackBtn" onClick={this.handleBackButtonState}>Back</button>
-          <button className="currSwitchModeBtn" onClick={this.handleCurrSwitchModeButton}>By Search Location</button>
-          <h1 className="currLocTitle">Add Using Current Location</h1>
-          <div className="currLocTextBoxes">
-            <label className="currLocNameLabel">Bathroom Name: </label>
-            <input id="currentName" className="currLocName" size="15" type="text" placeholder="Bathroom Name" onChange={this.handleTextBoxState}></input>
-            <label className="currLocationNameLabel">Bathroom Location: </label>
-            <input id="currentLocationName" className="currLocationName" type="text" placeholder="Bathroom Location" onChange={this.handleTextBoxState}></input>
+        <Modal show={this.state.show} onClose={this.close} {...this.props.modal} closeOnBlur={true}>
+          <div className="currentLocationBoxes modal-content">
+            {/* <Modal.Actions> */}
+            <button className="currLocBackBtn" onClick={this.handleBackButtonState}>Back</button>
+            <button className="currSwitchModeBtn" onClick={this.handleCurrSwitchModeButton}>By Search Location</button>
+            <h1 className="currLocTitle">Add Using Current Location</h1>
+            <div className="currLocTextBoxes">
+              <label className="currLocNameLabel">Bathroom Name: </label>
+              <input id="currentName" className="currLocName" size="15" type="text" placeholder="Bathroom Name" onChange={this.handleTextBoxState}></input>
+              <label className="currLocationNameLabel">Bathroom Location: </label>
+              <input id="currentLocationName" className="currLocationName" type="text" placeholder="Bathroom Location" onChange={this.handleTextBoxState}></input>
+            </div>
+            <div className="currCheckBoxes">
+              <label className="currBabyStationCheckLabel">Baby Changing Station: </label>
+              <input className="currBabyStationCheck" type="checkbox" onClick={this.handleBabyStationCheckChange} ></input>
+              <label className="currHandiAccessCheckLabel">Handicap Access: </label>
+              <input className="currHandiAceesCheck" type="checkbox" onClick={this.handleHandiAccessCheckChange}></input>
+            </div>
+            <div className="currMarkIt">
+              <button className="currMarkItButton" onClick={this.constructNewCurrentGeoBathroom}>Mark It</button>
+            </div>
+            {/* </Modal.Actions> */}
           </div>
-          <div className="currCheckBoxes">
-            <label className="currBabyStationCheckLabel">Baby Changing Station: </label>
-            <input className="currBabyStationCheck" type="checkbox" onClick={this.handleBabyStationCheckChange} ></input>
-            <label className="currHandiAccessCheckLabel">Handicap Access: </label>
-            <input className="currHandiAceesCheck" type="checkbox" onClick={this.handleHandiAccessCheckChange}></input>
-          </div>
-          <div className="currMarkIt">
-            <button className="currMarkItButton" onClick={this.constructNewCurrentGeoBathroom}>Mark It</button>
-          </div>
-        </div>
+        </Modal>
       );
-    }
-    else {
+    } else {
       currentLocationTextboxes = null
     }
 
@@ -585,7 +660,7 @@ export class MapContainer extends Component {
           <button id="deleteButton" type="button" onClick={() => this.deleteCurrentMarker(this.state.activeMarker.id)}>
             Delete Marker
       </button>
-          <button onClick={this.consoleLog}>Console Log</button>
+          {/* <button onClick={this.consoleLog}>Console Log</button> */}
         </div>
       )
     } else {
@@ -599,22 +674,22 @@ export class MapContainer extends Component {
       infoWindowContent = (
 
         <div id="infoWindowContent">
-          <h2 id="currentName" >{this.state.selectedPlace.name}</h2>
+          <h1 id="currentName" >{this.state.selectedPlace.name}</h1>
+          <br></br>
           <p id="currentLocationName">{this.state.selectedPlace.address}</p>
           <p>Baby Changing Station: {this.state.selectedPlace.changingStation}</p>
           <p>Handicap Access: {this.state.selectedPlace.handicapAccess}</p>
           {/* this is an If statement inside a render, a ternary */}
           <StarRatingComponent
-              name="rate1"
-              starCount={5}
-              value={this.state.selectedPlace.rating}
-              onStarClick={this.onStarClick.bind(this)}
-            />
+            name="rate1"
+            starCount={5}
+            value={this.state.selectedPlace.rating}
+            onStarClick={this.onStarClick.bind(this)}
+          />
           {this.state.selectedPlace.userId === this.userID ? infoWindowButtons : null}
         </div>
       );
-    }
-    else {
+    } else {
       infoWindowContent = null
     }
 
@@ -638,27 +713,20 @@ export class MapContainer extends Component {
             <label className="editHandiAccessLabel">Handicap Access: </label>
             <input className="editHandiAccess" type="checkbox" onClick={this.handleHandiAccessCheckChange}></input>
           </div>
-          {/* <StarRatingComponent
-            name="rate1"
-            starCount={5}
-            value={rating}
-            onStarClick={this.onStarClick.bind(this)}
-          /> */}
           <button className="editSubmitBtn" onClick={() => this.handleSubmitChangesButtonState()}>Submit Changes</button>
         </div>
       );
-    }
-    else {
+    } else {
       infoWindowEditBoxes = null
     }
     //=========================================================================
 
-    let makeMarker = this.props.markers.map(currentMarker => {
+    let makeMarker = this.props.markers.map(currentUserMarker => {
 
       let changingStationLabel = ""
       let handicapAccessLabel = ""
 
-      if (currentMarker.changingStation) {
+      if (currentUserMarker.changingStation) {
 
         changingStationLabel = "yes"
 
@@ -667,7 +735,7 @@ export class MapContainer extends Component {
         changingStationLabel = "no"
       }
 
-      if (currentMarker.handicapAccess) {
+      if (currentUserMarker.handicapAccess) {
 
         handicapAccessLabel = "yes"
 
@@ -678,45 +746,44 @@ export class MapContainer extends Component {
 
       return (
         <Marker
-          key={currentMarker.id}
-          id={currentMarker.id}
+          key={currentUserMarker.id}
+          id={currentUserMarker.id}
           onClick={this.onMarkerClick}
-          name={currentMarker.name}
-          address={currentMarker.location}
-          userId={currentMarker.user_Id}
-          rating={currentMarker.rating}
+          name={currentUserMarker.name}
+          address={currentUserMarker.location}
+          userId={currentUserMarker.user_Id}
+          rating={currentUserMarker.rating}
           icon={{
             url: "https://cdn3.iconfinder.com/data/icons/map-and-location-fill/144/Place_Restroom-512.png",
             anchor: new google.maps.Point(32, 32),
-            scaledSize: new google.maps.Size(30, 30)
+            scaledSize: new google.maps.Size(35, 35)
           }}
-          monkey={"Wow, look at that"}
           changingStation={changingStationLabel}
           handicapAccess={handicapAccessLabel}
-          position={currentMarker}
+          position={currentUserMarker}
           draggable={true}
           onDragend={this.centerMoved} />
       )
     })
 
-    let makeDefaultMarkers = this.props.bathrooms.map(currentBathroom => {
+    let makeDefaultMarkers = this.props.bathrooms.map(currentDefaultBathroom => {
 
       return (
         <Marker
-          key={currentBathroom.id}
-          id={currentBathroom.id}
+          key={currentDefaultBathroom.id}
+          id={currentDefaultBathroom.id}
           onClick={this.onMarkerClick}
-          name={currentBathroom.name}
-          address={currentBathroom.formatted_address}
-          rating={currentBathroom.rating}
+          name={currentDefaultBathroom.name}
+          address={currentDefaultBathroom.formatted_address}
+          rating={currentDefaultBathroom.rating}
           icon={{
             url: "https://cdn0.iconfinder.com/data/icons/map-markers-2-1/512/xxx023-512.png",
             anchor: new google.maps.Point(32, 32),
-            scaledSize: new google.maps.Size(30, 30)
+            scaledSize: new google.maps.Size(25, 25)
           }}
           // changingStation={changingStationLabel}
           // handicapAccess={handicapAccessLabel}
-          position={currentBathroom.geometry.location} />
+          position={currentDefaultBathroom.geometry.location} />
       )
     })
 
@@ -733,12 +800,6 @@ export class MapContainer extends Component {
         >
           <div >
             {infoWindowContent}
-            {/* <StarRatingComponent
-              name="rate1"
-              starCount={5}
-              value={currentInfoWindow.rating}
-              onStarClick={this.onStarClick.bind(this)}
-            /> */}
           </div>
         </InfoWindowEx>
       )
@@ -752,11 +813,12 @@ export class MapContainer extends Component {
     // ================USING GOOGLE-MAPS-REACT====================================
 
     return (
-      <div>
+      <div className="background">
         {searchBox}
         {currentLocationTextboxes}
         {infoWindowEditBoxes}
-        <div>
+        <div className="interactionBar">
+          {logOutButton}
           {userBar}
         </div>
         {userBarSelectionButtons}
@@ -764,7 +826,7 @@ export class MapContainer extends Component {
         {/* <button onClick={this.consoleLog}>console log current location</button> */}
         <div>
           <br></br>
-          <Map id="Map" google={this.props.google} style={style} zoom={14} initialCenter={userLocation}
+          <Map id="Map" google={this.props.google} style={style} className="background" zoom={14} initialCenter={userLocation}
 
             onClick={this.onMapClick}>
 
@@ -772,21 +834,6 @@ export class MapContainer extends Component {
             {makeDefaultMarkers}
 
             {makeinfoWindows}
-            {/* <InfoWindowEx
-              marker={this.state.activeMarker}
-              visible={this.state.showingInfoWindow}
-              selectedPlace={this.state.selectedPlace}
-              >
-
-              <div >
-                {infoWindowEditBoxes}
-                {infoWindowContent}
-                <input type="text" placeholder="test" onInput={this.handleTextBoxState}></input>
-
-              </div>
-              </InfoWindow>
-            </InfoWindowEx> */}
-
           </Map>
         </div>
       </div>
@@ -796,8 +843,7 @@ export class MapContainer extends Component {
 
 export default GoogleApiWrapper({
   apiKey: ("AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs")
-})
-  (MapContainer)
+})(MapContainer)
 
   //===================================================END==============================================
 

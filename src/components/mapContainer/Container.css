@@ -4,6 +4,10 @@
 
 }
 
+.background {
+  background-color: rgba(7, 45, 95, 0.877);
+}
+
 .infoWindows {
   color: blue;
   border-radius: 15px;
@@ -18,47 +22,92 @@
 }
 
  .logOutButton {
-  width: 90px;
-  height: 30px;
   font-weight: bold;
-  border-radius: 15px;
+  float: left;
+  color: rgba(245, 245, 245, 0.877);
+  background-color: #c10000;
+  border-top-color: #c10000;
+  border-bottom-color: #c10000;
+  border-left-color: #c10000;
+  border-right-color: #c10000;
+}
+
+.logOutButton:hover {
+  font-weight: bold;
+  color: rgba(245, 245, 245, 0.877);
+  background-color: #8c0000;
+  border-top-color: #8c0000;
+  border-bottom-color: #8c0000;
+  border-left-color: #8c0000;
+  border-right-color: #8c0000;
+}
+
+/* animation */
+.userBar {
+  /* padding: 50px; */
+width: 90%;
 }
 
 .addButton {
-  /* padding: 20px; */
+  color: rgba(245, 245, 245, 0.877);
+  background-color: #42c5f4;
+  border-top-color: #42c5f4;
+  border-bottom-color: #42c5f4;
+  border-left-color: #42c5f4;
+  border-right-color: #42c5f4;
   font-weight: bold;
-  border-radius: 15px;
-  width: 100px;
-  height: 50px;
-  /* margin-top: 165px; */
-  margin-bottom: 30px;
 }
+.addButton:hover {
+  color: rgba(245, 245, 245, 0.877);
+  background-color: #2f93b7;
+  border-top-color: #2f93b7;
+  border-bottom-color: #2f93b7;
+  border-left-color: #2f93b7;
+  border-right-color: #2f93b7;
 
+}
 .favoritesButton {
+  color: rgba(245, 245, 245, 0.877);
+  background-color: #1ad840;
+  border-top-color: #1ad840;
+  border-bottom-color: #1ad840;
+  border-left-color: #1ad840;
+  border-right-color: #1ad840;
   font-weight: bold;
-  border-radius: 15px;
-  width: 100px;
-  height: 50px;
-  margin-top: 25px;
-  margin-bottom: 30px;
-
-  margin-left: 20px;
+}
+.favoritesButton:hover {
+  color: rgba(245, 245, 245, 0.877);
+  background-color: #10a32d;
+  border-top-color: #10a32d;
+  border-bottom-color: #10a32d;
+  border-left-color: #10a32d;
+  border-right-color: #10a32d;
 }
 
 .trendingButton {
+  color: rgba(245, 245, 245, 0.877);
+  background-color: #edbe01;
+  border-top-color: #edbe01;
+  border-bottom-color: #edbe01;
+  border-left-color: #edbe01;
+  border-right-color: #edbe01;
   font-weight: bold;
-  border-radius: 15px;
-  width: 100px;
-  height: 50px;
-  margin-top: 25px;
-  margin-right: 110px;
-  margin-left: 20px;
+}
+
+.trendingButton:hover {
+  color: rgba(245, 245, 245, 0.877);
+  background-color: #b28e00;
+  border-top-color: #b28e00;
+  border-bottom-color: #b28e00;
+  border-left-color: #b28e00;
+  border-right-color: #b28e00;
 }
 
 /* ==============================INTERACTION BAR START====================== */
 
 .interactionBar {
-  margin-top: -100px;
+padding: 30px;
+  background-color: #282c34;
 }
 
 /* ==============================INTERACTION BAR END========================  */
@@ -67,11 +116,17 @@
 
 
 /* ==================================SELECTION BAR START===================== */
-
+/* animation */
 .addBathroomSelectionBar {
-  margin-top: -4px;
-  margin-bottom: -16px;
+
+  background-color: #282c34;
+  /* margin-top: -4px; */
+  /* margin-bottom: -16px; */
 }
+
+/* .closeButtonIcon {
+  background-image:
+} */
 
 
 /* ==================================SELECTION BAR END===================== */
@@ -81,7 +136,9 @@
 
 /* ===============================SEARCH LOCATION DIV======================= */
 .searchLocationBox {
-  margin-top: -130px;
+  /* margin-top: -130px; */
+  background-color: #282c34;
+min-height: 100px;
 }
 
 .searchWindowTitle {
@@ -146,6 +203,7 @@ color: rgba(245, 245, 245, 0.877);
 }
 
 #currentName {
+  font-size: 20px;
   height: 10px;
 }
 
@@ -181,14 +239,16 @@ margin-right: 70px;
 /* ===================================CURRENT LOCATION DIV START==================== */
 
 .currentLocationBoxes {
-margin-top: -118px;
+/* margin-top: -118px; */
+background-color: #282c34;
+min-height: 100px;
 }
 
 .currLocBackBtn {
-float: left;
+/* float: left; */
 margin-top: 35px;
-margin-left: 200px;
-margin-right: -350px;
+/* margin-left: 200px; */
+/* margin-right: -350px; */
 }
 
 .currLocTitle {
