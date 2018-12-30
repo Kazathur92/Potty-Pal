@@ -1,26 +1,21 @@
 import React, { Component } from 'react';
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
-// import { button, Header, Image, Modal, Transition, Segment } from 'semantic-ui-react'
-import { Button, Modal } from "react-bulma-components/full";
+import { Button, Modal, Icon } from "react-bulma-components/full";
 import StarRatingComponent from 'react-star-rating-component';
 import { slideInDown, flipInX, headShake } from 'react-animations'
 import Radium, { StyleRoot } from 'radium';
 import Geocode from "react-geocode"
 import InfoWindowEx from '../infoWindowEx/InfoWindowEx'
-
-// import GoogleMapReact from 'google-map-react'; //using google-map-react
 import "./Container.css"
 
 // =================USING GOOGLE-MAPS-REACT==============================
 const style = {
-  // justifyContent: 'left',
-  // backgroundColor: 'blue',
   borderRadius: '15px',
   border: 'solid 5px black',
   margin: 'auto',
   marginTop: '0px',
-  width: '60%',
-  height: '70%'
+  width: '95%',
+  height: '80%'
 }
 
 //=============================ANIMATIONS==============================
@@ -53,6 +48,7 @@ const headShakeAnimation = {
 }
 //=========================================================================
 
+
 export class MapContainer extends Component {
 
   //============RATING COMPONENT============
@@ -69,10 +65,8 @@ export class MapContainer extends Component {
   }
   //========================================
 
-
-
-
-  userID = parseInt(sessionStorage.getItem("userID"))
+  // userID = parseInt(+sessionStorage.getItem("userID"))
+  userID = +sessionStorage.userID
 
   state = {
     //google-maps-react
@@ -82,7 +76,7 @@ export class MapContainer extends Component {
     newMarker: false,
     currentLocation: "",
     //rating-component
-    rating: 1,
+    rating: 0,
     //buttons state to show or not show
     addressButton: false,
     currentLocationButton: false,
@@ -127,6 +121,7 @@ export class MapContainer extends Component {
         this.setState({ loading: false })
       }
     )
+
 
   }
 
@@ -499,13 +494,16 @@ export class MapContainer extends Component {
     // console.log("this id", this.id)
     // console.log("currentLocation state", this.props.bathrooms)
     console.log(this.state.rating)
+    console.log("userID", this.userID)
+    console.log(sessionStorage)
+    console.log("sessionStorage.userID = ", sessionStorage.userID)
   }
 
 
   //RENDER
   render() {
 
-    const { rating } = this.state;
+    // const { rating } = this.state;
 
     //this is so icons in the markers can load
     const { google } = this.props;
@@ -542,8 +540,11 @@ export class MapContainer extends Component {
       searchBox = (
         <Modal show={this.state.show} onClose={this.close} {...this.props.modal} closeOnBlur={true}>
           <div className="searchLocationBox modal-content">
-            <button className="searchBackButton" onClick={this.handleBackButtonState}>Back</button>
-            <button className="searchSwitchModeBtn" onClick={this.handleSearchSwitchModeButton}>By Current Location</button>
+            <Button className="searchBackButton is-small" onClick={this.handleBackButtonState}>
+            <Icon className="fas fa-backward"></Icon>&nbsp;&nbsp;Back</Button>
+            <Button className="searchSwitchModeBtn is-small is-rounded" onClick={this.handleSearchSwitchModeButton}>
+            <Icon className="fas fa-map-marker-alt"></Icon>
+            &nbsp;&nbsp;By Current Location</Button>
             <h1 className="searchWindowTitle">Add by Location Name</h1>
             <div className="searchTextBoxes">
               <label className="currentNameLabel">Bathroom Name: </label>
@@ -573,9 +574,12 @@ export class MapContainer extends Component {
       userBar = (
         <StyleRoot>
           <div className="userBar" style={flipInAnimation.flipInX}>
-            <Button type="submit" className="addButton is-normal is-rounded" style={headShakeAnimation.headShake} onClick={this.handleAddBathroomSelectionState}>Add Bathroom</Button>
-            <Button className="favoritesButton is-normal is-rounded" onClick={this.handleFieldChange}>Favorites</Button>
-            <Button className="trendingButton is-normal is-rounded" onClick={this.handleFieldChange}>Trending</Button>
+            <Button type="submit" className="addButton is-normal is-rounded" style={headShakeAnimation.headShake} onClick={this.handleAddBathroomSelectionState}>
+            <Icon className="fas fa-toilet"></Icon>&nbsp;Add Bathroom</Button>
+            <Button className="favoritesButton is-normal is-rounded" onClick={this.handleFieldChange}>
+            <Icon className="fas fa-heart"></Icon>&nbsp;&nbsp;Favorites</Button>
+            <Button className="trendingButton is-normal is-rounded" onClick={this.handleFieldChange}>
+            <Icon className="fas fa-star"></Icon>&nbsp;&nbsp;Trending</Button>
           </div>
         </StyleRoot>
       );
@@ -589,7 +593,7 @@ export class MapContainer extends Component {
     if (this.props.sessionStorage === true) {
       logOutButton = (
         <StyleRoot>
-          <Button id="logOutButton" style={flipInAnimation.flipInX} className="logOutButton is-normal is-rounded" onClick={this.handleLogOutStateChanges}>Log Out</Button>
+          <Button id="logOutButton" style={flipInAnimation.flipInX} className="logOutButton is-normal is-rounded" onClick={this.handleLogOutStateChanges}><Icon className="fas fa-sign-out-alt"></Icon>&nbsp;&nbsp;Log Out</Button>
         </StyleRoot>
       )
     } else {
@@ -601,13 +605,17 @@ export class MapContainer extends Component {
       userBarSelectionButtons = (
         <StyleRoot>
           <div key={7} className="addBathroomSelectionBar" style={slideDownAnimation.slideInDown}>
-            <Button key={2} className="is-normal" onClick={this.handleCloseButtonState}>
-            <span className="icon is-normal">
-              <i className="fas fa-info-circle"></i>
-            </span>
+            <Button key={2} className="is-medium icon" onClick={this.handleCloseButtonState}>
+              <Icon className="fas fa-angle-double-up iconStyle">
+                {/* <span className="fas fa-toilet"/> */}
+              </Icon>
             </Button>
-            <Button key={3} onClick={this.handleCurrentLocationBoxState}>Current Location</Button>
-            <Button key={4} onClick={this.handleAddressBoxState}>Search Address</Button>
+            <Button key={3} onClick={this.handleCurrentLocationBoxState}>
+            <Icon className="fas fa-map-marker-alt"></Icon>
+            &nbsp;&nbsp;Current Location</Button>
+            <Button key={4} onClick={this.handleAddressBoxState}>
+            <Icon className="fas fa-search-location"></Icon>
+            &nbsp;&nbsp;Search Location</Button>
           </div>
         </StyleRoot>
       );
@@ -621,12 +629,16 @@ export class MapContainer extends Component {
         <Modal show={this.state.show} onClose={this.close} {...this.props.modal} closeOnBlur={true}>
           <div className="currentLocationBoxes modal-content">
             {/* <Modal.Actions> */}
-            <button className="currLocBackBtn" onClick={this.handleBackButtonState}>Back</button>
-            <button className="currSwitchModeBtn" onClick={this.handleCurrSwitchModeButton}>By Search Location</button>
+            <Button className="currLocBackBtn is-small" onClick={this.handleBackButtonState}>
+            <Icon className="fas fa-backward"></Icon>
+            &nbsp;&nbsp;Back</Button>
+            <Button className="currSwitchModeBtn is-small is-rounded" onClick={this.handleCurrSwitchModeButton}>
+            <Icon className="fas fa-search-location"></Icon>
+            &nbsp;&nbsp;By Search Location</Button>
             <h1 className="currLocTitle">Add Using Current Location</h1>
             <div className="currLocTextBoxes">
               <label className="currLocNameLabel">Bathroom Name: </label>
-              <input id="currentName" className="currLocName" size="15" type="text" placeholder="Bathroom Name" onChange={this.handleTextBoxState}></input>
+              <input id="currentName" className="currLocName" type="text" placeholder="Bathroom Name" onChange={this.handleTextBoxState}></input>
               <label className="currLocationNameLabel">Bathroom Location: </label>
               <input id="currentLocationName" className="currLocationName" type="text" placeholder="Bathroom Location" onChange={this.handleTextBoxState}></input>
             </div>
@@ -663,7 +675,8 @@ export class MapContainer extends Component {
           {/* <button onClick={this.consoleLog}>Console Log</button> */}
         </div>
       )
-    } else {
+    }
+     else {
       infoWindowButtons = null
     }
 
@@ -674,7 +687,7 @@ export class MapContainer extends Component {
       infoWindowContent = (
 
         <div id="infoWindowContent">
-          <h1 id="currentName" >{this.state.selectedPlace.name}</h1>
+          <h1 id="currentNameInfo" >{this.state.selectedPlace.name}</h1>
           <br></br>
           <p id="currentLocationName">{this.state.selectedPlace.address}</p>
           <p>Baby Changing Station: {this.state.selectedPlace.changingStation}</p>
@@ -686,7 +699,7 @@ export class MapContainer extends Component {
             value={this.state.selectedPlace.rating}
             onStarClick={this.onStarClick.bind(this)}
           />
-          {this.state.selectedPlace.userId === this.userID ? infoWindowButtons : null}
+          {this.state.selectedPlace.userId === +sessionStorage.userID ? infoWindowButtons : null}
         </div>
       );
     } else {
@@ -823,7 +836,7 @@ export class MapContainer extends Component {
         </div>
         {userBarSelectionButtons}
 
-        {/* <button onClick={this.consoleLog}>console log current location</button> */}
+        <button onClick={this.consoleLog}>console log current location</button>
         <div>
           <br></br>
           <Map id="Map" google={this.props.google} style={style} className="background" zoom={14} initialCenter={userLocation}

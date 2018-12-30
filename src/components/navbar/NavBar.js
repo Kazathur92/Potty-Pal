@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import { Button, Modal } from "react-bulma-components/full";
+import { Button, Modal, Icon } from "react-bulma-components/full";
 import { rotateIn, fadeIn } from 'react-animations'
 import Radium, { StyleRoot } from 'radium';
 import UserManager from "../managers/UserManager"
@@ -190,8 +189,8 @@ export default class NavBar extends Component {
         <StyleRoot>
           <div className="navRight" style={fadeInAnimation.fadeIn}>
 
-            <Button className="loginButton is-normal is-rounded" id="loginButton" onClick={this.userVerification_Step1}>Log In</Button>
-            <Button className="navRegister is-normal is-rounded" id="navRegister" onClick={this.props.navBarStateChange}>Register</Button>
+            <Button className="loginButton is-normal is-rounded" id="loginButton" onClick={this.userVerification_Step1}><Icon className="fas fa-sign-in-alt"></Icon>&nbsp;&nbsp;Log In</Button>
+            <Button className="navRegister is-normal is-rounded" id="navRegister" onClick={this.props.navBarStateChange}><Icon className="fas fa-registered"></Icon>&nbsp;&nbsp;Register</Button>
           </div>
         </StyleRoot>
       );
@@ -258,10 +257,6 @@ export default class NavBar extends Component {
         <nav className="nav">
           {/* {homeLink} */}
           {Title}
-          <audio autoPlay>
-  {/* <source src="horse.ogg" type="audio/ogg"></source> */}
-  <source src="https://www.youtube.com/watch?v=yZwKkpcXSws" type="audio/mpeg"/>
-</audio>
           {/* <button onClick={this.consoleLog}>console Log</button> */}
           <div id="textboxesTitle" className="textboxesTitle">
             {textboxTitlesField}

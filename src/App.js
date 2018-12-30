@@ -124,16 +124,17 @@ class App extends Component {
 
 
 
+
+
   userVerification_Step2 = () => {
 
     console.log("before verification", this.state.sessionStorage)
 
     this.setState({
       localStorage: !this.state.localStorage,
-      sessionStorage: !this.state.sessionStorage,
+      sessionStorage: true,
 
     })
-
     console.log("after verification", this.state.sessionStorage)
   };
 

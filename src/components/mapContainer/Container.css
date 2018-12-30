@@ -4,6 +4,10 @@
 
 }
 
+.iconStyle {
+  margin-top: -6px;
+}
+
 .background {
   background-color: rgba(7, 45, 95, 0.877);
 }
@@ -44,7 +48,6 @@
 
 /* animation */
 .userBar {
-  /* padding: 50px; */
 width: 90%;
 }
 
@@ -134,200 +137,189 @@ padding: 30px;
 
 
 
-/* ===============================SEARCH LOCATION DIV======================= */
+/*===============================SEARCH LOCATION DIV=======================*/
 .searchLocationBox {
-  /* margin-top: -130px; */
   background-color: #282c34;
 min-height: 100px;
 }
 
-.searchWindowTitle {
+/* .searchWindowTitle {
   margin-top: 30px;
   margin-bottom: 7px;
   margin-left: 250px;
   font-size: 25px;
   letter-spacing: 3px;
   color: rgba(245, 245, 245, 0.877);
-}
+} */
 
-.searchTextBoxes {
+/* .searchTextBoxes {
   display: flex;
   float:left;
   flex-direction: column;
   margin-top: -6px;
   margin-left: 320px;
-}
+} */
 
-.searchCheckBoxes {
+/* .searchCheckBoxes {
   display: flex;
   float:left;
   flex-direction: column;
   margin-top: -5px;
   margin-left: 25px;
-}
+} */
 
-.currentNameLabel {
+/* .currentNameLabel {
   font-size: 12px;
   color: rgba(245, 245, 245, 0.877);
   margin-right: 10px;
-}
+} */
 
-.locationLabel {
+/* .locationLabel {
   font-size: 12px;
   color: rgba(245, 245, 245, 0.877);
   margin-left: 10px;
   margin-right: 10px;
-}
+} */
 
-.babyStationCheckLabel {
+/* .babyStationCheckLabel {
   font-size: 10px;
 color: rgba(245, 245, 245, 0.877);
+} */
 
-}
-
-#babyStationCheck {
+/* #babyStationCheck {
   margin-right: 20px;
-}
+} */
 
-.handiAccessCheckLabel {
+/* .handiAccessCheckLabel {
   font-size: 10px;
   color: rgba(245, 245, 245, 0.877);
-}
+} */
 
-#handiAccessCheck {
+/* #handiAccessCheck {
+} */
 
-}
+/* .currentNameTextbox {
+} */
 
-.currentNameTextbox {
-
-}
-
-#currentName {
+/* #currentNameInfo {
   font-size: 20px;
   height: 10px;
-}
+} */
 
-.locationTextbox {
+/* .locationTextbox {
+} */
 
-
-}
-
-#location {
+/* #location {
   height: 10px;
-}
+} */
 
-.markItButton {
+/* .markItButton {
   margin-top: 8px;
   margin-right: 232px;
   margin-bottom: 43px;
-}
+} */
 
-.searchBackButton {
+/* .searchBackButton {
   float: left;
   margin-top: 34px;
   margin-left: 200px;
   margin-right: -350px;
-}
+} */
 
-.searchSwitchModeBtn {
+/* .searchSwitchModeBtn {
 float: right;
 margin-top: 20px;
 margin-right: 70px;
-}
+} */
 /* ===============================SEARCH LOCATION DIV END======================= */
 
 /* ===================================CURRENT LOCATION DIV START==================== */
 
 .currentLocationBoxes {
-/* margin-top: -118px; */
 background-color: #282c34;
 min-height: 100px;
 }
 
-.currLocBackBtn {
-/* float: left; */
+/* .currLocBackBtn {
 margin-top: 35px;
-/* margin-left: 200px; */
-/* margin-right: -350px; */
-}
+} */
 
-.currLocTitle {
+/* .currLocTitle {
 font-size: 25px;
 letter-spacing: 3px;
 color: rgba(245, 245, 245, 0.877);
 margin-left: 200px;
-}
+} */
 
-.currLocTextBoxes {
+/* .currLocTextBoxes {
 display: flex;
 float: left;
 flex-direction: column;
 margin-left: 320px;
-}
+} */
 
-.currLocNameLabel {
+/* .currLocNameLabel {
   font-size: 12px;
   color: rgba(245, 245, 245, 0.877);
   margin-top: -15px;
   margin-right: 10px;
-}
+} */
 
-.currLocName {
+/* .currLocName {
  height: 10px;
-}
+} */
 
-.currLocationNameLabel {
+/* .currLocationNameLabel {
   font-size: 12px;
   color: rgba(245, 245, 245, 0.877);
-}
+} */
 
-.currLocationName {
+/* .currLocationName {
   height: 10px;
-}
+} */
 
-.currCheckBoxes {
+/* .currCheckBoxes {
 display: flex;
 float: left;
 flex-direction: column;
 margin-top: -14px;
 margin-left: 25px;
-}
+} */
 
-.currBabyStationCheckLabel {
+/* .currBabyStationCheckLabel {
   font-size: 10px;
 color: rgba(245, 245, 245, 0.877);
-}
+} */
 
-.currBabyStationCheck {
+/* .currBabyStationCheck {
 
-}
+} */
 
-.currHandiAccessCheckLabel {
+/* .currHandiAccessCheckLabel {
   font-size: 10px;
 color: rgba(245, 245, 245, 0.877);
-}
+} */
 
-.currHandiAccessCheck {
+/* .currHandiAccessCheck {
 
-}
+} */
 
-.currMarkIt {
+/* .currMarkIt {
   margin-top: -3px;
-/* margin-bottom: -11px; */
-}
+} */
 
-.currMarkItButton {
+/* .currMarkItButton {
   margin-top: -20px;
   margin-right: 422px;
   margin-bottom: 43px;
-}
+} */
 
-.currSwitchModeBtn {
+/* .currSwitchModeBtn {
   float: right;
   margin-top: 20px;
   margin-right: 70px;
 
-}
+} */
 /* ===================================CURRENT LOCATION DIV END====================  */
 
 

@@ -16,6 +16,7 @@
   height: 140px;
 }
 
+/* login */
 .navRight {
   text-align: right;
   margin-right:65px;
@@ -96,13 +97,14 @@ margin-right: 104px;
 .textBoxPassTitle {
   font-weight: bold;
   color:  rgba(245, 245, 245, 0.877);
-  margin-right: 72px;
+  margin-right: 117px;
 }
 
+/* login */
 .textboxes2 {
 
   text-align: right;
-  margin-right: 20px;
+  margin-right: 65px;
 
 }
 

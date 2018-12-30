@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import NavBar from "./components/navbar/NavBar"
-import RegistrationForm from "./components/registration/RegistrationForm"
+// import RegistrationForm from "./components/registration/RegistrationForm"
 import MapContainer from "./components/mapContainer/MapContainer.js"
 import './App.css';
-// import SimpleMap from "./components/mapContainer/Container.js"
-// import SideNav from "./components/sideNav/SideNav"
 
 
 
@@ -51,13 +49,13 @@ export default class ApplicationViews extends Component {
         {/* <button onClick={this.consoleLog}>console log current location</button> */}
 
 
+           {/* <Route path="/" render={(props) => {
+           return <Redirect to="/home" />
+           }}
+           /> */}
+
+
           <Route path="/" render={(props) => {
-            return <Redirect to="/home" />
-          }}
-          />
-
-
-          <Route path="/home" render={(props) => {
 
             return <React.Fragment>
                <MapContainer
@@ -90,7 +88,7 @@ export default class ApplicationViews extends Component {
           }}
           />
 
-          <Route path="/registration" render={(props) => {
+          {/* <Route path="/registration" render={(props) => {
             return <RegistrationForm {...props}
               //state change functions
               logOutButton={this.props.logOutButton}
@@ -106,7 +104,7 @@ export default class ApplicationViews extends Component {
               users={this.props.users}
             />
           }}
-          />
+          /> */}
       </div>
     )
 

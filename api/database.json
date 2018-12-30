@@ -17,6 +17,24 @@
       "password": "woopy",
       "DOB": "1987-01-24",
       "id": 2
+    },
+    {
+      "name": "ponch",
+      "lastName": "1",
+      "userName": "1",
+      "email": "1",
+      "password": "1",
+      "DOB": "1111-11-11",
+      "id": 3
+    },
+    {
+      "name": "4",
+      "lastName": "4",
+      "userName": "4",
+      "email": "4",
+      "password": "4",
+      "DOB": "4444-04-04",
+      "id": 4
     }
   ],
   "favorites": [
@@ -60,14 +78,59 @@
       "id": 6
     },
     {
-      "name": "HOME",
+      "name": "home",
       "location": "2929 steamboat dr",
-      "lat": 36.237725,
-      "lng": -86.69819079999999,
+      "lat": 36.237748499999995,
+      "lng": -86.69818710000001,
       "changingStation": false,
       "handicapAccess": false,
       "user_Id": 1,
-      "id": 7
+      "id": 7,
+      "rating": 0
+    },
+    {
+      "name": "regal theater opry mills",
+      "location": "regal theater opry mills",
+      "lat": 36.2059894,
+      "lng": -86.695145,
+      "public": true,
+      "changingStation": false,
+      "handicapAccess": false,
+      "user_Id": 1,
+      "id": 8
+    },
+    {
+      "name": "pennington",
+      "location": "pennington villas",
+      "lat": 36.23640779999999,
+      "lng": -86.7010748,
+      "public": true,
+      "changingStation": false,
+      "handicapAccess": false,
+      "user_Id": null,
+      "id": 9
+    },
+    {
+      "name": "inglewood",
+      "location": "northern inglewood nashville",
+      "lat": 36.2334136,
+      "lng": -86.72780589999999,
+      "public": true,
+      "changingStation": false,
+      "handicapAccess": false,
+      "user_Id": 1,
+      "id": 10
+    },
+    {
+      "name": "opry",
+      "location": "opry hotel",
+      "lat": 36.211588,
+      "lng": -86.6943185,
+      "public": true,
+      "changingStation": false,
+      "handicapAccess": false,
+      "user_Id": 4,
+      "id": 11
     }
   ],
   "users_markers": [
