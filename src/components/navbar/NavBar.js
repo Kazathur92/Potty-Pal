@@ -74,20 +74,22 @@ export default class NavBar extends Component {
     console.log(newPassword)
     console.log(newDOB)
 
+
+    //=======#1EXPERIMENTAL DIDNT WORK================
+    // var error_message = 'All fields must be filled out'
+    // if (newEmail.indexOf('@') != -1) {
+
+    //   error_message = 'Email address must have @'
+    // }
+    //=================================================
+
     if (newName === "" || newLastName === "" || newUserName === "" || newEmail === "" || newPassword === "" || newDOB === "") {
       alert("All fields must be filled out")
     } else {
 
-      // sessionStorage.setItem(
-      //   "credentials",
-      //   JSON.stringify({
-      //     email: this.state.formEmail,
-      //     password: this.state.formPass
-      //   })
-      // )
-
-      // sessionStorage.setItem("userID", this.props.users[i].id);
-      // sessionStorage.setItem("username", this.props.users[i].userName)
+    //=========#1EXPERIMENTAL DIDNT WORK===============
+    // if (newName !== "" && newLastName !== "" && newUserName !== "" && (newEmail !== "" && newEmail.indexOf('@') != -1) && newPassword !== "" && newDOB !== "") {
+    //=================================================
 
       const newUser = {
         name: this.state.formName,
@@ -114,8 +116,12 @@ export default class NavBar extends Component {
         )
         )
 
-
-    }
+//=======#1EXPERIMENTAL DIDNT WORK=============
+    // } else {
+    //   alert(error_message)
+    // }
+    //============================================
+      }
   }
 
   //==================================USER REGISTRATION END==========================
@@ -233,7 +239,7 @@ export default class NavBar extends Component {
                   <td className="formUserName">Name: </td>
                   <td><input id="formUserName" placeholder="User Name" onChange={this.handleFieldChange}></input></td>
                   <td className="formEmail">Email: </td>
-                  <td><input id="formEmail" placeholder="Email" onChange={this.handleFieldChange}></input></td>
+                  <td><input id="formEmail" type="email" placeholder="Email" onChange={this.handleFieldChange}></input></td>
                   <td className="formPass">Name: </td>
                   <td><input id="formPass" placeholder="Password" onChange={this.handleFieldChange}></input></td>
                   <td className="formConfirmPass">Name: </td>
@@ -243,7 +249,7 @@ export default class NavBar extends Component {
                 </tr>
               </tbody>
             </table>
-            <button className="formBtnInput" id="submitFormButton" onClick={this.registerNewUser}>Register</button>
+            <button  value="Submit" type='submit' className="formBtnInput" id="submitFormButton" onClick={this.registerNewUser}>Register</button>
           </div>
         </Modal>
       )

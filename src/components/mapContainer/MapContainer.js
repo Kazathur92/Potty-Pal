@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 import { Button, Modal, Icon } from "react-bulma-components/full";
 import StarRatingComponent from 'react-star-rating-component';
-import { slideInDown, flipInX, headShake } from 'react-animations'
+import { slideInDown, flipInX, headShake, fadeIn, flipInY } from 'react-animations'
 import Radium, { StyleRoot } from 'radium';
 import Geocode from "react-geocode"
 import InfoWindowEx from '../infoWindowEx/InfoWindowEx'
@@ -44,6 +44,13 @@ const headShakeAnimation = {
   headShake: {
     animation: "3s",
     animationName: Radium.keyframes(headShake, "headShake")
+  }
+}
+
+const flipInYAnimation = {
+  flipInY: {
+    animation: "1s",
+    animationName: Radium.keyframes(flipInY, "flipInY")
   }
 }
 //=========================================================================
@@ -153,7 +160,18 @@ export class MapContainer extends Component {
           handicapAccess: this.state.handicapAccessCheck,
           user_Id: +this.userID
         }
-        this.props.addMarker(bathroom);
+        this.props.addMarker(bathroom)
+
+        this.setState({
+          currentName: "",
+          currentLocationName: "",
+          babyStationCheck: false,
+          handicapAccessCheck: false,
+          addressButton: false,
+          currentLocationButton: false,
+          // userBarSelection: true,
+        })
+
       },
       error => {
         console.error(error);
@@ -447,7 +465,17 @@ export class MapContainer extends Component {
         handicapAccess: false,
         user_Id: +this.userID
       }
-      this.props.addMarker(newCurrentGeoBathroom);
+      this.props.addMarker(newCurrentGeoBathroom)
+
+      this.setState({
+        currentName: "",
+        currentLocationName: "",
+        babyStationCheck: false,
+        handicapAccessCheck: false,
+        addressButton: false,
+        currentLocationButton: false,
+        // userBarSelection: true,
+      })
     }
 
   }
@@ -538,31 +566,35 @@ export class MapContainer extends Component {
     //=================================START of CONDITIONAL STATEMENTS=============================
     if (this.state.addressButton && this.props.sessionStorage) {
       searchBox = (
-        <Modal show={this.state.show} onClose={this.close} {...this.props.modal} closeOnBlur={true}>
-          <div className="searchLocationBox modal-content">
-            <Button className="searchBackButton is-small" onClick={this.handleBackButtonState}>
-            <Icon className="fas fa-backward"></Icon>&nbsp;&nbsp;Back</Button>
-            <Button className="searchSwitchModeBtn is-small is-rounded" onClick={this.handleSearchSwitchModeButton}>
-            <Icon className="fas fa-map-marker-alt"></Icon>
-            &nbsp;&nbsp;By Current Location</Button>
-            <h1 className="searchWindowTitle">Add by Location Name</h1>
-            <div className="searchTextBoxes">
-              <label className="currentNameLabel">Bathroom Name: </label>
-              <input id="currentName" className="currentNameTextbox" size="15" type="text" placeholder="Bathroom Name" onChange={this.handleTextBoxState}></input>
-              <label className="locationLabel">Which location?</label>
-              <input id="location" className="locationTextbox" type="text" placeholder="Search Location" onChange={this.handleTextBoxState}></input>
+        <StyleRoot>
+          <Modal show={this.state.show} onClose={this.close} {...this.props.modal} closeOnBlur={true}>
+            <div className="searchLocationBox modal-content" style={flipInYAnimation.flipInY}>
+              <Button className="searchBackButton is-small" onClick={this.handleBackButtonState}>
+                <Icon className="fas fa-backward"></Icon>&nbsp;&nbsp;Back</Button>
+              <Button className="searchSwitchModeBtn is-small is-rounded" onClick={this.handleSearchSwitchModeButton}>
+                <Icon className="fas fa-map-marker-alt" color="danger"></Icon>
+                &nbsp;&nbsp;Switch to Current Location</Button>
+              <h1 className="searchWindowTitle"><Icon className="fas fa-search-location" color="info"></Icon>
+                &nbsp;&nbsp;Add by Location Name</h1>
+              <div className="searchTextBoxes">
+                <label className="currentNameLabel">Bathroom Name: </label>
+                <input id="currentName" className="currentNameTextbox" type="text" placeholder="Bathroom Name" onChange={this.handleTextBoxState}></input>
+                <label className="locationLabel">Which location?</label>
+                <input id="location" className="locationTextbox" type="text" placeholder="Search Location" onChange={this.handleTextBoxState}></input>
+              </div>
+              <div className="searchCheckBoxes">
+                <label className="babyStationCheckLabel">Baby Changing Station: </label>
+                <input id="babyStationCheck" onClick={this.handleBabyStationCheckChange} type="checkbox"></input>
+                <label className="handiAccessCheckLabel">Handicap Access: </label>
+                <input id="handiAccessCheck" onClick={this.handleHandiAccessCheckChange} type="checkbox"></input>
+              </div>
+              <div className="searchMarkItButton">
+                <Button className="markItButton" onClick={this.constructNewBathroom}><Icon className="fas fa-restroom"></Icon>
+                  &nbsp;&nbsp;Mark It</Button>
+              </div>
             </div>
-            <div className="searchCheckBoxes">
-              <label className="babyStationCheckLabel">Baby Changing Station: </label>
-              <input id="babyStationCheck" onClick={this.handleBabyStationCheckChange} type="checkbox"></input>
-              <label className="handiAccessCheckLabel">Handicap Access: </label>
-              <input id="handiAccessCheck" onClick={this.handleHandiAccessCheckChange} type="checkbox"></input>
-            </div>
-            <div>
-              <button className="markItButton" onClick={this.constructNewBathroom}>Mark It</button>
-            </div>
-          </div>
-        </Modal>
+          </Modal>
+        </StyleRoot>
       );
     } else {
       searchBox = null
@@ -575,11 +607,11 @@ export class MapContainer extends Component {
         <StyleRoot>
           <div className="userBar" style={flipInAnimation.flipInX}>
             <Button type="submit" className="addButton is-normal is-rounded" style={headShakeAnimation.headShake} onClick={this.handleAddBathroomSelectionState}>
-            <Icon className="fas fa-toilet"></Icon>&nbsp;Add Bathroom</Button>
+              <Icon className="fas fa-toilet"></Icon>&nbsp;Add Bathroom</Button>
             <Button className="favoritesButton is-normal is-rounded" onClick={this.handleFieldChange}>
-            <Icon className="fas fa-heart"></Icon>&nbsp;&nbsp;Favorites</Button>
+              <Icon className="fas fa-heart"></Icon>&nbsp;&nbsp;Favorites</Button>
             <Button className="trendingButton is-normal is-rounded" onClick={this.handleFieldChange}>
-            <Icon className="fas fa-star"></Icon>&nbsp;&nbsp;Trending</Button>
+              <Icon className="fas fa-star"></Icon>&nbsp;&nbsp;Trending</Button>
           </div>
         </StyleRoot>
       );
@@ -611,11 +643,11 @@ export class MapContainer extends Component {
               </Icon>
             </Button>
             <Button key={3} onClick={this.handleCurrentLocationBoxState}>
-            <Icon className="fas fa-map-marker-alt"></Icon>
-            &nbsp;&nbsp;Current Location</Button>
+              <Icon className="fas fa-map-marker-alt"></Icon>
+              &nbsp;&nbsp;By Current Location</Button>
             <Button key={4} onClick={this.handleAddressBoxState}>
-            <Icon className="fas fa-search-location"></Icon>
-            &nbsp;&nbsp;Search Location</Button>
+              <Icon className="fas fa-search-location"></Icon>
+              &nbsp;&nbsp;By Location Name</Button>
           </div>
         </StyleRoot>
       );
@@ -626,34 +658,40 @@ export class MapContainer extends Component {
     if (this.state.currentLocationButton && this.props.sessionStorage) {
       currentLocationTextboxes = (
         // new Marker("name")
-        <Modal show={this.state.show} onClose={this.close} {...this.props.modal} closeOnBlur={true}>
-          <div className="currentLocationBoxes modal-content">
-            {/* <Modal.Actions> */}
-            <Button className="currLocBackBtn is-small" onClick={this.handleBackButtonState}>
-            <Icon className="fas fa-backward"></Icon>
-            &nbsp;&nbsp;Back</Button>
-            <Button className="currSwitchModeBtn is-small is-rounded" onClick={this.handleCurrSwitchModeButton}>
-            <Icon className="fas fa-search-location"></Icon>
-            &nbsp;&nbsp;By Search Location</Button>
-            <h1 className="currLocTitle">Add Using Current Location</h1>
-            <div className="currLocTextBoxes">
-              <label className="currLocNameLabel">Bathroom Name: </label>
-              <input id="currentName" className="currLocName" type="text" placeholder="Bathroom Name" onChange={this.handleTextBoxState}></input>
-              <label className="currLocationNameLabel">Bathroom Location: </label>
-              <input id="currentLocationName" className="currLocationName" type="text" placeholder="Bathroom Location" onChange={this.handleTextBoxState}></input>
+        <StyleRoot>
+          <Modal show={this.state.show} onClose={this.close} className="modalBox" {...this.props.modal} closeOnBlur={true}>
+            <div className="currentLocationBoxes modal-content" style={flipInYAnimation.flipInY}>
+              {/* <Modal.Actions> */}
+              <Button className="currLocBackBtn is-small" onClick={this.handleBackButtonState}>
+                <Icon className="fas fa-backward"></Icon>
+                &nbsp;&nbsp;Back</Button>
+              <Button className="currSwitchModeBtn is-small is-rounded" onClick={this.handleCurrSwitchModeButton}>
+                <Icon className="fas fa-search-location" color="info"></Icon>
+                &nbsp;&nbsp;Switch to Search Location</Button>
+              <h1 className="currLocTitle"><Icon className="fas fa-map-marker-alt" color="danger"></Icon>
+                &nbsp;Add by Current Location</h1>
+              <div className="currLocTextBoxes">
+                <label className="currLocNameLabel">Bathroom Name: </label>
+                <input id="currentName" className="currLocName" type="text" placeholder="Bathroom Name" onChange={this.handleTextBoxState}></input>
+                <label className="currLocationNameLabel">Bathroom Location: </label>
+                <input id="currentLocationName" className="currLocationName" type="text" placeholder="Bathroom Location" onChange={this.handleTextBoxState}></input>
+              </div>
+              <div className="currCheckBoxes">
+                <label className="currBabyStationCheckLabel">Baby Changing Station: </label>
+                <input className="currBabyStationCheck" type="checkbox" onClick={this.handleBabyStationCheckChange} ></input>
+                <Icon className="fas fa-baby" color="info"></Icon>
+                <label className="currHandiAccessCheckLabel">Handicap Access: </label>
+                <input className="currHandiAceesCheck" type="checkbox" onClick={this.handleHandiAccessCheckChange}></input>
+                <Icon className="fas fa-wheelchair" color="info"></Icon>
+              </div>
+              <div className="currMarkItButton">
+                <Button className="markItButton" onClick={this.constructNewCurrentGeoBathroom}><Icon className="fas fa-restroom"></Icon>
+                  &nbsp;&nbsp;Mark It</Button>
+              </div>
+              {/* </Modal.Actions> */}
             </div>
-            <div className="currCheckBoxes">
-              <label className="currBabyStationCheckLabel">Baby Changing Station: </label>
-              <input className="currBabyStationCheck" type="checkbox" onClick={this.handleBabyStationCheckChange} ></input>
-              <label className="currHandiAccessCheckLabel">Handicap Access: </label>
-              <input className="currHandiAceesCheck" type="checkbox" onClick={this.handleHandiAccessCheckChange}></input>
-            </div>
-            <div className="currMarkIt">
-              <button className="currMarkItButton" onClick={this.constructNewCurrentGeoBathroom}>Mark It</button>
-            </div>
-            {/* </Modal.Actions> */}
-          </div>
-        </Modal>
+          </Modal>
+        </StyleRoot>
       );
     } else {
       currentLocationTextboxes = null
@@ -676,7 +714,7 @@ export class MapContainer extends Component {
         </div>
       )
     }
-     else {
+    else {
       infoWindowButtons = null
     }
 
@@ -741,11 +779,11 @@ export class MapContainer extends Component {
 
       if (currentUserMarker.changingStation) {
 
-        changingStationLabel = "yes"
+        changingStationLabel = (<Icon className="fas fa-wheelchair" color="info"></Icon>)
 
       } else {
 
-        changingStationLabel = "no"
+        changingStationLabel = ""
       }
 
       if (currentUserMarker.handicapAccess) {
@@ -836,7 +874,7 @@ export class MapContainer extends Component {
         </div>
         {userBarSelectionButtons}
 
-        <button onClick={this.consoleLog}>console log current location</button>
+        {/* <button onClick={this.consoleLog}>console log current location</button> */}
         <div>
           <br></br>
           <Map id="Map" google={this.props.google} style={style} className="background" zoom={14} initialCenter={userLocation}

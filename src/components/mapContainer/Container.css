@@ -140,17 +140,17 @@ padding: 30px;
 /*===============================SEARCH LOCATION DIV=======================*/
 .searchLocationBox {
   background-color: #282c34;
+  border: solid 3px grey;
 min-height: 100px;
+border-radius: 15px;
 }
 
-/* .searchWindowTitle {
-  margin-top: 30px;
-  margin-bottom: 7px;
-  margin-left: 250px;
+.searchWindowTitle {
+  text-align: center;
   font-size: 25px;
   letter-spacing: 3px;
   color: rgba(245, 245, 245, 0.877);
-} */
+}
 
 /* .searchTextBoxes {
   display: flex;
@@ -213,43 +213,73 @@ color: rgba(245, 245, 245, 0.877);
   height: 10px;
 } */
 
-/* .markItButton {
-  margin-top: 8px;
-  margin-right: 232px;
-  margin-bottom: 43px;
-} */
+.searchMarkItButton{
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
 
-/* .searchBackButton {
-  float: left;
-  margin-top: 34px;
-  margin-left: 200px;
-  margin-right: -350px;
-} */
+.markItButton {
+ border-radius: 15px;
+}
 
-/* .searchSwitchModeBtn {
+.searchBackButton {
+  color: antiquewhite;
+  background-color: cadetblue;
+  border-top-color: cadetblue;
+  border-bottom-color: cadetblue;
+  border-left-color: cadetblue;
+  border-right-color: cadetblue;
+}
+
+.searchBackButton:hover {
+  color: antiquewhite;
+  background-color: #426e70;
+  border-top-color: #426e70;
+  border-bottom-color: #426e70;
+  border-left-color: #426e70;
+  border-right-color: #426e70;
+ }
+
+.searchSwitchModeBtn {
 float: right;
-margin-top: 20px;
-margin-right: 70px;
-} */
+}
 /* ===============================SEARCH LOCATION DIV END======================= */
 
 /* ===================================CURRENT LOCATION DIV START==================== */
 
 .currentLocationBoxes {
 background-color: #282c34;
+border: solid 3px grey;
 min-height: 100px;
+border-radius: 15px;
 }
 
-/* .currLocBackBtn {
-margin-top: 35px;
-} */
+.currLocBackBtn {
+  color: antiquewhite;
+  background-color: cadetblue;
+  border-top-color: cadetblue;
+  border-bottom-color: cadetblue;
+  border-left-color: cadetblue;
+  border-right-color: cadetblue;
+}
 
-/* .currLocTitle {
+.currLocBackBtn:hover {
+  color: antiquewhite;
+  background-color: #426e70;
+  border-top-color: #426e70;
+  border-bottom-color: #426e70;
+  border-left-color: #426e70;
+  border-right-color: #426e70;
+}
+
+.currLocTitle {
+text-align: center;
 font-size: 25px;
 letter-spacing: 3px;
 color: rgba(245, 245, 245, 0.877);
-margin-left: 200px;
-} */
+
+}
 
 /* .currLocTextBoxes {
 display: flex;
@@ -269,12 +299,12 @@ margin-left: 320px;
  height: 10px;
 } */
 
-/* .currLocationNameLabel {
+/*.currLocationNameLabel {
   font-size: 12px;
   color: rgba(245, 245, 245, 0.877);
 } */
 
-/* .currLocationName {
+/*.currLocationName {
   height: 10px;
 } */
 
@@ -305,21 +335,17 @@ color: rgba(245, 245, 245, 0.877);
 } */
 
 /* .currMarkIt {
-  margin-top: -3px;
 } */
 
-/* .currMarkItButton {
-  margin-top: -20px;
-  margin-right: 422px;
-  margin-bottom: 43px;
-} */
+.currMarkItButton{
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
 
-/* .currSwitchModeBtn {
+.currSwitchModeBtn {
   float: right;
-  margin-top: 20px;
-  margin-right: 70px;
-
-} */
+}
 /* ===================================CURRENT LOCATION DIV END====================  */
 
 
