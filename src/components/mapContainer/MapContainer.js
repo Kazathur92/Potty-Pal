@@ -87,20 +87,22 @@ export class MapContainer extends Component {
     //buttons state to show or not show
     addressButton: false,
     currentLocationButton: false,
-    // interactionBar: false,
     show: false,
     userBarSelection: false,
     infoWindowContent: true,
     editFields: false,
     editButton: false,
-    changingStation: "",
-    handicapAccess: "",
+    extraInfoState: false,
+    littleArrowDownState: true,
+    littleArrowUpState: false,
     //satates for values
     userLocation: { lat: 40.6627, lng: -86.7816 }, //without the currentGeo
     loading: true,
     location: "",
     lat: "",
     lng: "",
+    changingStation: "",
+    handicapAccess: "",
     //states for text box values
     currentName: "",
     currentLocationName: "",
@@ -236,7 +238,7 @@ export class MapContainer extends Component {
     })
   }
 
-  //======================ADD BATHROOM SELECTIONS=====================
+  //======================ADD BATHROOM SELECTIONS STATES=====================
   handleAddressBoxState = () => {
     this.setState({
       addressButton: !this.state.addressButton,
@@ -296,6 +298,23 @@ export class MapContainer extends Component {
       this.setState({
         addressButton: true,
         currentLocationButton: false
+      })
+    }
+  }
+
+  handleExtraInfoState = () => {
+
+    if (this.state.extraInfoState) {
+      this.setState({
+        extraInfoState: false,
+        littleArrowDownState: true,
+        littleArrowUpState: false
+      })
+    } else {
+      this.setState({
+        extraInfoState: true,
+        littleArrowDownState: false,
+        littleArrowUpState: true
       })
     }
   }
@@ -461,8 +480,8 @@ export class MapContainer extends Component {
         // lng: this.props.currentGeo.lng,
         lat: this.state.userLocation.lat,
         lng: this.state.userLocation.lng,
-        changingStation: false,
-        handicapAccess: false,
+        changingStation: this.state.babyStationCheck,
+        handicapAccess: this.state.handicapAccessCheck,
         user_Id: +this.userID
       }
       this.props.addMarker(newCurrentGeoBathroom)
@@ -556,6 +575,9 @@ export class MapContainer extends Component {
     let userBarSelectionButtons = ""
     let searchBox = ""
     let currentLocationTextboxes = ""
+    let extraInfoField = ""
+    let littleArrowDownIcon = ""
+    let littleArrowUpIcon = ""
     //=====info window===========
     let infoWindowEditBoxes = ""
     let infoWindowContent = ""
@@ -564,41 +586,6 @@ export class MapContainer extends Component {
 
 
     //=================================START of CONDITIONAL STATEMENTS=============================
-    if (this.state.addressButton && this.props.sessionStorage) {
-      searchBox = (
-        <StyleRoot>
-          <Modal show={this.state.show} onClose={this.close} {...this.props.modal} closeOnBlur={true}>
-            <div className="searchLocationBox modal-content" style={flipInYAnimation.flipInY}>
-              <Button className="searchBackButton is-small" onClick={this.handleBackButtonState}>
-                <Icon className="fas fa-backward"></Icon>&nbsp;&nbsp;Back</Button>
-              <Button className="searchSwitchModeBtn is-small is-rounded" onClick={this.handleSearchSwitchModeButton}>
-                <Icon className="fas fa-map-marker-alt" color="danger"></Icon>
-                &nbsp;&nbsp;Switch to Current Location</Button>
-              <h1 className="searchWindowTitle"><Icon className="fas fa-search-location" color="info"></Icon>
-                &nbsp;&nbsp;Add by Location Name</h1>
-              <div className="searchTextBoxes">
-                <label className="currentNameLabel">Bathroom Name: </label>
-                <input id="currentName" className="currentNameTextbox" type="text" placeholder="Bathroom Name" onChange={this.handleTextBoxState}></input>
-                <label className="locationLabel">Which location?</label>
-                <input id="location" className="locationTextbox" type="text" placeholder="Search Location" onChange={this.handleTextBoxState}></input>
-              </div>
-              <div className="searchCheckBoxes">
-                <label className="babyStationCheckLabel">Baby Changing Station: </label>
-                <input id="babyStationCheck" onClick={this.handleBabyStationCheckChange} type="checkbox"></input>
-                <label className="handiAccessCheckLabel">Handicap Access: </label>
-                <input id="handiAccessCheck" onClick={this.handleHandiAccessCheckChange} type="checkbox"></input>
-              </div>
-              <div className="searchMarkItButton">
-                <Button className="markItButton" onClick={this.constructNewBathroom}><Icon className="fas fa-restroom"></Icon>
-                  &nbsp;&nbsp;Mark It</Button>
-              </div>
-            </div>
-          </Modal>
-        </StyleRoot>
-      );
-    } else {
-      searchBox = null
-    }
 
 
     //==================================================USER BAR=====================================================
@@ -654,6 +641,79 @@ export class MapContainer extends Component {
     } else {
       userBarSelectionButtons = null
     }
+
+    //========================================BY LOCATION NAME===============================================
+    if (this.state.addressButton && this.props.sessionStorage) {
+      searchBox = (
+        <StyleRoot>
+          <Modal show={this.state.show} onClose={this.close} {...this.props.modal} closeOnBlur={true}>
+            <div className="searchLocationBox modal-content" style={flipInYAnimation.flipInY}>
+              <Button className="searchBackButton is-small" onClick={this.handleBackButtonState}>
+                <Icon className="fas fa-backward"></Icon>&nbsp;&nbsp;Back</Button>
+              <Button className="searchSwitchModeBtn is-small is-rounded" onClick={this.handleSearchSwitchModeButton}>
+                <Icon className="fas fa-map-marker-alt" color="danger"></Icon>
+                &nbsp;&nbsp;Switch to Current Location</Button>
+              <h1 className="searchWindowTitle"><Icon className="fas fa-search-location" color="info"></Icon>
+                &nbsp;&nbsp;Add by Location Name</h1>
+              <div className="searchTextBoxes">
+                <label className="currentNameLabel">Bathroom Name: </label>
+                <input id="currentName" className="currentNameTextbox" type="text" placeholder="Bathroom Name" onChange={this.handleTextBoxState}></input>
+                <label className="locationLabel">Which location?</label>
+                <input id="location" className="locationTextbox" type="text" placeholder="Search Location" onChange={this.handleTextBoxState}></input>
+              </div>
+              <div className="searchCheckBoxes">
+                <label className="babyStationCheckLabel">Baby Changing Station: </label>
+                <input id="babyStationCheck" onClick={this.handleBabyStationCheckChange} type="checkbox"></input>
+                <label className="handiAccessCheckLabel">Handicap Access: </label>
+                <input id="handiAccessCheck" onClick={this.handleHandiAccessCheckChange} type="checkbox"></input>
+              </div>
+              <div className="searchMarkItButton">
+                <Button className="markItButton" onClick={this.constructNewBathroom}><Icon className="fas fa-restroom"></Icon>
+                  &nbsp;&nbsp;Mark It</Button>
+              </div>
+            </div>
+          </Modal>
+        </StyleRoot>
+      );
+    } else {
+      searchBox = null
+    }
+
+    //==============================================BY CURRENT LOCATION==========================================
+
+    if (this.state.littleArrowDownState) {
+      littleArrowDownIcon = (
+        <Icon className="fas fa-angle-down extraInfoWords"></Icon>
+      )
+    } else {
+      littleArrowDownIcon = null
+    }
+
+
+    if (this.state.littleArrowUpState) {
+      littleArrowUpIcon = (
+        <Icon className="fas fa-angle-up extraInfoWords"></Icon>
+      )
+    } else {
+      littleArrowUpIcon = null
+    }
+
+
+    if (this.state.extraInfoState) {
+      extraInfoField = (
+        <StyleRoot>
+          <div className="extraInfoDiv" style={slideDownAnimation.slideInDown}>
+            <label className="currLocationNameLabel extraInfoLabel">Location Name/Address: </label>
+            <input id="currentLocationName" className="currLocationName" type="text" placeholder="Location Name/Address" onChange={this.handleTextBoxState}></input>
+          </div>
+        </StyleRoot>
+      )
+    }
+    else {
+      extraInfoField = null
+    }
+
+
     //@
     if (this.state.currentLocationButton && this.props.sessionStorage) {
       currentLocationTextboxes = (
@@ -661,7 +721,8 @@ export class MapContainer extends Component {
         <StyleRoot>
           <Modal show={this.state.show} onClose={this.close} className="modalBox" {...this.props.modal} closeOnBlur={true}>
             <div className="currentLocationBoxes modal-content" style={flipInYAnimation.flipInY}>
-              {/* <Modal.Actions> */}
+
+
               <Button className="currLocBackBtn is-small" onClick={this.handleBackButtonState}>
                 <Icon className="fas fa-backward"></Icon>
                 &nbsp;&nbsp;Back</Button>
@@ -673,9 +734,10 @@ export class MapContainer extends Component {
               <div className="currLocTextBoxes">
                 <label className="currLocNameLabel">Bathroom Name: </label>
                 <input id="currentName" className="currLocName" type="text" placeholder="Bathroom Name" onChange={this.handleTextBoxState}></input>
-                <label className="currLocationNameLabel">Bathroom Location: </label>
-                <input id="currentLocationName" className="currLocationName" type="text" placeholder="Bathroom Location" onChange={this.handleTextBoxState}></input>
               </div>
+              <Button className="extraInfoDropDown" onClick={this.handleExtraInfoState}><p className="extraInfoWords">{littleArrowUpIcon}{littleArrowDownIcon}
+              &nbsp;Extra Info</p></Button>
+              {extraInfoField}
               <div className="currCheckBoxes">
                 <label className="currBabyStationCheckLabel">Baby Changing Station: </label>
                 <input className="currBabyStationCheck" type="checkbox" onClick={this.handleBabyStationCheckChange} ></input>
@@ -688,7 +750,7 @@ export class MapContainer extends Component {
                 <Button className="markItButton" onClick={this.constructNewCurrentGeoBathroom}><Icon className="fas fa-restroom"></Icon>
                   &nbsp;&nbsp;Mark It</Button>
               </div>
-              {/* </Modal.Actions> */}
+
             </div>
           </Modal>
         </StyleRoot>
@@ -728,8 +790,8 @@ export class MapContainer extends Component {
           <h1 id="currentNameInfo" >{this.state.selectedPlace.name}</h1>
           <br></br>
           <p id="currentLocationName">{this.state.selectedPlace.address}</p>
-          <p>Baby Changing Station: {this.state.selectedPlace.changingStation}</p>
-          <p>Handicap Access: {this.state.selectedPlace.handicapAccess}</p>
+          <p>Baby Changing Station: {this.state.selectedPlace.changingStation} <Icon className="fas fa-baby" color="info"></Icon></p>
+          <p>Handicap Access: {this.state.selectedPlace.handicapAccess} <Icon className="fas fa-wheelchair" color="info"></Icon></p>
           {/* this is an If statement inside a render, a ternary */}
           <StarRatingComponent
             name="rate1"
@@ -779,11 +841,11 @@ export class MapContainer extends Component {
 
       if (currentUserMarker.changingStation) {
 
-        changingStationLabel = (<Icon className="fas fa-wheelchair" color="info"></Icon>)
+        changingStationLabel = "yes"
 
       } else {
 
-        changingStationLabel = ""
+        changingStationLabel = "no"
       }
 
       if (currentUserMarker.handicapAccess) {
@@ -849,7 +911,7 @@ export class MapContainer extends Component {
           selectedPlace={this.state.selectedPlace}
           onInfoWindowClose={this.onInfoWindowClose}
         >
-          <div >
+          <div>
             {infoWindowContent}
           </div>
         </InfoWindowEx>

@@ -337,6 +337,59 @@ color: rgba(245, 245, 245, 0.877);
 /* .currMarkIt {
 } */
 
+.extraInfoDropDown {
+  border-radius: 0px;
+  width: 95px;
+  height: 24px;
+  background-color: #426e70;
+  border-top-color: #426e70;
+  border-bottom-color: #426e70;
+  border-left-color: #426e70;
+  border-right-color: #426e70;
+}
+
+.extraInfoDropDown:hover {
+  color: antiquewhite;
+  border-bottom: #426e70;
+  width: 95px;
+  height: 24px;
+  background-color: #426e70;
+  border-top-color: #426e70;
+  border-bottom-color: #426e70;
+  border-left-color: #426e70;
+  border-right-color: #426e70;
+}
+
+.extraInfoDropDown:active {
+  outline: none;
+  border: none;
+}
+
+.extraInfoDropDown:focus {
+  outline: none;
+  border: none;
+}
+
+.extraInfoWords {
+  margin-top: -10px;
+  padding: 1px;
+}
+
+.extraInfoDiv {
+  background-color: #426e70;
+  width: 50%;
+  padding: 2px;
+  /* border-top-color: #426e70;
+  border-bottom-color: #426e70;
+  border-left-color: #426e70;
+  border-right-color: #426e70; */
+}
+
+.extraInfoLabel {
+  color: antiquewhite;
+  /* padding: 2px; */
+}
+
 .currMarkItButton{
   display: flex;
   justify-content: center;
