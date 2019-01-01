@@ -1245,7 +1245,7 @@ else if (this.state.editedName !== "" && this.state.editedLocationName === "") {
         </div>
         {userBarSelectionButtons}
 
-        <button onClick={this.consoleLog}>console log current location</button>
+        {/* <button onClick={this.consoleLog}>console log current location</button> */}
         <div>
           <br></br>
           <Map id="Map" google={this.props.google} style={style} className="background" zoom={14} initialCenter={userLocation}
