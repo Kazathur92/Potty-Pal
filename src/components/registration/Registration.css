@@ -1,4 +1,5 @@
 .registrationFormDiv {
+background-color: rgba(7, 45, 95, 0.877);
 border: solid 3px black;
 padding: 150px;
 
@@ -7,13 +8,13 @@ padding: 150px;
 
 .registrationFormTitle {
   color: rgba(245, 245, 245, 0.877);
-  margin-top: -230px;
-  margin-bottom: 190px;
+  /* margin-top: -230px; */
+  /* margin-bottom: 190px; */
 
 }
 
 .registrationForm {
-  margin-top: -120px;
+  /* margin-top: -120px; */
 
 }
 

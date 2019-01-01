@@ -1,6 +1,24 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Button, Modal, Icon } from "react-bulma-components/full";
+import { rotateIn, fadeIn } from 'react-animations'
+import Radium, { StyleRoot } from 'radium';
+import UserManager from "../managers/UserManager"
 import './NavBar.css'
+
+
+const rotateInAnimation = {
+  rotateIn: {
+    animation: "2s",
+    animationName: Radium.keyframes(rotateIn, "rotateIn")
+  }
+}
+
+const fadeInAnimation = {
+  fadeIn: {
+    animation: "1s",
+    animationName: Radium.keyframes(fadeIn, "fadeIn")
+  }
+}
 
 
 export default class NavBar extends Component {
@@ -9,8 +27,16 @@ export default class NavBar extends Component {
   state = {
     emailTextBox: "",
     passTextBox: "",
+    //RegistrationForm Values states
+    formName: "",
+    formLastName: "",
+    formUserName: "",
+    formEmail: "",
+    formPass: "",
+    // formConfirmPass: "",
+    formDOB: "",
+    submitFormButton: false
   }
-
 
   handleFieldChange = evt => {
     console.log(evt.target.value)
@@ -19,89 +45,133 @@ export default class NavBar extends Component {
     this.setState(stateToChange);
   };
 
-//   loginUser = () => {
-// console.log("hi")
-//     sessionStorage.setItem(
-//       "credentials",
-//       JSON.stringify({
-//         email: this.state.emailTextBox,
-//         password: this.state.passTextBox
-//       })
-//     )
-
-//     this.props.userBarStateChange()
-//   }
 
 
-userVerification_Step1 = () => {
-  let testResult;
-  for (let i = 0; i < this.props.users.length; i++) {
-    console.log(this.props.users)
-    if (this.props.users[i].email.indexOf(this.state.emailTextBox) > -1) {
-      // now check password
-      console.log(this.props.users[i])
-      if (this.props.users[i].password === this.state.passTextBox) {
-        // log in: store user ID (from matching object) in session storage
-        sessionStorage.setItem("userID", this.props.users[i].id);
-        sessionStorage.setItem("username", this.props.users[i].userName);
-        testResult = "You are logged in!";
+  //===================================USER REGISTRATION=============================
+  consoleLog = () => {
+    console.log(this.state.formEmail)
+    console.log(this.state.formPass)
+  }
+
+
+  registerNewUser = () => {
+    console.log(this.state.formName)
+    console.log(this.state.formLastName)
+    console.log(this.state.formUserName)
+    console.log(this.state.formEmail)
+    console.log(this.state.formPass)
+    console.log(this.state.formDOB)
+    let newName = this.state.formName
+    let newLastName = this.state.formLastName
+    let newUserName = this.state.formUserName
+    let newEmail = this.state.formEmail
+    let newPassword = this.state.formPass
+    let newDOB = this.state.formDOB
+    console.log(newName)
+    console.log(newLastName)
+    console.log(newUserName)
+    console.log(newEmail)
+    console.log(newPassword)
+    console.log(newDOB)
+
+
+    //=======#1EXPERIMENTAL DIDNT WORK================
+    // var error_message = 'All fields must be filled out'
+    // if (newEmail.indexOf('@') != -1) {
+
+    //   error_message = 'Email address must have @'
+    // }
+    //=================================================
+
+    if (newName === "" || newLastName === "" || newUserName === "" || newEmail === "" || newPassword === "" || newDOB === "") {
+      alert("All fields must be filled out")
+    } else {
+
+    //=========#1EXPERIMENTAL DIDNT WORK===============
+    // if (newName !== "" && newLastName !== "" && newUserName !== "" && (newEmail !== "" && newEmail.indexOf('@') != -1) && newPassword !== "" && newDOB !== "") {
+    //=================================================
+
+      const newUser = {
+        name: this.state.formName,
+        lastName: this.state.formLastName,
+        userName: this.state.formUserName,
+        email: this.state.formEmail,
+        password: this.state.formPass,
+        DOB: this.state.formDOB
+      };
+
+
+      console.log(newUser)
+
+      this.props.registerStateChange()
+      this.props.addUser(newUser)
+        .then(() => UserManager.checkUser(this.state.formEmail, this.state.formPass).then((response) => {
+          if (response.length > 0) {
+            console.log(response)
+            sessionStorage.setItem("userID", response[0].id);
+            sessionStorage.setItem("username", response[0].userName);
+            this.props.userBarStateChange()
+          }
+        }
+        )
+        )
+
+//=======#1EXPERIMENTAL DIDNT WORK=============
+    // } else {
+    //   alert(error_message)
+    // }
+    //============================================
+      }
+  }
+
+  //==================================USER REGISTRATION END==========================
+
+
+
+  userVerification_Step1 = () => {
+    UserManager.checkUser(this.state.emailTextBox, this.state.passTextBox).then((response) => {
+      if (response.length > 0) {
+        sessionStorage.setItem("userID", response[0].id);
+        sessionStorage.setItem("username", response[0].userName);
         this.props.userBarStateChange()
         this.props.userVerification_Step2()
-        break;
-      } else {
-        testResult = "Your password does not match. Please try again.";
-        break;
       }
-    } else {
-      testResult = "No username found. Please register a new account.";
+      else {
+        alert("Your email or password does not match. Please try again.")
+      }
     }
-  }
-  // tell the user the result of the test
-  console.log(testResult);
-};
+    )
+  };
 
 
 
   render() {
-    let homeLink = ""
+    // let homeLink = ""
     let textboxTitlesField = ""
     let textboxesField = ""
     let navButtons = ""
-    // let userBar = ""
+    let emptyUserBar = ""
+    let registrationForm = ""
 
-    // if (this.props.interactionBar) {
-    //   userBar = (
-    //     <div>
-    //       <div id="logOutButtonField" className="logOutButtonField">
-    //         <button id="logOutButton" className="logOutButton" onClick={this.props.logOutButton}>Log Out</button>
-    //       </div>
-    //       <div className="userBar">
-    //         <button type="submit" className="addButton noBorder" onClick={this.props.addNewMarker}>Add Bathroom</button>
-    //         <button className="favoritesButton" onClick={this.handleFieldChange}>Favorites</button>
-    //         <button className="trendingButton" onClick={this.handleFieldChange}>Trending</button>
-    //       </div>
+    //not in use
+    // if (this.props.homeLink) {
+    //   homeLink = (
+    //     <div className="navLeft">
+    //       <Link className="homeLink" id="navHome" to="/home" onClick={this.props.homeStateChange}>Home</Link>
     //     </div>
     //   );
     // } else {
-    //   userBar = null
+    //   homeLink = null
     // }
-
-    if (this.props.homeLink) {
-      homeLink = (
-        <div className="navLeft">
-        <Link className="homeLink" id="navHome" to="/home" onClick={this.props.homeStateChange}>Home</Link>
-      </div>
-      );
-    } else {
-      homeLink = null
-    }
 
     if (this.props.textboxTitles) {
       textboxTitlesField = (
-        <div id="textboxTitles2" className="textboxTitles2">
-          <p className="textBoxEmailTitle">Email: </p>
-          <p className="textBoxPassTitle">Password: </p>
-        </div>
+        <StyleRoot>
+          <div id="textboxTitles2" className="textboxTitles2" style={fadeInAnimation.fadeIn}>
+            <p className="textBoxEmailTitle">Email: </p>
+            <p className="textBoxPassTitle">Password: </p>
+          </div>
+        </StyleRoot>
       );
     } else {
       textboxTitlesField = null
@@ -109,10 +179,12 @@ userVerification_Step1 = () => {
 
     if (this.props.textBoxes) {
       textboxesField = (
-        <div id="textboxes2" className="textboxes2">
-          <input id="emailTextBox" className="emailTextBox" type="text" placeholder="email" onChange={this.handleFieldChange}></input>
-          <input id="passTextBox" className="passTextBox" type="password" placeholder="password" onChange={this.handleFieldChange}></input>
-        </div>
+        <StyleRoot>
+          <div id="textboxes2" className="textboxes2" style={fadeInAnimation.fadeIn}>
+            <input id="emailTextBox" className="emailTextBox" type="text" placeholder="email" onChange={this.handleFieldChange}></input>
+            <input id="passTextBox" className="passTextBox" type="password" placeholder="password" onChange={this.handleFieldChange}></input>
+          </div>
+        </StyleRoot>
       );
     } else {
       textboxesField = null
@@ -120,38 +192,88 @@ userVerification_Step1 = () => {
 
     if (this.props.navButtons) {
       navButtons = (
-        <div className="navRight">
+        <StyleRoot>
+          <div className="navRight" style={fadeInAnimation.fadeIn}>
 
-        <button className="loginButton" id="loginButton" onClick={this.userVerification_Step1}>Log In</button>
-        <Link className="navRegister" id="navRegister" to="/registration" onClick={this.props.navBarStateChange}>Register</Link>
-      </div>
+            <Button className="loginButton is-normal is-rounded" id="loginButton" onClick={this.userVerification_Step1}><Icon className="fas fa-sign-in-alt"></Icon>&nbsp;&nbsp;Log In</Button>
+            <Button className="navRegister is-normal is-rounded" id="navRegister" onClick={this.props.navBarStateChange}><Icon className="fas fa-registered"></Icon>&nbsp;&nbsp;Register</Button>
+          </div>
+        </StyleRoot>
       );
     } else {
       navButtons = null
+    }
+
+    if (this.props.sessionStorage === false) {
+      emptyUserBar = (
+        <div className="fakeUserBar"></div>
+      )
+    }
+    else {
+      emptyUserBar = null
+    }
+
+    let Title = (
+      <StyleRoot>
+        <h1 className="appTitle" style={rotateInAnimation.rotateIn}>Potty Pal</h1>
+      </StyleRoot>
+    )
+
+    if (this.props.registerButton) {
+      registrationForm = (
+        <Modal show={this.props.show} onClose={this.props.close} {...this.props.modal} closeOnBlur={true}>
+          <div id="registrationForm" className="registrationForm modal-content">
+            <h1 className="formTitle">Registragion Form</h1>
+            <table>
+              <thead>
+                <tr>
+                  {/* <th>User Info</th> */}
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="formContent">
+                  <td className="formName">Name: </td>
+                  <td><input id="formName" placeholder="Name" onChange={this.handleFieldChange}></input></td>
+                  <td className="formLastName">Last name: </td>
+                  <td><input id="formLastName" placeholder="Last Name" onChange={this.handleFieldChange}></input></td>
+                  <td className="formUserName">Name: </td>
+                  <td><input id="formUserName" placeholder="User Name" onChange={this.handleFieldChange}></input></td>
+                  <td className="formEmail">Email: </td>
+                  <td><input id="formEmail" type="email" placeholder="Email" onChange={this.handleFieldChange}></input></td>
+                  <td className="formPass">Name: </td>
+                  <td><input id="formPass" placeholder="Password" onChange={this.handleFieldChange}></input></td>
+                  <td className="formConfirmPass">Name: </td>
+                  <td><input id="formConfirmPass" placeholder="Confirm Password" onChange={this.handleFieldChange}></input></td>
+                  <td className="formDOB">Name: </td>
+                  <td><input id="formDOB" type="date" onChange={this.handleFieldChange}></input></td>
+                </tr>
+              </tbody>
+            </table>
+            <button  value="Submit" type='submit' className="formBtnInput" id="submitFormButton" onClick={this.registerNewUser}>Register</button>
+          </div>
+        </Modal>
+      )
+    } else {
+      registrationForm = null
     }
 
 
     return (
       <div>
         <nav className="nav">
-          {homeLink}
-          {/* <div className="navLeft">
-            <Link className="homeLink" id="navHome" to="/home" onClick={this.props.homeStateChange}>Home</Link>
-          </div> */}
+          {/* {homeLink} */}
+          {Title}
+          {/* <button onClick={this.consoleLog}>console Log</button> */}
           <div id="textboxesTitle" className="textboxesTitle">
             {textboxTitlesField}
-
           </div>
           <div id="textBoxes" className="textBoxes">
-
             {textboxesField}
-
           </div>
           {navButtons}
-
-          {/* {userBar} */}
         </nav>
-        <header className="App-footer"></header>
+        {emptyUserBar}
+        {registrationForm}
       </div>
     )
   }

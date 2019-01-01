@@ -1,26 +1,81 @@
 import React, { Component } from 'react';
-import { Map, InfoWindow, Marker, GoogleApiWrapper, google } from 'google-maps-react';
-import Geolocation from "../geolocation/Geolocation"
+import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
+import { Button, Modal, Icon } from "react-bulma-components/full";
+import StarRatingComponent from 'react-star-rating-component';
+import { slideInDown, flipInX, headShake, fadeIn, flipInY } from 'react-animations'
+import Radium, { StyleRoot } from 'radium';
 import Geocode from "react-geocode"
-import { geolocated } from 'react-geolocated';
 import InfoWindowEx from '../infoWindowEx/InfoWindowEx'
-
-// import GoogleMapReact from 'google-map-react'; //using google-map-react
 import "./Container.css"
 
 // =================USING GOOGLE-MAPS-REACT==============================
 const style = {
-  // justifyContent: 'left',
   borderRadius: '15px',
   border: 'solid 5px black',
   margin: 'auto',
   marginTop: '0px',
-  width: '60%',
-  height: '70%'
+  width: '95%',
+  height: '80%'
 }
+
+//=============================ANIMATIONS==============================
+const slideDownAnimation = {
+  slideInDown: {
+    animation: "1s",
+    animationName: Radium.keyframes(slideInDown, "sildeInDown")
+  }
+}
+
+const fadeInAnimation = {
+  fadeIn: {
+    animation: "1s",
+    animationName: Radium.keyframes(fadeIn, "fadeIn")
+  }
+}
+
+const flipInAnimation = {
+  flipInX: {
+    animation: "1s",
+    animationName: Radium.keyframes(flipInX, "flipInX")
+  }
+}
+
+const headShakeAnimation = {
+  headShake: {
+    animation: "3s",
+    animationName: Radium.keyframes(headShake, "headShake")
+  }
+}
+
+const flipInYAnimation = {
+  flipInY: {
+    animation: "1s",
+    animationName: Radium.keyframes(flipInY, "flipInY")
+  }
+}
+//=========================================================================
 
 
 export class MapContainer extends Component {
+
+  //============RATING COMPONENT============
+  // constructor() {
+  //   super();
+
+  // this.state = {
+  //   rating: 1
+  // };
+  // }
+
+  onStarClick(nextValue, prevValue, name) {
+    this.setState({ rating: nextValue });
+  }
+  //========================================
+
+  userID = parseInt(+sessionStorage.getItem("userID"))
+  // userID = +sessionStorage.userID
+
+
 
   state = {
     //google-maps-react
@@ -29,30 +84,43 @@ export class MapContainer extends Component {
     selectedPlace: {},
     newMarker: false,
     currentLocation: "",
+    //rating-component
+    rating: 0,
     //buttons state to show or not show
     addressButton: false,
     currentLocationButton: false,
-    // interactionBar: false,
-    userBarSelection: false,
+    show: false,
     infoWindowContent: true,
     editFields: false,
     editButton: false,
-    changingStation: false,
-    handicapAccess: false,
+    deleteButton: false,
+    //userBarSelection states
+    userBarSelection: false,
+    extraInfoState: false,
+    littleArrowDownState: true,
+    littleArrowUpState: false,
+    estraInfoState_2: false,
+    littleArrowDownState_2: true,
+    littleArrowUpState_2: false,
     //satates for values
-    userLocation: { lat: 40.6627, lng: 86.7816 }, //without the currentGeo
+    userLocation: { lat: 40.6627, lng: -86.7816 }, //without the currentGeo
     loading: true,
-    location: "",
     lat: "",
     lng: "",
+    changingStation: "",
+    handicapAccess: "",
     //states for text box values
     currentName: "",
+    location: "",
     currentLocationName: "",
     editedName: "",
-    editedLocationName: ""
+    editedLocationName: "",
+    //states for checkboxes
+    babyStationCheck: false,
+    handicapAccessCheck: false
   }
 
-  //only use if not using currengGeo state
+  //Only use if not using currengGeo state
   // without the currentGeo
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(
@@ -63,7 +131,7 @@ export class MapContainer extends Component {
           userLocation: { lat: latitude, lng: longitude },
           loading: false
         });
-        console.log(this.state.userLocation)
+        // console.log(this.state.userLocation)
       },
       () => {
         this.setState({ loading: false })
@@ -74,10 +142,10 @@ export class MapContainer extends Component {
   //==========================GEOCODE API FETCH and POST ======================
   geocodeLocation = () => {
     Geocode.setApiKey("AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs")
-    console.log('location: ', this.state.location)
+    // console.log('location: ', this.state.location)
     Geocode.fromAddress(this.state.location).then(
       response => {
-        console.log('happened 3', response)
+        // console.log('happened 3', response)
         const latitude = response.results[0].geometry.location.lat;
         // console.log("latitude",latitude);
         const longitude = response.results[0].geometry.location.lng;
@@ -87,7 +155,6 @@ export class MapContainer extends Component {
           lng: longitude
         })
 
-        let userID = sessionStorage.getItem("userID")
 
         // console.log("lat state", this.state.lat)
         let bathroom = {
@@ -96,11 +163,22 @@ export class MapContainer extends Component {
           lat: this.state.lat,
           lng: this.state.lng,
           public: true,
-          changingStation: false,
-          handicapAccess: false,
-          user_Id: +userID
+          changingStation: this.state.babyStationCheck,
+          handicapAccess: this.state.handicapAccessCheck,
+          user_Id: +sessionStorage.userID
         }
-        this.props.addMarker(bathroom);
+        this.props.addMarker(bathroom)
+
+        this.setState({
+          currentName: "",
+          currentLocationName: "",
+          babyStationCheck: false,
+          handicapAccessCheck: false,
+          addressButton: false,
+          currentLocationButton: false,
+          // userBarSelection: true,
+        })
+
       },
       error => {
         console.error(error);
@@ -109,20 +187,7 @@ export class MapContainer extends Component {
   }
   //==================================================================================
 
-  // isAuthenticated = () => { sessionStorage.getItem("credentials") !== null}
-  //  isAuthenticated = () => {
-
-  //   let authorized = false
-
-  //    if (sessionStorage.getItem("credentials")) {
-  //      authorized = true
-  //    }
-  //    else {
-  //      authorized = false
-  //    }
-  //  }
-
-
+  //dont think you need
   getInitialState() {
     return {
       showingInfoWindow: false,
@@ -131,6 +196,7 @@ export class MapContainer extends Component {
     }
   }
 
+  //need
   onMapClick = () => {
     if (this.state.showingInfoWindow) {
       this.setState({
@@ -143,6 +209,7 @@ export class MapContainer extends Component {
     }
   }
 
+  //need
   onMarkerClick = (props, marker, e) => {
 
     if (this.state.showingInfoWindow) {
@@ -153,22 +220,20 @@ export class MapContainer extends Component {
         showingInfoWindow: false,
         editButton: false,
         infoWindowContent: true,
-        editedName: ""
       });
     } else {
 
       this.setState({
         selectedPlace: props,
         activeMarker: marker,
-        showingInfoWindow: true
+        showingInfoWindow: true,
+        // rating: +this.state.selectedPlace.rating
       });
     }
   }
 
-  //not in use
+  //need
   onInfoWindowClose = () => {
-    // if (this.state.showingInfoWindow) {
-
     this.setState({
       showingInfoWindow: false,
       activeMarker: null,
@@ -176,18 +241,15 @@ export class MapContainer extends Component {
       infoWindowContent: true,
 
     })
-    console.log(this.state.showingInfoWindow)
-
-    // }
   }
 
-  //======================ADD BATHROOM SELECTIONS=====================
+  //======================ADD BATHROOM SELECTIONS STATES=====================
   handleAddressBoxState = () => {
-    console.log("hi")
     this.setState({
       addressButton: !this.state.addressButton,
       currentLocationButton: false,
-      userBarSelection: false
+      userBarSelection: false,
+      show: true
 
     })
   }
@@ -196,22 +258,40 @@ export class MapContainer extends Component {
     this.setState({
       addressButton: false,
       currentLocationButton: true,
-      userBarSelection: false
+      userBarSelection: false,
+      show: true
     })
   }
 
   handleAddBathroomSelectionState = () => {
-    this.setState({ userBarSelection: true })
+    //modal
+    if (this.state.userBarSelection) {
+      this.setState({
+        userBarSelection: false
+      })
+    } else {
+      this.setState({
+        userBarSelection: true,
+      })
+    }
   }
 
   handleBackButtonState = () => {
+    //modal
     this.setState({
       addressButton: false,
       currentLocationButton: false,
       userBarSelection: true,
+      extraInfoState: false,
+      littleArrowDownState: true,
+      littleArrowUpState: false,
+      extraInfoState_2: false,
+      littleArrowDownState_2: true,
+      littleArrowUpState_2: false
+      // show: true,
     })
   }
-
+  //animation
   handleCloseButtonState = () => {
     this.setState({
       userBarSelection: false
@@ -224,7 +304,13 @@ export class MapContainer extends Component {
 
       this.setState({
         addressButton: false,
-        currentLocationButton: true
+        currentLocationButton: true,
+        extraInfoState: false,
+        littleArrowDownState: true,
+        littleArrowUpState: false,
+        extraInfoState_2: false,
+        littleArrowDownState_2: true,
+        littleArrowUpState_2: false
       })
     }
   }
@@ -234,10 +320,88 @@ export class MapContainer extends Component {
 
       this.setState({
         addressButton: true,
-        currentLocationButton: false
+        currentLocationButton: false,
+        extraInfoState: false,
+        littleArrowDownState: true,
+        littleArrowUpState: false,
+        extraInfoState_2: false,
+        littleArrowDownState_2: true,
+        littleArrowUpState_2: false
       })
     }
   }
+
+  handleExtraInfoState = () => {
+
+    if (this.state.extraInfoState) {
+      this.setState({
+        extraInfoState: false,
+        littleArrowDownState: true,
+        littleArrowUpState: false
+      })
+    } else {
+      this.setState({
+        extraInfoState: true,
+        littleArrowDownState: false,
+        littleArrowUpState: true
+      })
+    }
+  }
+
+  handleExtraInfoState_2 = () => {
+
+    if (this.state.extraInfoState_2) {
+      this.setState({
+        extraInfoState_2: false,
+        littleArrowDownState_2: true,
+        littleArrowUpState_2: false
+      })
+    } else {
+      this.setState({
+        extraInfoState_2: true,
+        littleArrowDownState_2: false,
+        littleArrowUpState_2: true
+      })
+    }
+  }
+
+
+  //========================================CHECKBOXES START======================
+
+  handleBabyStationCheckChange = (evt) => {
+    if (evt.target.checked) {
+
+      this.setState({
+        babyStationCheck: true
+      })
+    } else {
+      this.setState({
+        babyStationCheck: false
+      })
+
+    }
+  }
+
+  handleHandiAccessCheckChange = (evt) => {
+    if (evt.target.checked) {
+      this.setState({
+        handicapAccessCheck: true
+      })
+    } else {
+      this.setState({
+        handicapAccessCheck: false
+      })
+
+    }
+  }
+
+  //========================================CHECKBOXES END=========================
+
+
+
+
+
+
 
   //==================================================================
 
@@ -247,19 +411,16 @@ export class MapContainer extends Component {
     this.setState({
       interactionBar: false,
       addressButton: false,
-      userBarSelection: false
+      userBarSelection: false,
+      currentLocationButton: false,
     })
   }
   //+
   handleTextBoxState = (evt) => {
-    // console.log(evt)
-    // console.log("targetid", evt.target.id)
-    // console.log("targetValue", evt.target.value)
-    // console.log("selectedPlace", this.state.selectedPlace)
     const stateToChange = {}
     stateToChange[evt.target.id] = evt.target.value
     this.setState(stateToChange)
-    console.log(stateToChange)
+    // console.log(stateToChange)
   }
 
 
@@ -271,7 +432,10 @@ export class MapContainer extends Component {
       editButton: true,
       userBarSelection: false,
       currentLocationButton: false,
-      addressButton: false
+      addressButton: false,
+      babyStationCheck: false,
+      handicapAccessCheck: false,
+      show: true
     })
 
   }
@@ -288,40 +452,95 @@ export class MapContainer extends Component {
 
   //this handles the state of the value from the textboxes inside the info window
   handleEditTextboxState = (evt) => {
-    // console.log(evt)
-    // console.log("markerID", this.state.activeMarker.id)
-    console.log("targetid", evt.target.id)
-    // console.log("markerValue", this.state.activeMarker.value)
-    console.log("targetValue", evt.target.value)
-    // console.log("selectedPlace", this.state.selectedPlace)
-    // console.log("selectedPlaceValue", this.state.selectedPlace.value)
 
     const stateToChange = {}
     stateToChange[evt.target.id] = evt.target.value
     this.setState(stateToChange)
-    console.log(stateToChange)
+    // console.log(stateToChange)
 
   }
 
-  //
+
+  warningMessageToggle = () => {
+    if (this.state.deleteButton) {
+      this.setState({
+        deleteButton: false,
+        show: false
+      })
+    }
+    else {
+      this.setState({
+        deleteButton: true,
+        userBarSelection: false,
+        show: true
+      })
+
+    }
+  }
+
   handleSubmitChangesButtonState = () => {
 
-    if (this.state.editedName !== "") {
+//if both values are not empty
+if (this.state.editedName !== "" && this.state.editedLocationName !== "") {
+
+  this.setState({
+    editButton: false,
+    infoWindowContent: true,
+    showingInfoWindow: false,
+  })
+
+  this.constructNewEditedMarker()
+}
+
+//if top value is empty, but bottom value is not
+    else if (this.state.editedName === "" && this.state.editedLocationName !== "") {
 
       this.setState({
+        editedName: this.state.selectedPlace.name,
         editButton: false,
         infoWindowContent: true,
         showingInfoWindow: false,
       })
 
       this.constructNewEditedMarker()
+    }
+//make more if statements to if name does have but location doesnt and vice versa
 
-    } else {
-      window.alert("Bathroom needs a name");
+//if top value is not empty but bottom value is
+else if (this.state.editedName !== "" && this.state.editedLocationName === "") {
+
+  this.setState({
+    editedLocationName: this.state.selectedPlace.address,
+    editButton: false,
+    infoWindowContent: true,
+    showingInfoWindow: false,
+  })
+
+  this.constructNewEditedMarker()
+
+}
+
+//if both values are empty
+    else if (this.state.editedName === "" && this.state.editedLocationName === "") {
+      //populate with the already existing info
+
+      this.setState({
+        editedName: this.state.selectedPlace.name,
+        editedLocationName: this.state.selectedPlace.address,
+        editButton: false,
+        infoWindowContent: true,
+        showingInfoWindow: false,
+        changingStation: this.state.selectedPlace.babyStationCheck,
+        handicapAccess: this.state.selectedPlace.handicapAccessCheck,
+        // rating: this.state.selectedPlace.rating
+      })
+
+      this.constructNewEditedMarker()
+      // window.alert("Bathroom needs a name");
     }
   }
 
-
+  //need
   renderChildren() {
 
     const { children } = this.props;
@@ -352,231 +571,643 @@ export class MapContainer extends Component {
   //current location POST
   constructNewCurrentGeoBathroom = () => {
 
-    let userID = sessionStorage.getItem("userID")
-
     if (this.state.currentName === "") {
       window.alert("Bathroom needs a name");
     } else {
+      //modal
+      this.setState({
+        show: false,
+        addressButton: false,
+        currentLocationButton: false,
+        userBarSelection: true,
+      })
+
       const newCurrentGeoBathroom = {
         name: this.state.currentName,
         location: this.state.currentLocationName,
-        lat: this.props.currentGeo.lat,
-        lng: this.props.currentGeo.lng,
-        changingStation: false,
-        handicapAccess: false,
-        user_Id: +userID
+        // lat: this.props.currentGeo.lat,
+        // lng: this.props.currentGeo.lng,
+        lat: this.state.userLocation.lat,
+        lng: this.state.userLocation.lng,
+        changingStation: this.state.babyStationCheck,
+        handicapAccess: this.state.handicapAccessCheck,
+        user_Id: +sessionStorage.userID
       }
-      this.props.addMarker(newCurrentGeoBathroom);
+      this.props.addMarker(newCurrentGeoBathroom)
+
+      this.setState({
+        currentName: "",
+        currentLocationName: "",
+        babyStationCheck: false,
+        handicapAccessCheck: false,
+        addressButton: false,
+        currentLocationButton: false,
+        // userBarSelection: true,
+      })
     }
 
   }
 
-  //EDIT
+  //EDIT MARKER FUNCTION
   constructNewEditedMarker = () => {
 
     const editedMarker = {
       name: this.state.editedName,
       location: this.state.editedLocationName,
+      changingStation: this.state.babyStationCheck,
+      handicapAccess: this.state.handicapAccessCheck,
+      rating: this.state.rating
     }
 
+    console.log(editedMarker)
     this.props.editMarker(editedMarker, this.state.activeMarker.id)
+  }
+
+
+  deleteCurrentMarker = (id) => {
+
+
+    this.setState({
+      showingInfoWindow: false,
+      deleteButton: false,
+      show: false
+    })
+    this.props.deleteMarker(id)
+
   }
   //=====================================================
 
+  //modal
+  close = () => this.setState({
+    show: false,
+    addressButton: false,
+    currentLocationButton: false,
+    editButton: false,
+    deleteButton: false,
+    // userBarSelection: true,
+    extraInfoState: false,
+    littleArrowDownState: true,
+    littleArrowUpState: false,
+    extraInfoState_2: false,
+    littleArrowDownState_2: true,
+    littleArrowUpState_2: false
+  });
 
   //CONSOLE LOG
   consoleLog = () => {
-    console.log(this.state.currentName)
-    console.log(this.state.selectedPlace.id)
+    console.log("selectedPlace", this.state.selectedPlace)
+    // console.log("selected place rating", this.state.selectedPlace.rating)
+    console.log("active Marker id", this.state.activeMarker)
+    console.log("infoWindow", this.currentInfoWindow)
+    // console.log("this id", this.id)
+    // console.log("currentLocation state", this.props.bathrooms)
+    console.log(this.state.rating)
+    // console.log("userID", this.userID)
+    // console.log(sessionStorage)
+    // console.log("sessionStorage.userID = ", sessionStorage.userID)
   }
 
+
+  //RENDER
   render() {
+
+    // const { rating } = this.state;
+
+    //this is so icons in the markers can load
+    const { google } = this.props;
 
     //only use if not using currentGeo state in initialCenter of Map component tag
     const { loading, userLocation } = this.state
 
+
     if (loading) {
       return null
     }
+
     //====================================================
 
 
 
     //==CONDITIONAL STATEMENT VARIABLES==
+    //=======logout========
+    let logOutButton = ""
     //=====user bar==============
     let userBar = ""
     let userBarSelectionButtons = ""
     let searchBox = ""
     let currentLocationTextboxes = ""
+    let extraInfoField = ""
+    let littleArrowDownIcon = ""
+    let littleArrowUpIcon = ""
+    let extraInfoField_2 = ""
+    let littleArrowDownIcon_2 = ""
+    let littleArrowUpIcon_2 = ""
     //=====info window===========
     let infoWindowEditBoxes = ""
     let infoWindowContent = ""
     let infoWindowButtons = ""
+    let deleteWarningMessage = ""
     //====================================
 
 
     //=================================START of CONDITIONAL STATEMENTS=============================
-    if (this.state.addressButton) {
+
+
+    //==================================================USER BAR=====================================================
+    if (this.props.sessionStorage === true && this.state.addressButton === false && this.state.currentLocationButton === false && this.state.editButton === false && this.state.deleteButton === false) {
+      userBar = (
+        <StyleRoot>
+          <div className="userBar" style={flipInAnimation.flipInX}>
+            <Button type="submit" className="addButton is-normal is-rounded" style={headShakeAnimation.headShake} onClick={this.handleAddBathroomSelectionState}>
+              <Icon className="fas fa-toilet"></Icon>&nbsp;Add Bathroom</Button>
+            <Button className="favoritesButton is-normal is-rounded" onClick={this.handleFieldChange}>
+              <Icon className="fas fa-heart"></Icon>&nbsp;&nbsp;Favorites</Button>
+            <Button className="trendingButton is-normal is-rounded" onClick={this.handleFieldChange}>
+              <Icon className="fas fa-star"></Icon>&nbsp;&nbsp;Trending</Button>
+          </div>
+        </StyleRoot>
+      );
+    } else {
+      userBar = null
+    }
+    //=============================================USER BAR END=====================================================
+
+
+    //============================LOG OUT BUTTON==============================
+    if (this.props.sessionStorage === true) {
+      logOutButton = (
+        <StyleRoot>
+          <Button id="logOutButton" style={flipInAnimation.flipInX} className="logOutButton is-normal is-rounded" onClick={this.handleLogOutStateChanges}><Icon className="fas fa-sign-out-alt"></Icon>&nbsp;&nbsp;Log Out</Button>
+        </StyleRoot>
+      )
+    } else {
+      logOutButton = null
+    }
+    //=============================LOG OUT END=================================
+
+    if (this.state.userBarSelection) {
+      userBarSelectionButtons = (
+        <StyleRoot>
+          <div key={7} className="addBathroomSelectionBar" style={slideDownAnimation.slideInDown}>
+            {/* <Button key={2} className="is-medium icon" onClick={this.handleCloseButtonState}> */}
+            {/* <Icon className="fas fa-angle-double-up iconStyle"> */}
+            {/* </Icon> */}
+            {/* </Button> */}
+            <Button key={3} onClick={this.handleCurrentLocationBoxState}>
+              <Icon className="fas fa-map-marker-alt"></Icon>
+              &nbsp;&nbsp;By Current Location</Button>
+            <Button key={4} onClick={this.handleAddressBoxState}>
+              <Icon className="fas fa-search-location"></Icon>
+              &nbsp;&nbsp;By Location Name</Button>
+          </div>
+        </StyleRoot>
+      );
+    } else {
+      userBarSelectionButtons = null
+    }
+
+    //========================================BY LOCATION NAME===============================================
+
+    if (this.state.littleArrowDownState_2) {
+      littleArrowDownIcon_2 = (
+        <Icon className="fas fa-angle-down extraInfoWords"></Icon>
+      )
+    } else {
+      littleArrowDownIcon_2 = null
+    }
+
+
+    if (this.state.littleArrowUpState_2) {
+      littleArrowUpIcon_2 = (
+        <Icon className="fas fa-angle-up extraInfoWords"></Icon>
+      )
+    } else {
+      littleArrowUpIcon_2 = null
+    }
+
+
+    if (this.state.extraInfoState_2) {
+      extraInfoField_2 = (
+        <StyleRoot>
+          <div className="extraInfoDiv" style={slideDownAnimation.slideInDown}>
+            <label className="currLocationNameLabel extraInfoLabel">Location Name/Address: </label>
+            <input id="location" className="currLocationName" type="text" placeholder="Location Name/Address" onChange={this.handleTextBoxState}></input>
+          </div>
+        </StyleRoot>
+      )
+    }
+    else {
+      extraInfoField_2 = null
+    }
+
+
+
+    if (this.state.addressButton === true && this.props.sessionStorage === true && this.state.editButton === false && this.state.deleteButton === false) {
       searchBox = (
-        <div className="searchLocationBox">
-          <button className="searchBackButton" onClick={this.handleBackButtonState}>Back</button>
-          <button className="searchSwitchModeBtn" onClick={this.handleSearchSwitchModeButton}>By Current Location</button>
-          <h1 className="searchWindowTitle">Add by Location Name</h1>
-          <div className="searchTextBoxes">
-            <label className="currentNameLabel">Bathroom Name: </label>
-            <input id="currentName" className="currentNameTextbox" size="15" type="text" placeholder="Bathroom Name" onChange={this.handleTextBoxState}></input>
-            <label className="locationLabel">Which location?</label>
-            <input id="location" className="locationTextbox" type="text" placeholder="Search Location" onChange={this.handleTextBoxState}></input>
-          </div>
-          <div className="searchCheckBoxes">
-            <label className="babyStationCheckLabel">Baby Changing Station: </label>
-            <input id="babyStationCheck" type="checkbox"></input>
-            <label className="handiAccessCheckLabel">Handicap Access: </label>
-            <input id="handiAccessCheck" type="checkbox"></input>
-          </div>
-          <div>
-            <button className="markItButton" onClick={this.constructNewBathroom}>Mark It</button>
-          </div>
-        </div>
+        <StyleRoot>
+          <Modal show={this.state.show} onClose={this.close} {...this.props.modal} closeOnBlur={true}>
+
+            <div className="searchLocationBox modal-content" style={flipInYAnimation.flipInY}>
+              <Button className="searchBackButton is-small" onClick={this.handleBackButtonState}>
+                <Icon className="fas fa-backward"></Icon>&nbsp;&nbsp;Back</Button>
+              <Button className="searchSwitchModeBtn is-small is-rounded" onClick={this.handleSearchSwitchModeButton}>
+                <Icon className="fas fa-map-marker-alt" color="danger"></Icon>
+                &nbsp;&nbsp;Switch to Current Location</Button>
+              <h1 className="searchWindowTitle"><Icon className="fas fa-search-location" color="info"></Icon>
+                &nbsp;&nbsp;Add by Location Name</h1>
+
+              <div className="boxSeparator">
+
+                <div className="locationTextBoxes">
+                  <label className="locationLabel">Which location? </label>
+                  <input id="currentName" className="locationTextbox" type="text" placeholder="Search Location" onChange={this.handleTextBoxState}></input>
+                </div>
+
+                <div className="checkSeparator">
+
+                  <div className="locationBabyCheckField">
+                    <input id="babyStationCheck" onClick={this.handleBabyStationCheckChange} type="checkbox"></input>
+                    <Icon className="fas fa-baby" color="info"></Icon>
+                    &nbsp;<label className="babyStationCheckLabel">Baby Changing Station</label>
+                  </div>
+
+                  <div className="locationHandiAccessField">
+                    <input id="handiAccessCheck" onClick={this.handleHandiAccessCheckChange} type="checkbox"></input>
+                    <Icon className="fas fa-wheelchair" color="info"></Icon>
+                    &nbsp;<label className="handiAccessCheckLabel">Handicap Access</label>
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div className="extraInfoFieldDiv">
+                <Button className="extraInfoDropDown" onClick={this.handleExtraInfoState_2}><p className="extraInfoWords">{littleArrowUpIcon_2}{littleArrowDownIcon_2}
+                  &nbsp;Extra Info</p></Button>
+                {extraInfoField_2}
+              </div>
+
+              <div className="searchMarkItButton">
+                <Button className="markItButton" onClick={this.constructNewBathroom}><Icon className="fas fa-restroom"></Icon>
+                  &nbsp;&nbsp;Mark It</Button>
+              </div>
+
+            </div>
+
+          </Modal>
+        </StyleRoot>
       );
     } else {
       searchBox = null
     }
 
-    //not working
-    if (this.props.sessionStorage === true && this.state.addressButton === false && this.state.currentLocationButton === false && this.state.editButton === false)
-    // if (this.props.sessionStorage)
-    {
-      userBar = (
-        <div id="interactionBar" className="interactionBar">
-          <div id="logOutButtonField" className="logOutButtonField">
-            <button id="logOutButton" className="logOutButton" onClick={this.handleLogOutStateChanges}>Log Out</button>
-          </div>
-          <div className="userBar">
-            <button type="submit" className="addButton noBorder" onClick={this.handleAddBathroomSelectionState}>Add Bathroom</button>
-            <button className="favoritesButton" onClick={this.handleFieldChange}>Favorites</button>
-            <button className="trendingButton" onClick={this.handleFieldChange}>Trending</button>
-          </div>
-        </div>
-      );
-    }
+    //==============================================BY CURRENT LOCATION==========================================
 
-    else {
-      userBar = null
-    }
-
-    if (this.state.userBarSelection) {
-      userBarSelectionButtons = (
-        <div className="addBathroomSelectionBar">
-          <button onClick={this.handleCloseButtonState}>Close</button>
-          <button onClick={this.handleCurrentLocationBoxState}>Current Location</button>
-          <button onClick={this.handleAddressBoxState}>Search Address</button>
-        </div>
-      );
+    if (this.state.littleArrowDownState) {
+      littleArrowDownIcon = (
+        <Icon className="fas fa-angle-down extraInfoWords"></Icon>
+      )
     } else {
-      userBarSelectionButtons = null
+      littleArrowDownIcon = null
     }
+
+
+    if (this.state.littleArrowUpState) {
+      littleArrowUpIcon = (
+        <Icon className="fas fa-angle-up extraInfoWords"></Icon>
+      )
+    } else {
+      littleArrowUpIcon = null
+    }
+
+
+    if (this.state.extraInfoState) {
+      extraInfoField = (
+        <StyleRoot>
+          <div className="extraInfoDiv" style={slideDownAnimation.slideInDown}>
+            <label className="currLocationNameLabel extraInfoLabel">Location Name/Address: </label>
+            <input id="currentLocationName" className="currLocationName" type="text" placeholder="Location Name/Address" onChange={this.handleTextBoxState}></input>
+          </div>
+        </StyleRoot>
+      )
+    }
+    else {
+      extraInfoField = null
+    }
+
+
     //@
-    if (this.state.currentLocationButton) {
+    if (this.state.currentLocationButton === true && this.props.sessionStorage === true && this.state.editButton == false) {
       currentLocationTextboxes = (
         // new Marker("name")
-        <div className="currentLocationBoxes">
-          <button className="currLocBackBtn" onClick={this.handleBackButtonState}>Back</button>
-          <button className="currSwitchModeBtn" onClick={this.handleCurrSwitchModeButton}>By Search Location</button>
-          <h1 className="currLocTitle">Add Using Current Location</h1>
-          <div className="currLocTextBoxes">
-            <label className="currLocNameLabel">Bathroom Name: </label>
-            <input id="currentName" className="currLocName" size="15" type="text" placeholder="Bathroom Name" onChange={this.handleTextBoxState}></input>
-            <label className="currLocationNameLabel">Bathroom Location: </label>
-            <input id="currentLocationName" className="currLocationName" type="text" placeholder="Bathroom Location" onChange={this.handleTextBoxState}></input>
-          </div>
-          <div className="currCheckBoxes">
-            <label className="currBabyStationCheckLabel">Baby Changing Station: </label>
-            <input className="currBabyStationCheck" type="checkbox"></input>
-            <label className="currHandiAccessCheckLabel">Handicap Access: </label>
-            <input className="currHandiAceesCheck" type="checkbox"></input>
-          </div>
-          <div className="currMarkIt">
-            <button className="currMarkItButton" onClick={this.constructNewCurrentGeoBathroom}>Mark It</button>
-          </div>
-        </div>
+        <StyleRoot>
+          <Modal show={this.state.show} onClose={this.close} className="modalBox" {...this.props.modal} closeOnBlur={true}>
+            <div className="currentLocationBoxes modal-content" style={flipInYAnimation.flipInY}>
+
+              <Button className="currLocBackBtn is-small" onClick={this.handleBackButtonState}>
+                <Icon className="fas fa-backward"></Icon>
+                &nbsp;&nbsp;Back</Button>
+              <Button className="currSwitchModeBtn is-small is-rounded" onClick={this.handleCurrSwitchModeButton}>
+                <Icon className="fas fa-search-location" color="info"></Icon>
+                &nbsp;&nbsp;Switch to Location Name</Button>
+              <h1 className="currLocTitle"><Icon className="fas fa-map-marker-alt" color="danger"></Icon>
+                &nbsp;Add by Current Location</h1>
+
+              <div className="boxSeparator">
+
+                <div className="currLocTextBoxes">
+                  <label className="currLocNameLabel">Bathroom Name: </label>
+                  <input id="currentName" className="currLocName" type="text" placeholder="Bathroom Name" onChange={this.handleTextBoxState}></input>
+                </div>
+
+                <div className="checkSeparator">
+
+                  <div className="currBabyCheckField">
+                    <input className="currBabyStationCheck" type="checkbox" onClick={this.handleBabyStationCheckChange} ></input>
+                    <Icon className="fas fa-baby" color="info"></Icon>
+                    &nbsp;<label className="currBabyStationCheckLabel">Baby Changing Station</label>
+                  </div>
+
+                  <div className="currHandiAccessCheckField">
+                    <input className="currHandiAceesCheck" type="checkbox" onClick={this.handleHandiAccessCheckChange}></input>
+                    <Icon className="fas fa-wheelchair" color="info"></Icon>
+                    &nbsp;<label className="currHandiAccessCheckLabel">Handicap Access</label>
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div className="extraInfoFieldDiv">
+                <Button className="extraInfoDropDown" onClick={this.handleExtraInfoState}><p className="extraInfoWords">{littleArrowUpIcon}{littleArrowDownIcon}
+                  &nbsp;Extra Info</p></Button>
+                {extraInfoField}
+              </div>
+
+              <div className="currMarkItButton">
+                <Button className="markItButton" onClick={this.constructNewCurrentGeoBathroom}><Icon className="fas fa-restroom"></Icon>
+                  &nbsp;&nbsp;Mark It</Button>
+              </div>
+
+            </div>
+          </Modal>
+        </StyleRoot>
       );
-    }
-    else {
+    } else {
       currentLocationTextboxes = null
     }
 
+    //@
+    if (this.state.editButton === true && this.state.currentLocationButton === false && this.state.addressButton === false) {
+      infoWindowEditBoxes = (
+
+        <StyleRoot>
+          <Modal show={this.state.show} className="modalBox" onClose={this.close} {...this.props.modal} closeOnBlur={true}>
+            <div className="editDiv modal-content" style={fadeInAnimation.fadeIn}>
+              <Button className="editBackBtn is-small" onClick={this.handleEditBackButton}>
+                <Icon className="fas fa-backward"></Icon>
+                &nbsp;&nbsp;Back</Button>
+              <h1 className="editTitle"><Icon className="fas fa-edit" color="warning"></Icon>
+                &nbsp;Edit this Marker</h1>
+
+              <div className="boxSeparator">
+
+                <div className="editBoxesDiv">
+                  <label className="editNameLabel">Bathroom Name: </label>
+                  <input className="editNameBox" key={this.props.marker} id="editedName" type="text" onChange={this.handleEditTextboxState}></input>
+                  <label className="editLocationLabel">Location Name: </label>
+                  <input className="editLocationBox" key={this.props.marker} id="editedLocationName" type="text" onChange={this.handleEditTextboxState}></input>
+                </div>
+
+                <div className="checkSeparator">
+
+{/* make it so that if the state of these checkboxes is true according to the data then they will populated accordingly */}
+                  <div className="editBabyCheckField">
+                    <input className="editBabyStation" type="checkbox" onClick={this.handleBabyStationCheckChange}></input>
+                    <Icon className="fas fa-baby" color="info"></Icon>
+                    &nbsp;<label className="editBabyCheckLabel" >Baby Changing Station</label>
+                  </div>
+
+                  <div className="editHandiAccessCheckField">
+                    <input className="editHandiAccess" type="checkbox" onClick={this.handleHandiAccessCheckChange}></input>
+                    <Icon className="fas fa-wheelchair" color="info"></Icon>
+                    &nbsp;<label className="editHandiAccessLabel">Handicap Access</label>
+                  </div>
+
+                  <div>
+                    <StarRatingComponent
+                      name="rate2"
+                      starCount={5}
+                      value={this.state.rating}
+                      onStarClick={this.onStarClick.bind(this)}
+                      // onStarHover={Function(nextValue, prevValue, name)}
+                      editing={true}
+                    />
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div className="editSubmitBtnDiv">
+                <Button className="markItButton" onClick={() => this.handleSubmitChangesButtonState()}>Submit Changes</Button>
+              </div>
+            </div>
+
+          </Modal>
+        </StyleRoot>
+      );
+    } else {
+      infoWindowEditBoxes = null
+    }
+
+
+    //=========================DELETE WARNING MESSAGE===================
+
+    if (this.state.deleteButton === true && this.state.currentLocationButton === false && this.state.addressButton === false && this.state.editButton === false) {
+      deleteWarningMessage = (
+        <StyleRoot>
+          <Modal show={this.state.show} className="modalBox" onClose={this.close} {...this.props.modal} closeOnBlur={true}>
+            <div className="deleteWarningMessageDiv modal-content" style={fadeInAnimation.fadeIn}>
+              <h1 className="deleteWarningMessageTitle"><Icon className="fas fa-exclamation-triangle" color="danger"></Icon>&nbsp;Are you sure you want to delete this marker?</h1>
+              <div className="deleteWarningMessageButtonDiv">
+                <Button onClick={() => this.deleteCurrentMarker(this.state.activeMarker.id)}>YES</Button>
+                <Button onClick={this.warningMessageToggle}>NO</Button>
+              </div>
+            </div>
+          </Modal>
+        </StyleRoot>
+      )
+    }
+    else {
+      deleteWarningMessage = null
+    }
 
     //========================INFO WINDOW CONTENT========================
+
 
     if (this.props.sessionStorage) {
       infoWindowButtons = (
         <div>
-          <button id="editButton" type="button" onClick={this.handleInfoWindowContentState}>
-            Edit Marker
-      </button>
-          <button id="deleteButton" type="button" onClick={() => this.props.deleteMarker(this.state.activeMarker.id)}>
-            Delete Marker
-      </button>
+          <Button id="editButton" className="infoWindowEditButton is-small" onClick={this.handleInfoWindowContentState}>
+            <Icon className="fas fa-edit"></Icon>&nbsp;Edit Marker</Button>
+          <Button id="deleteButton" className="infoWindowDeleteButton is-small" onClick={this.warningMessageToggle}>
+            {/* onClick={() => this.deleteCurrentMarker(this.state.activeMarker.id)}> */}
+            <Icon className="fas fa-trash-alt"></Icon>&nbsp;Delete Marker
+      </Button>
+          {/* <button onClick={this.consoleLog}>Console Log</button> */}
         </div>
       )
-    } else {
+    }
+    else {
       infoWindowButtons = null
     }
 
 
 
     if (this.state.showingInfoWindow && this.state.infoWindowContent) {
+      // console.log(this.state.selectedPlace)
       infoWindowContent = (
 
-        <div id="infoWindowContent">
-          <h2 id="currentName" >{this.state.selectedPlace.name}</h2>
-          <p id="currentLocationName">{this.state.selectedPlace.address}</p>
-          <p>changing Station: {this.state.selectedPlace.changingStation}</p>
-          <p>Handicap Access: {this.state.selectedPlace.handicapAccess}</p>
-          {infoWindowButtons}
+        <div id="infoWindowContent" className="infoWindowDiv">
+          <h1 id="currentNameInfo" className="infoWindowName">{this.state.selectedPlace.name}</h1>
+          <p id="currentLocationName" className="infoWindowAddress">{this.state.selectedPlace.address}</p>
+          <p className="infoWindowBaby" >
+            <Icon className="fas fa-baby" color="info"></Icon>
+            &nbsp;Baby Changing Station: {this.state.selectedPlace.changingStation}
+          </p>
+          <p className="infoWindowHandi" >
+            <Icon className="fas fa-wheelchair" color="info"></Icon>
+            &nbsp;Handicap Access: {this.state.selectedPlace.handicapAccess}</p>
+          <p className="infoWindowRatingLabel">{this.state.selectedPlace.ratingLabel}</p>
+          <StarRatingComponent
+            name="rate1"
+            starCount={5}
+            value={this.state.selectedPlace.rating}
+          />
+          {/* this is an If statement inside a render, a ternary */}
+          {this.state.selectedPlace.userId === +sessionStorage.userID ? infoWindowButtons : null}
         </div>
       );
-    }
-    else {
+    } else {
       infoWindowContent = null
     }
 
-    //@
-    if (this.state.editButton) {
-      infoWindowEditBoxes = (
 
-        <div>
-          <button onClick={this.handleEditBackButton}>Back</button>
-          <input key={this.props.marker} id="editedName" type="text" placeholder="New Bathroom Name" onChange={this.handleEditTextboxState}></input>
-          <input key={this.props.marker} id="editedLocationName" type="text" placeholder="New Bathroom Location" onChange={this.handleEditTextboxState}></input>
-          <button onClick={() => this.handleSubmitChangesButtonState()}>Submit Changes</button>
-        </div>
-      );
-    }
-    else {
-      infoWindowEditBoxes = null
-    }
     //=========================================================================
 
+    let makeMarker = this.props.markers.map(currentUserMarker => {
 
+      let changingStationLabel = ""
+      let handicapAccessLabel = ""
+      let userLabel = "Marker Owner Rating: "
+      let userRating = ""
 
+      if (currentUserMarker.changingStation) {
 
+        changingStationLabel = "Available"
 
-    let makeMarker = this.props.markers.map(currentMarker => {
+      } else {
+
+        changingStationLabel = "Not Available"
+      }
+
+      if (currentUserMarker.handicapAccess) {
+
+        handicapAccessLabel = "Available"
+
+      } else {
+
+        handicapAccessLabel = "Not Available"
+      }
+
+      if (currentUserMarker.rating === false) {
+
+        userRating = 0
+
+      } else {
+
+        userRating = +currentUserMarker.rating
+      }
+
       return (
         <Marker
-          key={currentMarker.id}
-          id={currentMarker.id}
+          key={currentUserMarker.id}
+          id={currentUserMarker.id}
           onClick={this.onMarkerClick}
-          name={currentMarker.name}
-          address={currentMarker.location}
-          position={currentMarker}
+          name={currentUserMarker.name}
+          address={currentUserMarker.location}
+          userId={currentUserMarker.user_Id}
+          ratingLabel={userLabel}
+          rating={userRating}
+          icon={{
+            url: "https://cdn3.iconfinder.com/data/icons/map-and-location-fill/144/Place_Restroom-512.png",
+            anchor: new google.maps.Point(32, 32),
+            scaledSize: new google.maps.Size(35, 35)
+          }}
+          changingStation={changingStationLabel}
+          handicapAccess={handicapAccessLabel}
+          position={currentUserMarker}
           draggable={true}
           onDragend={this.centerMoved} />
       )
-
     })
+
+    let makeDefaultMarkers = this.props.bathrooms.map(currentDefaultBathroom => {
+
+      let label = "Google Rating: "
+
+      let changingStationLabel = ""
+      let handicapAccessLabel = ""
+      let defaultRating = ""
+
+      if (currentDefaultBathroom.changingStation) {
+
+        changingStationLabel = "Available"
+
+      } else {
+
+        changingStationLabel = "Not Available"
+      }
+
+      if (currentDefaultBathroom.handicapAccess) {
+
+        handicapAccessLabel = "Available"
+
+      } else {
+
+        handicapAccessLabel = "Not Available"
+      }
+
+      if (currentDefaultBathroom.rating === false) {
+
+        defaultRating = 0
+
+      } else {
+
+        defaultRating = +currentDefaultBathroom.rating
+      }
+
+      return (
+        <Marker
+          key={currentDefaultBathroom.id}
+          id={currentDefaultBathroom.id}
+          onClick={this.onMarkerClick}
+          name={currentDefaultBathroom.name}
+          address={currentDefaultBathroom.formatted_address}
+          ratingLabel={label}
+          rating={defaultRating}
+          icon={{
+            url: "https://cdn0.iconfinder.com/data/icons/map-markers-2-1/512/xxx023-512.png",
+            anchor: new google.maps.Point(32, 32),
+            scaledSize: new google.maps.Size(25, 25)
+          }}
+          changingStation={changingStationLabel}
+          handicapAccess={handicapAccessLabel}
+          position={currentDefaultBathroom.geometry.location} />
+      )
+    })
+
 
     let makeinfoWindows = this.props.markers.map(currentInfoWindow => {
       return (
@@ -587,35 +1218,29 @@ export class MapContainer extends Component {
           visible={this.state.showingInfoWindow}
           selectedPlace={this.state.selectedPlace}
           onInfoWindowClose={this.onInfoWindowClose}
-          icon={icon}
         >
-
-          <div >
+          <div>
             {infoWindowContent}
-
           </div>
         </InfoWindowEx>
       )
 
     })
 
-    //
     //======================END of CONDITIONAL STATEMENTS==================================
 
 
-    var icon = {
-      url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiknkRWF5-KdXhXi529gXPrqMPloBU-dqS3p3Qoiiq8ONyKgBZ", // url
-      scaledSize: new this.props.google.maps.Size(90, 42), // scaled size
-    }
 
     // ================USING GOOGLE-MAPS-REACT====================================
 
     return (
-      <div>
+      <div className="background">
         {searchBox}
         {currentLocationTextboxes}
         {infoWindowEditBoxes}
-        <div>
+        {deleteWarningMessage}
+        <div className="interactionBar">
+          {logOutButton}
           {userBar}
         </div>
         {userBarSelectionButtons}
@@ -623,149 +1248,14 @@ export class MapContainer extends Component {
         {/* <button onClick={this.consoleLog}>console log current location</button> */}
         <div>
           <br></br>
-          <Map id="Map" google={this.props.google} style={style} zoom={14} initialCenter={userLocation}
+          <Map id="Map" google={this.props.google} style={style} className="background" zoom={14} initialCenter={userLocation}
 
             onClick={this.onMapClick}>
 
-            {/* icon={{
-              url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiknkRWF5-KdXhXi529gXPrqMPloBU-dqS3p3Qoiiq8ONyKgBZ",
-               anchor: new google.maps.Point(32,32),
-              scaledSize: new google.maps.Size(64,64)
-             }} */}
-
-            <Marker
-              onClick={this.onMarkerClick}
-              name={"Shelby Park"}
-              address={"Nashville, TN 37206"}
-              position={{ lat: 36.1676, lng: -86.7297 }}
-              draggable={true}
-              onDragend={this.centerMoved} />
-
-
-            <Marker
-              onClick={this.onMarkerClick}
-              name={"Whitsett Park"}
-              address={"375 Wimpole Dr, Nashville, TN 37211"}
-              position={{ lat: 36.1197, lng: -86.7245 }}
-              draggable={true}
-              onDragend={this.centerMoved} />
-
-            <Marker
-              onClick={this.onMarkerClick}
-              name={"H.G. Hill Park"}
-              address={"6710 Charlotte Pike, Nashville, TN 37209"}
-              position={{ lat: 36.0926, lng: -86.7121 }}
-              draggable={true}
-              onDragend={this.centerMoved} />
-
-            <Marker
-              onClick={this.onMarkerClick}
-              name={"Grand Ole Opry"}
-              address={"2804 Opryland Dr, Nashville, TN 37214"}
-              position={{ lat: 36.2069, lng: -86.6921 }}
-              draggable={true}
-              onDragend={this.centerMoved} />
-
-            <Marker
-              onClick={this.onMarkerClick}
-              name={"Paragon Mills Park"}
-              address={"465 Benita Dr, Nashville, TN 37211"}
-              position={{ lat: 36.0926, lng: -86.7121 }}
-              draggable={true}
-              onDragend={this.centerMoved} />
-
-            <Marker
-              onClick={this.onMarkerClick}
-              name={"Percy Warner Park"}
-              address={"50 Vaughn Rd, Nashville, TN 37221"}
-              position={{ lat: 36.0611, lng: -86.8980 }}
-              draggable={true}
-              onDragend={this.centerMoved} />
-
-            <Marker
-              onClick={this.onMarkerClick}
-              name={"Centennial Park"}
-              address={"2500 West End Ave, Nashville, TN 37203"}
-              position={{ lat: 36.1490, lng: -86.8120 }}
-              draggable={true}
-              onDragend={this.centerMoved} />
-
-            <Marker
-              onClick={this.onMarkerClick}
-              name={"Music City Central"}
-              address={"400 Charlotte Ave, Nashville, TN 37219"}
-              position={{ lat: 36.1664, lng: -86.7815 }}
-              draggable={true}
-              onDragend={this.centerMoved} />
-
-            <Marker
-              onClick={this.onMarkerClick}
-              name={"Nashville Public Square Park"}
-              address={"Union St & 3rd Ave N, Nashville, TN 37243"}
-              position={{ lat: 36.1666, lng: -86.7781 }}
-              draggable={true}
-              onDragend={this.centerMoved} />
-
-            <Marker
-              onClick={this.onMarkerClick}
-              name={"Elizabeth Park"}
-              address={"1701 Arthur Ave, Nashville, TN 37208"}
-              position={{ lat: 36.1759, lng: -86.8057 }}
-              draggable={true}
-              onDragend={this.centerMoved} />
-
-            <Marker
-              onClick={this.onMarkerClick}
-              name={"Metro Government of Nashville & Davidson County - Parks and Recreation"}
-              address={"511 Oman St, Nashville, TN 37203"}
-              position={{ lat: 36.1472, lng: -86.8207 }}
-              draggable={true}
-              onDragend={this.centerMoved} />
-
-            <Marker
-              onClick={this.onMarkerClick}
-              name={"Nashville Public Library"}
-              address={"615 Church St, Nashville, TN 37219"}
-              position={{ lat: 36.1621, lng: -86.7817 }}
-              draggable={true}
-              onDragend={this.centerMoved} />
-
-            <Marker
-              onClick={this.onMarkerClick}
-              name={"Proctor Barn"}
-              address={"5601-, 5615 Old Hickory Blvd, Nashville, TN 37218"}
-              position={{ lat: 34.3428, lng: -85.3415 }}
-              draggable={true}
-              onDragend={this.centerMoved} />
-
-            <Marker
-              onClick={this.onMarkerClick}
-              name={"Cedar Hill Parl"}
-              address={"6860 Old Hickory Blvd, Madison, TN 37115"}
-              position={{ lat: 36.2718, lng: -86.7481 }}
-              draggable={true}
-              onDragend={this.centerMoved} />
-
             {makeMarker}
-
-            {/* <Geolocation /> */}
+            {makeDefaultMarkers}
 
             {makeinfoWindows}
-            {/* <InfoWindowEx
-              marker={this.state.activeMarker}
-              visible={this.state.showingInfoWindow}
-              selectedPlace={this.state.selectedPlace}
-              >
-
-              <div >
-                {infoWindowEditBoxes}
-                {infoWindowContent}
-                <input type="text" placeholder="test" onInput={this.handleTextBoxState}></input>
-
-              </div>
-              </InfoWindow>
-            </InfoWindowEx> */}
-
           </Map>
         </div>
       </div>
@@ -775,10 +1265,13 @@ export class MapContainer extends Component {
 
 export default GoogleApiWrapper({
   apiKey: ("AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs")
-})
-  (MapContainer)
+})(MapContainer)
 
   //===================================================END==============================================
+
+
+
+
 
 
 

@@ -1,13 +1,9 @@
 import React, { Component } from 'react'
-import { Route, Redirect } from 'react-router-dom'
-import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
-import ReactDOM from 'react-dom';
+import { Route } from 'react-router-dom'
 import NavBar from "./components/navbar/NavBar"
-import RegistrationForm from "./components/registration/RegistrationForm"
+// import RegistrationForm from "./components/registration/RegistrationForm"
 import MapContainer from "./components/mapContainer/MapContainer.js"
 import './App.css';
-// import SimpleMap from "./components/mapContainer/Container.js"
-// import SideNav from "./components/sideNav/SideNav"
 
 
 
@@ -22,11 +18,16 @@ export default class ApplicationViews extends Component {
       <div>
         <NavBar
           //state changing functions
+          {...this.props}
           logOutButton={this.props.logOutButton}
           userBarStateChange={this.props.userBarStateChange}
           userBarMakeSelectionState={this.props.userBarMakeSelectionState}
           navBarStateChange={this.props.navBarStateChange}
           homeStateChange={this.props.homeStateChange}
+          close={this.props.close}
+          registerStateChange={this.props.registerStateChange}
+          //C.R.U.D functions
+          addUser={this.props.addUser}
           //state props
           interactionBar={this.props.interactionBar}
           textboxTitles={this.props.textboxTitles}
@@ -35,28 +36,29 @@ export default class ApplicationViews extends Component {
           currentLocationButton={this.props.currentLocationButton}
           addressLocationButton={this.props.addressLocationButton}
           homeLink={this.props.homeLink}
-          interactionBar={this.props.interactionBar}
-          registrationButton={this.props.registrationButton}
+          registerButton={this.props.registerButton}
+          show={this.props.show}
           //Data
           users={this.props.users}
           currentGeo={this.props.currentGeo}
-          //authentication
-          userVerification_Step2={this.props.userVerification_Step2}
-          >
+        // authentication
+        sessionStorage={this.props.sessionStorage}
+        userVerification_Step2={this.props.userVerification_Step2}
+        >
         </NavBar>
         {/* <button onClick={this.consoleLog}>console log current location</button> */}
-        <React.Fragment>
+
+
+           {/* <Route path="/" render={(props) => {
+           return <Redirect to="/home" />
+           }}
+           /> */}
+
 
           <Route path="/" render={(props) => {
-            return <Redirect to="/home" />
-          }}
-          />
-
-
-          <Route path="/home" render={(props) => {
 
             return <React.Fragment>
-              <MapContainer
+               <MapContainer
                 //state change functions
                 userBarMakeSelectionState={this.props.userBarMakeSelectionState}
                 logOutButton={this.props.logOutButton}
@@ -76,6 +78,7 @@ export default class ApplicationViews extends Component {
                 currentGeo={this.props.currentGeo}
                 markers={this.props.markers}
                 users={this.props.users}
+                bathrooms={this.props.bathrooms}
                 //authentication
                 isAuthenticated={this.props.isAuthenticated}
 
@@ -85,7 +88,7 @@ export default class ApplicationViews extends Component {
           }}
           />
 
-          <Route path="/registration" render={(props) => {
+          {/* <Route path="/registration" render={(props) => {
             return <RegistrationForm {...props}
               //state change functions
               logOutButton={this.props.logOutButton}
@@ -93,17 +96,15 @@ export default class ApplicationViews extends Component {
               registerStateChange={this.props.registerStateChange}
               //C.R.U.D functions
               addUser={this.props.addUser}
-            //state props
-            homeLink={this.props.homeLink}
-            interactionBar={this.props.interactionBar}
-            registerButton={this.props.registerButton}
-            //Data
-            users={this.props.users}
+              //state props
+              homeLink={this.props.homeLink}
+              interactionBar={this.props.interactionBar}
+              registerButton={this.props.registerButton}
+              //Data
+              users={this.props.users}
             />
           }}
-          />
-        </React.Fragment>
-
+          /> */}
       </div>
     )
 

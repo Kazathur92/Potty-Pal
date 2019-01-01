@@ -17,6 +17,24 @@
       "password": "woopy",
       "DOB": "1987-01-24",
       "id": 2
+    },
+    {
+      "name": "1",
+      "lastName": "1",
+      "userName": "1",
+      "email": "1",
+      "password": "1",
+      "DOB": "1111-11-11",
+      "id": 3
+    },
+    {
+      "name": "2",
+      "lastName": "2",
+      "userName": "2",
+      "email": "2",
+      "password": "2",
+      "DOB": "2018-12-03",
+      "id": 4
     }
   ],
   "favorites": [
@@ -24,12 +42,14 @@
   ],
   "markers": [
     {
+      "name": "Davidson County Public Works",
       "location": "3800 Charlotte Ave, Nashville, TN 37209",
       "lat": 36.1528529,
       "lng": -86.8307035,
       "public": true,
+      "rating": 3,
       "changingStation": false,
-      "handicapAccess": false,
+      "handicapAccess": true,
       "user_Id": 1,
       "id": 3
     },
@@ -38,6 +58,7 @@
       "lat": 36.2438706,
       "lng": -86.9046183,
       "public": true,
+      "rating": 1,
       "changingStation": false,
       "handicapAccess": false,
       "user_Id": 1,
@@ -45,25 +66,15 @@
       "name": "Proctor Barn"
     },
     {
-      "name": "house",
+      "name": "Home",
       "location": "",
-      "lat": 36.2338963,
-      "lng": -86.6963462,
-      "changingStation": false,
-      "handicapAccess": false,
+      "lat": 36.237775299999996,
+      "lng": -86.6981898,
+      "changingStation": true,
+      "handicapAccess": true,
       "user_Id": 1,
-      "id": 5
-    },
-    {
-      "name": "NSS",
-      "location": "Nashville Software School",
-      "lat": 36.1325338,
-      "lng": -86.75656420000001,
-      "public": true,
-      "changingStation": false,
-      "handicapAccess": false,
-      "user_Id": 1,
-      "id": 6
+      "id": 5,
+      "rating": 1
     }
   ],
   "users_markers": [
