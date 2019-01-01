@@ -66,11 +66,11 @@
       "name": "Proctor Barn"
     },
     {
-      "name": "Home",
-      "location": "House",
+      "name": "",
+      "location": "",
       "lat": 36.237775299999996,
       "lng": -86.6981898,
-      "changingStation": true,
+      "changingStation": false,
       "handicapAccess": false,
       "user_Id": 1,
       "id": 5,

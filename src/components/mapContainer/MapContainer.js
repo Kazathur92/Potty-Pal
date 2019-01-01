@@ -75,6 +75,8 @@ export class MapContainer extends Component {
   userID = parseInt(+sessionStorage.getItem("userID"))
   // userID = +sessionStorage.userID
 
+
+
   state = {
     //google-maps-react
     showingInfoWindow: false,
@@ -135,8 +137,6 @@ export class MapContainer extends Component {
         this.setState({ loading: false })
       }
     )
-
-
   }
 
   //==========================GEOCODE API FETCH and POST ======================
@@ -220,14 +220,14 @@ export class MapContainer extends Component {
         showingInfoWindow: false,
         editButton: false,
         infoWindowContent: true,
-        editedName: ""
       });
     } else {
 
       this.setState({
         selectedPlace: props,
         activeMarker: marker,
-        showingInfoWindow: true
+        showingInfoWindow: true,
+        // rating: +this.state.selectedPlace.rating
       });
     }
   }
@@ -480,28 +480,59 @@ export class MapContainer extends Component {
 
   handleSubmitChangesButtonState = () => {
 
+//if both values are not empty
+if (this.state.editedName !== "" && this.state.editedLocationName !== "") {
 
-    if (this.state.editedName !== "" || this.state.editedLocationName !== "") {
+  this.setState({
+    editButton: false,
+    infoWindowContent: true,
+    showingInfoWindow: false,
+  })
+
+  this.constructNewEditedMarker()
+}
+
+//if top value is empty, but bottom value is not
+    else if (this.state.editedName === "" && this.state.editedLocationName !== "") {
 
       this.setState({
+        editedName: this.state.selectedPlace.name,
         editButton: false,
         infoWindowContent: true,
         showingInfoWindow: false,
       })
 
       this.constructNewEditedMarker()
+    }
 //make more if statements to if name does have but location doesnt and vice versa
-    } else {
+
+//if top value is not empty but bottom value is
+else if (this.state.editedName !== "" && this.state.editedLocationName === "") {
+
+  this.setState({
+    editedLocationName: this.state.selectedPlace.address,
+    editButton: false,
+    infoWindowContent: true,
+    showingInfoWindow: false,
+  })
+
+  this.constructNewEditedMarker()
+
+}
+
+//if both values are empty
+    else if (this.state.editedName === "" && this.state.editedLocationName === "") {
       //populate with the already existing info
 
       this.setState({
         editedName: this.state.selectedPlace.name,
-        editedLocationName: this.state.selectedPlace.location,
+        editedLocationName: this.state.selectedPlace.address,
         editButton: false,
         infoWindowContent: true,
         showingInfoWindow: false,
         changingStation: this.state.selectedPlace.babyStationCheck,
         handicapAccess: this.state.selectedPlace.handicapAccessCheck,
+        // rating: this.state.selectedPlace.rating
       })
 
       this.constructNewEditedMarker()
@@ -587,6 +618,8 @@ export class MapContainer extends Component {
       handicapAccess: this.state.handicapAccessCheck,
       rating: this.state.rating
     }
+
+    console.log(editedMarker)
     this.props.editMarker(editedMarker, this.state.activeMarker.id)
   }
 
@@ -965,7 +998,7 @@ export class MapContainer extends Component {
                     <StarRatingComponent
                       name="rate2"
                       starCount={5}
-                      value={this.state.selectedPlace.rating}
+                      value={this.state.rating}
                       onStarClick={this.onStarClick.bind(this)}
                       // onStarHover={Function(nextValue, prevValue, name)}
                       editing={true}
@@ -1068,7 +1101,7 @@ export class MapContainer extends Component {
       let changingStationLabel = ""
       let handicapAccessLabel = ""
       let userLabel = "Marker Owner Rating: "
-      let rating = ""
+      let userRating = ""
 
       if (currentUserMarker.changingStation) {
 
@@ -1090,11 +1123,11 @@ export class MapContainer extends Component {
 
       if (currentUserMarker.rating === false) {
 
-        rating = 0
+        userRating = 0
 
       } else {
 
-        rating = +currentUserMarker.rating
+        userRating = +currentUserMarker.rating
       }
 
       return (
@@ -1106,7 +1139,7 @@ export class MapContainer extends Component {
           address={currentUserMarker.location}
           userId={currentUserMarker.user_Id}
           ratingLabel={userLabel}
-          rating={rating}
+          rating={userRating}
           icon={{
             url: "https://cdn3.iconfinder.com/data/icons/map-and-location-fill/144/Place_Restroom-512.png",
             anchor: new google.maps.Point(32, 32),
@@ -1126,7 +1159,7 @@ export class MapContainer extends Component {
 
       let changingStationLabel = ""
       let handicapAccessLabel = ""
-      let rating = ""
+      let defaultRating = ""
 
       if (currentDefaultBathroom.changingStation) {
 
@@ -1148,11 +1181,11 @@ export class MapContainer extends Component {
 
       if (currentDefaultBathroom.rating === false) {
 
-        rating = 0
+        defaultRating = 0
 
       } else {
 
-        rating = +currentDefaultBathroom.rating
+        defaultRating = +currentDefaultBathroom.rating
       }
 
       return (
@@ -1163,7 +1196,7 @@ export class MapContainer extends Component {
           name={currentDefaultBathroom.name}
           address={currentDefaultBathroom.formatted_address}
           ratingLabel={label}
-          rating={rating}
+          rating={defaultRating}
           icon={{
             url: "https://cdn0.iconfinder.com/data/icons/map-markers-2-1/512/xxx023-512.png",
             anchor: new google.maps.Point(32, 32),
