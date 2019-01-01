@@ -26,12 +26,12 @@ const slideDownAnimation = {
   }
 }
 
-// const slideUpAnimation = {
-//   slideUpOut: {
-//     duration: "1s",
-//     animationName: Radium.keyframes(slideOutUp, "sildeOutUp")
-//   }
-// }
+const fadeInAnimation = {
+  fadeIn: {
+    animation: "1s",
+    animationName: Radium.keyframes(fadeIn, "fadeIn")
+  }
+}
 
 const flipInAnimation = {
   flipInX: {
@@ -72,8 +72,8 @@ export class MapContainer extends Component {
   }
   //========================================
 
-  // userID = parseInt(+sessionStorage.getItem("userID"))
-  userID = +sessionStorage.userID
+  userID = parseInt(+sessionStorage.getItem("userID"))
+  // userID = +sessionStorage.userID
 
   state = {
     //google-maps-react
@@ -88,23 +88,28 @@ export class MapContainer extends Component {
     addressButton: false,
     currentLocationButton: false,
     show: false,
-    userBarSelection: false,
     infoWindowContent: true,
     editFields: false,
     editButton: false,
+    deleteButton: false,
+    //userBarSelection states
+    userBarSelection: false,
     extraInfoState: false,
     littleArrowDownState: true,
     littleArrowUpState: false,
+    estraInfoState_2: false,
+    littleArrowDownState_2: true,
+    littleArrowUpState_2: false,
     //satates for values
     userLocation: { lat: 40.6627, lng: -86.7816 }, //without the currentGeo
     loading: true,
-    location: "",
     lat: "",
     lng: "",
     changingStation: "",
     handicapAccess: "",
     //states for text box values
     currentName: "",
+    location: "",
     currentLocationName: "",
     editedName: "",
     editedLocationName: "",
@@ -160,7 +165,7 @@ export class MapContainer extends Component {
           public: true,
           changingStation: this.state.babyStationCheck,
           handicapAccess: this.state.handicapAccessCheck,
-          user_Id: +this.userID
+          user_Id: +sessionStorage.userID
         }
         this.props.addMarker(bathroom)
 
@@ -260,9 +265,15 @@ export class MapContainer extends Component {
 
   handleAddBathroomSelectionState = () => {
     //modal
-    this.setState({
-      userBarSelection: true,
-    })
+    if (this.state.userBarSelection) {
+      this.setState({
+        userBarSelection: false
+      })
+    } else {
+      this.setState({
+        userBarSelection: true,
+      })
+    }
   }
 
   handleBackButtonState = () => {
@@ -271,6 +282,12 @@ export class MapContainer extends Component {
       addressButton: false,
       currentLocationButton: false,
       userBarSelection: true,
+      extraInfoState: false,
+      littleArrowDownState: true,
+      littleArrowUpState: false,
+      extraInfoState_2: false,
+      littleArrowDownState_2: true,
+      littleArrowUpState_2: false
       // show: true,
     })
   }
@@ -287,7 +304,13 @@ export class MapContainer extends Component {
 
       this.setState({
         addressButton: false,
-        currentLocationButton: true
+        currentLocationButton: true,
+        extraInfoState: false,
+        littleArrowDownState: true,
+        littleArrowUpState: false,
+        extraInfoState_2: false,
+        littleArrowDownState_2: true,
+        littleArrowUpState_2: false
       })
     }
   }
@@ -297,7 +320,13 @@ export class MapContainer extends Component {
 
       this.setState({
         addressButton: true,
-        currentLocationButton: false
+        currentLocationButton: false,
+        extraInfoState: false,
+        littleArrowDownState: true,
+        littleArrowUpState: false,
+        extraInfoState_2: false,
+        littleArrowDownState_2: true,
+        littleArrowUpState_2: false
       })
     }
   }
@@ -315,6 +344,23 @@ export class MapContainer extends Component {
         extraInfoState: true,
         littleArrowDownState: false,
         littleArrowUpState: true
+      })
+    }
+  }
+
+  handleExtraInfoState_2 = () => {
+
+    if (this.state.extraInfoState_2) {
+      this.setState({
+        extraInfoState_2: false,
+        littleArrowDownState_2: true,
+        littleArrowUpState_2: false
+      })
+    } else {
+      this.setState({
+        extraInfoState_2: true,
+        littleArrowDownState_2: false,
+        littleArrowUpState_2: true
       })
     }
   }
@@ -389,6 +435,7 @@ export class MapContainer extends Component {
       addressButton: false,
       babyStationCheck: false,
       handicapAccessCheck: false,
+      show: true
     })
 
   }
@@ -413,10 +460,28 @@ export class MapContainer extends Component {
 
   }
 
-  //
+
+  warningMessageToggle = () => {
+    if (this.state.deleteButton) {
+      this.setState({
+        deleteButton: false,
+        show: false
+      })
+    }
+    else {
+      this.setState({
+        deleteButton: true,
+        userBarSelection: false,
+        show: true
+      })
+
+    }
+  }
+
   handleSubmitChangesButtonState = () => {
 
-    if (this.state.editedName !== "") {
+
+    if (this.state.editedName !== "" || this.state.editedLocationName !== "") {
 
       this.setState({
         editButton: false,
@@ -425,9 +490,22 @@ export class MapContainer extends Component {
       })
 
       this.constructNewEditedMarker()
-
+//make more if statements to if name does have but location doesnt and vice versa
     } else {
-      window.alert("Bathroom needs a name");
+      //populate with the already existing info
+
+      this.setState({
+        editedName: this.state.selectedPlace.name,
+        editedLocationName: this.state.selectedPlace.location,
+        editButton: false,
+        infoWindowContent: true,
+        showingInfoWindow: false,
+        changingStation: this.state.selectedPlace.babyStationCheck,
+        handicapAccess: this.state.selectedPlace.handicapAccessCheck,
+      })
+
+      this.constructNewEditedMarker()
+      // window.alert("Bathroom needs a name");
     }
   }
 
@@ -482,7 +560,7 @@ export class MapContainer extends Component {
         lng: this.state.userLocation.lng,
         changingStation: this.state.babyStationCheck,
         handicapAccess: this.state.handicapAccessCheck,
-        user_Id: +this.userID
+        user_Id: +sessionStorage.userID
       }
       this.props.addMarker(newCurrentGeoBathroom)
 
@@ -517,7 +595,9 @@ export class MapContainer extends Component {
 
 
     this.setState({
-      showingInfoWindow: false
+      showingInfoWindow: false,
+      deleteButton: false,
+      show: false
     })
     this.props.deleteMarker(id)
 
@@ -529,21 +609,29 @@ export class MapContainer extends Component {
     show: false,
     addressButton: false,
     currentLocationButton: false,
-    userBarSelection: true,
+    editButton: false,
+    deleteButton: false,
+    // userBarSelection: true,
+    extraInfoState: false,
+    littleArrowDownState: true,
+    littleArrowUpState: false,
+    extraInfoState_2: false,
+    littleArrowDownState_2: true,
+    littleArrowUpState_2: false
   });
 
   //CONSOLE LOG
   consoleLog = () => {
     console.log("selectedPlace", this.state.selectedPlace)
-    console.log("selected place rating", this.state.selectedPlace.rating)
+    // console.log("selected place rating", this.state.selectedPlace.rating)
     console.log("active Marker id", this.state.activeMarker)
     console.log("infoWindow", this.currentInfoWindow)
     // console.log("this id", this.id)
     // console.log("currentLocation state", this.props.bathrooms)
     console.log(this.state.rating)
-    console.log("userID", this.userID)
-    console.log(sessionStorage)
-    console.log("sessionStorage.userID = ", sessionStorage.userID)
+    // console.log("userID", this.userID)
+    // console.log(sessionStorage)
+    // console.log("sessionStorage.userID = ", sessionStorage.userID)
   }
 
 
@@ -578,10 +666,14 @@ export class MapContainer extends Component {
     let extraInfoField = ""
     let littleArrowDownIcon = ""
     let littleArrowUpIcon = ""
+    let extraInfoField_2 = ""
+    let littleArrowDownIcon_2 = ""
+    let littleArrowUpIcon_2 = ""
     //=====info window===========
     let infoWindowEditBoxes = ""
     let infoWindowContent = ""
     let infoWindowButtons = ""
+    let deleteWarningMessage = ""
     //====================================
 
 
@@ -589,7 +681,7 @@ export class MapContainer extends Component {
 
 
     //==================================================USER BAR=====================================================
-    if (this.props.sessionStorage === true && this.state.addressButton === false && this.state.currentLocationButton === false && this.state.editButton === false) {
+    if (this.props.sessionStorage === true && this.state.addressButton === false && this.state.currentLocationButton === false && this.state.editButton === false && this.state.deleteButton === false) {
       userBar = (
         <StyleRoot>
           <div className="userBar" style={flipInAnimation.flipInX}>
@@ -624,11 +716,10 @@ export class MapContainer extends Component {
       userBarSelectionButtons = (
         <StyleRoot>
           <div key={7} className="addBathroomSelectionBar" style={slideDownAnimation.slideInDown}>
-            <Button key={2} className="is-medium icon" onClick={this.handleCloseButtonState}>
-              <Icon className="fas fa-angle-double-up iconStyle">
-                {/* <span className="fas fa-toilet"/> */}
-              </Icon>
-            </Button>
+            {/* <Button key={2} className="is-medium icon" onClick={this.handleCloseButtonState}> */}
+            {/* <Icon className="fas fa-angle-double-up iconStyle"> */}
+            {/* </Icon> */}
+            {/* </Button> */}
             <Button key={3} onClick={this.handleCurrentLocationBoxState}>
               <Icon className="fas fa-map-marker-alt"></Icon>
               &nbsp;&nbsp;By Current Location</Button>
@@ -643,10 +734,46 @@ export class MapContainer extends Component {
     }
 
     //========================================BY LOCATION NAME===============================================
-    if (this.state.addressButton && this.props.sessionStorage) {
+
+    if (this.state.littleArrowDownState_2) {
+      littleArrowDownIcon_2 = (
+        <Icon className="fas fa-angle-down extraInfoWords"></Icon>
+      )
+    } else {
+      littleArrowDownIcon_2 = null
+    }
+
+
+    if (this.state.littleArrowUpState_2) {
+      littleArrowUpIcon_2 = (
+        <Icon className="fas fa-angle-up extraInfoWords"></Icon>
+      )
+    } else {
+      littleArrowUpIcon_2 = null
+    }
+
+
+    if (this.state.extraInfoState_2) {
+      extraInfoField_2 = (
+        <StyleRoot>
+          <div className="extraInfoDiv" style={slideDownAnimation.slideInDown}>
+            <label className="currLocationNameLabel extraInfoLabel">Location Name/Address: </label>
+            <input id="location" className="currLocationName" type="text" placeholder="Location Name/Address" onChange={this.handleTextBoxState}></input>
+          </div>
+        </StyleRoot>
+      )
+    }
+    else {
+      extraInfoField_2 = null
+    }
+
+
+
+    if (this.state.addressButton === true && this.props.sessionStorage === true && this.state.editButton === false && this.state.deleteButton === false) {
       searchBox = (
         <StyleRoot>
           <Modal show={this.state.show} onClose={this.close} {...this.props.modal} closeOnBlur={true}>
+
             <div className="searchLocationBox modal-content" style={flipInYAnimation.flipInY}>
               <Button className="searchBackButton is-small" onClick={this.handleBackButtonState}>
                 <Icon className="fas fa-backward"></Icon>&nbsp;&nbsp;Back</Button>
@@ -655,23 +782,45 @@ export class MapContainer extends Component {
                 &nbsp;&nbsp;Switch to Current Location</Button>
               <h1 className="searchWindowTitle"><Icon className="fas fa-search-location" color="info"></Icon>
                 &nbsp;&nbsp;Add by Location Name</h1>
-              <div className="searchTextBoxes">
-                <label className="currentNameLabel">Bathroom Name: </label>
-                <input id="currentName" className="currentNameTextbox" type="text" placeholder="Bathroom Name" onChange={this.handleTextBoxState}></input>
-                <label className="locationLabel">Which location?</label>
-                <input id="location" className="locationTextbox" type="text" placeholder="Search Location" onChange={this.handleTextBoxState}></input>
+
+              <div className="boxSeparator">
+
+                <div className="locationTextBoxes">
+                  <label className="locationLabel">Which location? </label>
+                  <input id="currentName" className="locationTextbox" type="text" placeholder="Search Location" onChange={this.handleTextBoxState}></input>
+                </div>
+
+                <div className="checkSeparator">
+
+                  <div className="locationBabyCheckField">
+                    <input id="babyStationCheck" onClick={this.handleBabyStationCheckChange} type="checkbox"></input>
+                    <Icon className="fas fa-baby" color="info"></Icon>
+                    &nbsp;<label className="babyStationCheckLabel">Baby Changing Station</label>
+                  </div>
+
+                  <div className="locationHandiAccessField">
+                    <input id="handiAccessCheck" onClick={this.handleHandiAccessCheckChange} type="checkbox"></input>
+                    <Icon className="fas fa-wheelchair" color="info"></Icon>
+                    &nbsp;<label className="handiAccessCheckLabel">Handicap Access</label>
+                  </div>
+
+                </div>
+
               </div>
-              <div className="searchCheckBoxes">
-                <label className="babyStationCheckLabel">Baby Changing Station: </label>
-                <input id="babyStationCheck" onClick={this.handleBabyStationCheckChange} type="checkbox"></input>
-                <label className="handiAccessCheckLabel">Handicap Access: </label>
-                <input id="handiAccessCheck" onClick={this.handleHandiAccessCheckChange} type="checkbox"></input>
+
+              <div className="extraInfoFieldDiv">
+                <Button className="extraInfoDropDown" onClick={this.handleExtraInfoState_2}><p className="extraInfoWords">{littleArrowUpIcon_2}{littleArrowDownIcon_2}
+                  &nbsp;Extra Info</p></Button>
+                {extraInfoField_2}
               </div>
+
               <div className="searchMarkItButton">
                 <Button className="markItButton" onClick={this.constructNewBathroom}><Icon className="fas fa-restroom"></Icon>
                   &nbsp;&nbsp;Mark It</Button>
               </div>
+
             </div>
+
           </Modal>
         </StyleRoot>
       );
@@ -715,37 +864,53 @@ export class MapContainer extends Component {
 
 
     //@
-    if (this.state.currentLocationButton && this.props.sessionStorage) {
+    if (this.state.currentLocationButton === true && this.props.sessionStorage === true && this.state.editButton == false) {
       currentLocationTextboxes = (
         // new Marker("name")
         <StyleRoot>
           <Modal show={this.state.show} onClose={this.close} className="modalBox" {...this.props.modal} closeOnBlur={true}>
             <div className="currentLocationBoxes modal-content" style={flipInYAnimation.flipInY}>
 
-
               <Button className="currLocBackBtn is-small" onClick={this.handleBackButtonState}>
                 <Icon className="fas fa-backward"></Icon>
                 &nbsp;&nbsp;Back</Button>
               <Button className="currSwitchModeBtn is-small is-rounded" onClick={this.handleCurrSwitchModeButton}>
                 <Icon className="fas fa-search-location" color="info"></Icon>
-                &nbsp;&nbsp;Switch to Search Location</Button>
+                &nbsp;&nbsp;Switch to Location Name</Button>
               <h1 className="currLocTitle"><Icon className="fas fa-map-marker-alt" color="danger"></Icon>
                 &nbsp;Add by Current Location</h1>
-              <div className="currLocTextBoxes">
-                <label className="currLocNameLabel">Bathroom Name: </label>
-                <input id="currentName" className="currLocName" type="text" placeholder="Bathroom Name" onChange={this.handleTextBoxState}></input>
+
+              <div className="boxSeparator">
+
+                <div className="currLocTextBoxes">
+                  <label className="currLocNameLabel">Bathroom Name: </label>
+                  <input id="currentName" className="currLocName" type="text" placeholder="Bathroom Name" onChange={this.handleTextBoxState}></input>
+                </div>
+
+                <div className="checkSeparator">
+
+                  <div className="currBabyCheckField">
+                    <input className="currBabyStationCheck" type="checkbox" onClick={this.handleBabyStationCheckChange} ></input>
+                    <Icon className="fas fa-baby" color="info"></Icon>
+                    &nbsp;<label className="currBabyStationCheckLabel">Baby Changing Station</label>
+                  </div>
+
+                  <div className="currHandiAccessCheckField">
+                    <input className="currHandiAceesCheck" type="checkbox" onClick={this.handleHandiAccessCheckChange}></input>
+                    <Icon className="fas fa-wheelchair" color="info"></Icon>
+                    &nbsp;<label className="currHandiAccessCheckLabel">Handicap Access</label>
+                  </div>
+
+                </div>
+
               </div>
-              <Button className="extraInfoDropDown" onClick={this.handleExtraInfoState}><p className="extraInfoWords">{littleArrowUpIcon}{littleArrowDownIcon}
-              &nbsp;Extra Info</p></Button>
-              {extraInfoField}
-              <div className="currCheckBoxes">
-                <label className="currBabyStationCheckLabel">Baby Changing Station: </label>
-                <input className="currBabyStationCheck" type="checkbox" onClick={this.handleBabyStationCheckChange} ></input>
-                <Icon className="fas fa-baby" color="info"></Icon>
-                <label className="currHandiAccessCheckLabel">Handicap Access: </label>
-                <input className="currHandiAceesCheck" type="checkbox" onClick={this.handleHandiAccessCheckChange}></input>
-                <Icon className="fas fa-wheelchair" color="info"></Icon>
+
+              <div className="extraInfoFieldDiv">
+                <Button className="extraInfoDropDown" onClick={this.handleExtraInfoState}><p className="extraInfoWords">{littleArrowUpIcon}{littleArrowDownIcon}
+                  &nbsp;Extra Info</p></Button>
+                {extraInfoField}
               </div>
+
               <div className="currMarkItButton">
                 <Button className="markItButton" onClick={this.constructNewCurrentGeoBathroom}><Icon className="fas fa-restroom"></Icon>
                   &nbsp;&nbsp;Mark It</Button>
@@ -759,6 +924,91 @@ export class MapContainer extends Component {
       currentLocationTextboxes = null
     }
 
+    //@
+    if (this.state.editButton === true && this.state.currentLocationButton === false && this.state.addressButton === false) {
+      infoWindowEditBoxes = (
+
+        <StyleRoot>
+          <Modal show={this.state.show} className="modalBox" onClose={this.close} {...this.props.modal} closeOnBlur={true}>
+            <div className="editDiv modal-content" style={fadeInAnimation.fadeIn}>
+              <Button className="editBackBtn is-small" onClick={this.handleEditBackButton}>
+                <Icon className="fas fa-backward"></Icon>
+                &nbsp;&nbsp;Back</Button>
+              <h1 className="editTitle"><Icon className="fas fa-edit" color="warning"></Icon>
+                &nbsp;Edit this Marker</h1>
+
+              <div className="boxSeparator">
+
+                <div className="editBoxesDiv">
+                  <label className="editNameLabel">Bathroom Name: </label>
+                  <input className="editNameBox" key={this.props.marker} id="editedName" type="text" onChange={this.handleEditTextboxState}></input>
+                  <label className="editLocationLabel">Location Name: </label>
+                  <input className="editLocationBox" key={this.props.marker} id="editedLocationName" type="text" onChange={this.handleEditTextboxState}></input>
+                </div>
+
+                <div className="checkSeparator">
+
+{/* make it so that if the state of these checkboxes is true according to the data then they will populated accordingly */}
+                  <div className="editBabyCheckField">
+                    <input className="editBabyStation" type="checkbox" onClick={this.handleBabyStationCheckChange}></input>
+                    <Icon className="fas fa-baby" color="info"></Icon>
+                    &nbsp;<label className="editBabyCheckLabel" >Baby Changing Station</label>
+                  </div>
+
+                  <div className="editHandiAccessCheckField">
+                    <input className="editHandiAccess" type="checkbox" onClick={this.handleHandiAccessCheckChange}></input>
+                    <Icon className="fas fa-wheelchair" color="info"></Icon>
+                    &nbsp;<label className="editHandiAccessLabel">Handicap Access</label>
+                  </div>
+
+                  <div>
+                    <StarRatingComponent
+                      name="rate2"
+                      starCount={5}
+                      value={this.state.selectedPlace.rating}
+                      onStarClick={this.onStarClick.bind(this)}
+                      // onStarHover={Function(nextValue, prevValue, name)}
+                      editing={true}
+                    />
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div className="editSubmitBtnDiv">
+                <Button className="markItButton" onClick={() => this.handleSubmitChangesButtonState()}>Submit Changes</Button>
+              </div>
+            </div>
+
+          </Modal>
+        </StyleRoot>
+      );
+    } else {
+      infoWindowEditBoxes = null
+    }
+
+
+    //=========================DELETE WARNING MESSAGE===================
+
+    if (this.state.deleteButton === true && this.state.currentLocationButton === false && this.state.addressButton === false && this.state.editButton === false) {
+      deleteWarningMessage = (
+        <StyleRoot>
+          <Modal show={this.state.show} className="modalBox" onClose={this.close} {...this.props.modal} closeOnBlur={true}>
+            <div className="deleteWarningMessageDiv modal-content" style={fadeInAnimation.fadeIn}>
+              <h1 className="deleteWarningMessageTitle"><Icon className="fas fa-exclamation-triangle" color="danger"></Icon>&nbsp;Are you sure you want to delete this marker?</h1>
+              <div className="deleteWarningMessageButtonDiv">
+                <Button onClick={() => this.deleteCurrentMarker(this.state.activeMarker.id)}>YES</Button>
+                <Button onClick={this.warningMessageToggle}>NO</Button>
+              </div>
+            </div>
+          </Modal>
+        </StyleRoot>
+      )
+    }
+    else {
+      deleteWarningMessage = null
+    }
 
     //========================INFO WINDOW CONTENT========================
 
@@ -766,12 +1016,12 @@ export class MapContainer extends Component {
     if (this.props.sessionStorage) {
       infoWindowButtons = (
         <div>
-          <button id="editButton" type="button" onClick={this.handleInfoWindowContentState}>
-            Edit Marker
-      </button>
-          <button id="deleteButton" type="button" onClick={() => this.deleteCurrentMarker(this.state.activeMarker.id)}>
-            Delete Marker
-      </button>
+          <Button id="editButton" className="infoWindowEditButton is-small" onClick={this.handleInfoWindowContentState}>
+            <Icon className="fas fa-edit"></Icon>&nbsp;Edit Marker</Button>
+          <Button id="deleteButton" className="infoWindowDeleteButton is-small" onClick={this.warningMessageToggle}>
+            {/* onClick={() => this.deleteCurrentMarker(this.state.activeMarker.id)}> */}
+            <Icon className="fas fa-trash-alt"></Icon>&nbsp;Delete Marker
+      </Button>
           {/* <button onClick={this.consoleLog}>Console Log</button> */}
         </div>
       )
@@ -786,19 +1036,23 @@ export class MapContainer extends Component {
       // console.log(this.state.selectedPlace)
       infoWindowContent = (
 
-        <div id="infoWindowContent">
-          <h1 id="currentNameInfo" >{this.state.selectedPlace.name}</h1>
-          <br></br>
-          <p id="currentLocationName">{this.state.selectedPlace.address}</p>
-          <p>Baby Changing Station: {this.state.selectedPlace.changingStation} <Icon className="fas fa-baby" color="info"></Icon></p>
-          <p>Handicap Access: {this.state.selectedPlace.handicapAccess} <Icon className="fas fa-wheelchair" color="info"></Icon></p>
-          {/* this is an If statement inside a render, a ternary */}
+        <div id="infoWindowContent" className="infoWindowDiv">
+          <h1 id="currentNameInfo" className="infoWindowName">{this.state.selectedPlace.name}</h1>
+          <p id="currentLocationName" className="infoWindowAddress">{this.state.selectedPlace.address}</p>
+          <p className="infoWindowBaby" >
+            <Icon className="fas fa-baby" color="info"></Icon>
+            &nbsp;Baby Changing Station: {this.state.selectedPlace.changingStation}
+          </p>
+          <p className="infoWindowHandi" >
+            <Icon className="fas fa-wheelchair" color="info"></Icon>
+            &nbsp;Handicap Access: {this.state.selectedPlace.handicapAccess}</p>
+          <p className="infoWindowRatingLabel">{this.state.selectedPlace.ratingLabel}</p>
           <StarRatingComponent
             name="rate1"
             starCount={5}
             value={this.state.selectedPlace.rating}
-            onStarClick={this.onStarClick.bind(this)}
           />
+          {/* this is an If statement inside a render, a ternary */}
           {this.state.selectedPlace.userId === +sessionStorage.userID ? infoWindowButtons : null}
         </div>
       );
@@ -807,54 +1061,40 @@ export class MapContainer extends Component {
     }
 
 
-    //@
-    if (this.state.editButton) {
-      infoWindowEditBoxes = (
-
-        <div className="editDiv">
-          <button className="editBackBtn" onClick={this.handleEditBackButton}>Back</button>
-          <h1 className="editTitle">Edit this Marker</h1>
-          <div className="editBoxesDiv">
-            <label className="editNameLabel">Bathroom Name: </label>
-            <input className="editNameBox" key={this.props.marker} id="editedName" type="text" placeholder="New Bathroom Name" onChange={this.handleEditTextboxState}></input>
-            <label className="editLocationLabel">Location Name: </label>
-            <input className="editLocationBox" key={this.props.marker} id="editedLocationName" type="text" placeholder="New Bathroom Location" onChange={this.handleEditTextboxState}></input>
-          </div>
-          <div className="editCheckDiv">
-            <label className="editBabyCheckLabel" >Baby Changing Station: </label>
-            <input className="editBabyStation" type="checkbox" onClick={this.handleBabyStationCheckChange}></input>
-            <label className="editHandiAccessLabel">Handicap Access: </label>
-            <input className="editHandiAccess" type="checkbox" onClick={this.handleHandiAccessCheckChange}></input>
-          </div>
-          <button className="editSubmitBtn" onClick={() => this.handleSubmitChangesButtonState()}>Submit Changes</button>
-        </div>
-      );
-    } else {
-      infoWindowEditBoxes = null
-    }
     //=========================================================================
 
     let makeMarker = this.props.markers.map(currentUserMarker => {
 
       let changingStationLabel = ""
       let handicapAccessLabel = ""
+      let userLabel = "Marker Owner Rating: "
+      let rating = ""
 
       if (currentUserMarker.changingStation) {
 
-        changingStationLabel = "yes"
+        changingStationLabel = "Available"
 
       } else {
 
-        changingStationLabel = "no"
+        changingStationLabel = "Not Available"
       }
 
       if (currentUserMarker.handicapAccess) {
 
-        handicapAccessLabel = "yes"
+        handicapAccessLabel = "Available"
 
       } else {
 
-        handicapAccessLabel = "no"
+        handicapAccessLabel = "Not Available"
+      }
+
+      if (currentUserMarker.rating === false) {
+
+        rating = 0
+
+      } else {
+
+        rating = +currentUserMarker.rating
       }
 
       return (
@@ -865,7 +1105,8 @@ export class MapContainer extends Component {
           name={currentUserMarker.name}
           address={currentUserMarker.location}
           userId={currentUserMarker.user_Id}
-          rating={currentUserMarker.rating}
+          ratingLabel={userLabel}
+          rating={rating}
           icon={{
             url: "https://cdn3.iconfinder.com/data/icons/map-and-location-fill/144/Place_Restroom-512.png",
             anchor: new google.maps.Point(32, 32),
@@ -881,6 +1122,39 @@ export class MapContainer extends Component {
 
     let makeDefaultMarkers = this.props.bathrooms.map(currentDefaultBathroom => {
 
+      let label = "Google Rating: "
+
+      let changingStationLabel = ""
+      let handicapAccessLabel = ""
+      let rating = ""
+
+      if (currentDefaultBathroom.changingStation) {
+
+        changingStationLabel = "Available"
+
+      } else {
+
+        changingStationLabel = "Not Available"
+      }
+
+      if (currentDefaultBathroom.handicapAccess) {
+
+        handicapAccessLabel = "Available"
+
+      } else {
+
+        handicapAccessLabel = "Not Available"
+      }
+
+      if (currentDefaultBathroom.rating === false) {
+
+        rating = 0
+
+      } else {
+
+        rating = +currentDefaultBathroom.rating
+      }
+
       return (
         <Marker
           key={currentDefaultBathroom.id}
@@ -888,14 +1162,15 @@ export class MapContainer extends Component {
           onClick={this.onMarkerClick}
           name={currentDefaultBathroom.name}
           address={currentDefaultBathroom.formatted_address}
-          rating={currentDefaultBathroom.rating}
+          ratingLabel={label}
+          rating={rating}
           icon={{
             url: "https://cdn0.iconfinder.com/data/icons/map-markers-2-1/512/xxx023-512.png",
             anchor: new google.maps.Point(32, 32),
             scaledSize: new google.maps.Size(25, 25)
           }}
-          // changingStation={changingStationLabel}
-          // handicapAccess={handicapAccessLabel}
+          changingStation={changingStationLabel}
+          handicapAccess={handicapAccessLabel}
           position={currentDefaultBathroom.geometry.location} />
       )
     })
@@ -930,13 +1205,14 @@ export class MapContainer extends Component {
         {searchBox}
         {currentLocationTextboxes}
         {infoWindowEditBoxes}
+        {deleteWarningMessage}
         <div className="interactionBar">
           {logOutButton}
           {userBar}
         </div>
         {userBarSelectionButtons}
 
-        {/* <button onClick={this.consoleLog}>console log current location</button> */}
+        <button onClick={this.consoleLog}>console log current location</button>
         <div>
           <br></br>
           <Map id="Map" google={this.props.google} style={style} className="background" zoom={14} initialCenter={userLocation}

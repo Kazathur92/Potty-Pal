@@ -67,13 +67,14 @@
     },
     {
       "name": "Home",
-      "location": "",
-      "lat": 36.237753,
-      "lng": -86.69819799999999,
+      "location": "House",
+      "lat": 36.237775299999996,
+      "lng": -86.6981898,
       "changingStation": true,
       "handicapAccess": false,
       "user_Id": 1,
-      "id": 5
+      "id": 5,
+      "rating": 3
     }
   ],
   "users_markers": [
