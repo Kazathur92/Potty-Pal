@@ -585,32 +585,32 @@ export class MapContainer extends Component {
   // }
 
   // //need
-  // renderChildren() {
+  renderChildren() {
 
-  //   const { children } = this.props;
+    const { children } = this.props;
 
-  //   if (!children) return
+    if (!children) return
 
-  //   return React.Children.map(children, c => {
-  //     return React.cloneElement(c, {
-  //       map: this.map,
-  //       google: this.props.google,
-  //       mapCenter: this.state.currentLocation
-  //     });
-  //   })
+    return React.Children.map(children, c => {
+      return React.cloneElement(c, {
+        map: this.map,
+        google: this.props.google,
+        mapCenter: this.state.currentLocation
+      });
+    })
 
-  // }
+  }
   // // ===========C.R.U.D==================================
 
   // //typing address POST
-  // constructNewBathroom = () => {
-  //   if (this.state.location === "") {
-  //     window.alert("Please provide a location for the marker.");
-  //   } else {
-  //     this.geocodeLocation()
+  constructNewBathroom = () => {
+    if (this.state.location === "") {
+      window.alert("Please provide a location for the marker.");
+    } else {
+      this.geocodeLocation()
 
-  //   }
-  // };
+    }
+  };
 
   //current location POST
   constructNewCurrentGeoBathroom = () => {
@@ -636,7 +636,7 @@ export class MapContainer extends Component {
         changingStation: this.state.babyStationCheck,
         changingStation_2: this.state.babyStationCheck,
         handicapAccess: this.state.handicapAccessCheck,
-        handicapAccess: this.state.handicapAccessCheck,
+        handicapAccess_2: this.state.handicapAccessCheck,
         user_Id: +sessionStorage.userID
       }
       this.props.addMarker(newCurrentGeoBathroom)
