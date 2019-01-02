@@ -475,7 +475,7 @@ export class MapContainer extends Component {
     }
 
     else {
-      window.alert("Marker needs a aame")
+      window.alert("Marker needs a name")
     }
   }
   //THE PROBLEM WITH THESE IS THAT IF USER WANTS TO PURPOSELY DELETE A FIELD IT WILL AUTO FILL
@@ -945,7 +945,7 @@ export class MapContainer extends Component {
         <StyleRoot>
           <div className="extraInfoDiv" style={slideDownAnimation.slideInDown}>
             <label className="currLocationNameLabel extraInfoLabel">Knickname: </label>
-            <input id="currentName" className="currLocationName" type="text" placeholder="Location Name/Address" onChange={this.handleTextBoxState}></input>
+            <input id="currentName" className="currLocationName" type="text" placeholder="Location Name" onChange={this.handleTextBoxState}></input>
           </div>
         </StyleRoot>
       )
@@ -1243,7 +1243,7 @@ export class MapContainer extends Component {
 
                 </div>
 
-                <Button onClick={this.consoleLog}></Button>
+                {/* <Button onClick={this.consoleLog}></Button> */}
               </div>
 
               <div className="editSubmitBtnDiv">
@@ -1489,7 +1489,7 @@ export class MapContainer extends Component {
         </div>
         {userBarSelectionButtons}
 
-        <button onClick={this.consoleLog}>console log current location</button>
+        {/* <button onClick={this.consoleLog}>console log current location</button> */}
         <div>
           <br></br>
           <Map id="Map" google={this.props.google} style={style} className="background" zoom={14} initialCenter={userLocation}
