@@ -117,7 +117,11 @@ export class MapContainer extends Component {
     editedLocationName: "",
     //states for checkboxes
     babyStationCheck: false,
-    handicapAccessCheck: false
+    babyCheckStatus: "",
+    babyCheckCondition: true,
+    handicapAccessCheck: false,
+    handiCheckStatus: "",
+    handiCheckCondition: true,
   }
 
   //Only use if not using currengGeo state
@@ -164,7 +168,9 @@ export class MapContainer extends Component {
           lng: this.state.lng,
           public: true,
           changingStation: this.state.babyStationCheck,
+          changingStation_2: this.state.babyStationCheck,
           handicapAccess: this.state.handicapAccessCheck,
+          handicapAccess_2: this.state.handicapAccessCheck,
           user_Id: +sessionStorage.userID
         }
         this.props.addMarker(bathroom)
@@ -212,6 +218,9 @@ export class MapContainer extends Component {
   //need
   onMarkerClick = (props, marker, e) => {
 
+
+
+
     if (this.state.showingInfoWindow) {
 
       this.setState({
@@ -221,14 +230,16 @@ export class MapContainer extends Component {
         editButton: false,
         infoWindowContent: true,
       });
-    } else {
+    }
+
+    else {
 
       this.setState({
         selectedPlace: props,
         activeMarker: marker,
         showingInfoWindow: true,
         // rating: +this.state.selectedPlace.rating
-      });
+      })
     }
   }
 
@@ -368,28 +379,38 @@ export class MapContainer extends Component {
 
   //========================================CHECKBOXES START======================
 
+  //#1
   handleBabyStationCheckChange = (evt) => {
     if (evt.target.checked) {
 
       this.setState({
-        babyStationCheck: true
+        babyStationCheck: true,
+        babyCheckStatus: "Available",
+        babyCheckCondition: false
       })
     } else {
       this.setState({
-        babyStationCheck: false
+        babyStationCheck: false,
+        babyCheckStatus: "Unavailable",
+        babyCheckCondition: false
       })
 
     }
   }
 
+  //#2
   handleHandiAccessCheckChange = (evt) => {
     if (evt.target.checked) {
       this.setState({
-        handicapAccessCheck: true
+        handicapAccessCheck: true,
+        handiCheckStatus: "Available",
+        handiCheckCondition: false
       })
     } else {
       this.setState({
-        handicapAccessCheck: false
+        handicapAccessCheck: false,
+        handiCheckStatus: "Unavailable",
+        handiCheckCondition: false
       })
 
     }
@@ -428,7 +449,12 @@ export class MapContainer extends Component {
   //this changes the state of the infowindow content
   handleInfoWindowContentState = () => {
 
+    let placeName = this.state.selectedPlace.name
+    let locationName = this.state.selectedPlace.address
+
     this.setState({
+      editedName: placeName,
+      editedLocationName: locationName,
       editButton: true,
       userBarSelection: false,
       currentLocationButton: false,
@@ -437,13 +463,13 @@ export class MapContainer extends Component {
       handicapAccessCheck: false,
       show: true
     })
-
   }
 
   handleEditBackButton = () => {
 
     this.setState({
       editButton: false,
+      babyCheckCondition: true
     })
   }
 
@@ -480,148 +506,241 @@ export class MapContainer extends Component {
 
   handleSubmitChangesButtonState = () => {
 
-//if both values are not empty
-if (this.state.editedName !== "" && this.state.editedLocationName !== "") {
 
-  this.setState({
-    editButton: false,
-    infoWindowContent: true,
-    showingInfoWindow: false,
-  })
+    //if both values are not empty
+    if (this.state.editedName !== "") {
 
-  this.constructNewEditedMarker()
-}
-
-//if top value is empty, but bottom value is not
-    else if (this.state.editedName === "" && this.state.editedLocationName !== "") {
-
+      console.log("both fields filled")
       this.setState({
-        editedName: this.state.selectedPlace.name,
         editButton: false,
         infoWindowContent: true,
         showingInfoWindow: false,
+        babyCheckCondition: true,
+        handiCheckCondition: true
       })
 
       this.constructNewEditedMarker()
     }
-//make more if statements to if name does have but location doesnt and vice versa
 
-//if top value is not empty but bottom value is
-else if (this.state.editedName !== "" && this.state.editedLocationName === "") {
-
-  this.setState({
-    editedLocationName: this.state.selectedPlace.address,
-    editButton: false,
-    infoWindowContent: true,
-    showingInfoWindow: false,
-  })
-
-  this.constructNewEditedMarker()
-
-}
-
-//if both values are empty
-    else if (this.state.editedName === "" && this.state.editedLocationName === "") {
-      //populate with the already existing info
-
-      this.setState({
-        editedName: this.state.selectedPlace.name,
-        editedLocationName: this.state.selectedPlace.address,
-        editButton: false,
-        infoWindowContent: true,
-        showingInfoWindow: false,
-        changingStation: this.state.selectedPlace.babyStationCheck,
-        handicapAccess: this.state.selectedPlace.handicapAccessCheck,
-        // rating: this.state.selectedPlace.rating
-      })
-
-      this.constructNewEditedMarker()
-      // window.alert("Bathroom needs a name");
+    else {
+      window.alert("Marker needs a aame")
     }
   }
+  //THE PROBLEM WITH THESE IS THAT IF USER WANTS TO PURPOSELY DELETE A FIELD IT WILL AUTO FILL
+  //if top value is empty, but bottom value is not
 
-  //need
-  renderChildren() {
+  // if (this.state.editedName !== "" && this.state.editedLocationName !== "") {
 
-    const { children } = this.props;
+  //   console.log("both fields filled")
+  //   this.setState({
+  //     editButton: false,
+  //     infoWindowContent: true,
+  //     showingInfoWindow: false,
+  //   })
 
-    if (!children) return
+  //   this.constructNewEditedMarker()
+  // }
 
-    return React.Children.map(children, c => {
-      return React.cloneElement(c, {
-        map: this.map,
-        google: this.props.google,
-        mapCenter: this.state.currentLocation
-      });
-    })
+  //   else if (this.state.editedName === "" && this.state.editedLocationName !== "") {
+  //     console.log("name field empty")
+  //     this.setState({
+  //       editButton: false,
+  //       infoWindowContent: true,
+  //       showingInfoWindow: false,
+  //     })
 
-  }
-  // ===========C.R.U.D==================================
+  //     this.constructNewMarkerWhenNameEmpty()
+  //   }
 
-  //typing address POST
-  constructNewBathroom = () => {
-    if (this.state.location === "") {
-      window.alert("Please provide a location for the marker.");
-    } else {
-      this.geocodeLocation()
+  //   //if top value is not empty but bottom value is
+  //   else if (this.state.editedName !== "" && this.state.editedLocationName === "") {
 
-    }
-  };
+  //     console.log("location field empty")
+  //     this.setState({
+  //       editButton: false,
+  //       infoWindowContent: true,
+  //       showingInfoWindow: false,
+  //     })
 
-  //current location POST
-  constructNewCurrentGeoBathroom = () => {
+  //     this.constructNewMarkerWhenLocationEmpty()
 
-    if (this.state.currentName === "") {
-      window.alert("Bathroom needs a name");
-    } else {
-      //modal
-      this.setState({
-        show: false,
-        addressButton: false,
-        currentLocationButton: false,
-        userBarSelection: true,
-      })
+  //   }
 
-      const newCurrentGeoBathroom = {
-        name: this.state.currentName,
-        location: this.state.currentLocationName,
-        // lat: this.props.currentGeo.lat,
-        // lng: this.props.currentGeo.lng,
-        lat: this.state.userLocation.lat,
-        lng: this.state.userLocation.lng,
-        changingStation: this.state.babyStationCheck,
-        handicapAccess: this.state.handicapAccessCheck,
-        user_Id: +sessionStorage.userID
-      }
-      this.props.addMarker(newCurrentGeoBathroom)
+  //   //if both values are empty
+  //   else if (this.state.editedName === "" && this.state.editedLocationName === "") {
 
-      this.setState({
-        currentName: "",
-        currentLocationName: "",
-        babyStationCheck: false,
-        handicapAccessCheck: false,
-        addressButton: false,
-        currentLocationButton: false,
-        // userBarSelection: true,
-      })
-    }
 
-  }
+  //     this.setState({
+  //       editButton: false,
+  //       infoWindowContent: true,
+  //       showingInfoWindow: false,
+  //     })
+
+  //     console.log('state edited', this.state)
+  //     console.log("editedName", this.state.editedName)
+
+  //     this.constructNewEditedMarkerWhenFieldsEmpty()
+
+  //   }
+  // }
+
+  // //need
+  // renderChildren() {
+
+  //   const { children } = this.props;
+
+  //   if (!children) return
+
+  //   return React.Children.map(children, c => {
+  //     return React.cloneElement(c, {
+  //       map: this.map,
+  //       google: this.props.google,
+  //       mapCenter: this.state.currentLocation
+  //     });
+  //   })
+
+  // }
+  // // ===========C.R.U.D==================================
+
+  // //typing address POST
+  // constructNewBathroom = () => {
+  //   if (this.state.location === "") {
+  //     window.alert("Please provide a location for the marker.");
+  //   } else {
+  //     this.geocodeLocation()
+
+  //   }
+  // };
+
+  // //current location POST
+  // constructNewCurrentGeoBathroom = () => {
+
+  //   if (this.state.currentName === "") {
+  //     window.alert("Bathroom needs a name");
+  //   } else {
+  //     //modal
+  //     this.setState({
+  //       show: false,
+  //       addressButton: false,
+  //       currentLocationButton: false,
+  //       userBarSelection: true,
+  //     })
+
+  //     const newCurrentGeoBathroom = {
+  //       name: this.state.currentName,
+  //       location: this.state.currentLocationName,
+  //       // lat: this.props.currentGeo.lat,
+  //       // lng: this.props.currentGeo.lng,
+  //       lat: this.state.userLocation.lat,
+  //       lng: this.state.userLocation.lng,
+  //       changingStation: this.state.babyStationCheck,
+  //       changingStation_2: this.state.babyStationCheck,
+  //       handicapAccess: this.state.handicapAccessCheck,
+  //       handicapAccess: this.state.handicapAccessCheck,
+  //       user_Id: +sessionStorage.userID
+  //     }
+  //     this.props.addMarker(newCurrentGeoBathroom)
+
+  //     this.setState({
+  //       currentName: "",
+  //       currentLocationName: "",
+  //       babyStationCheck: false,
+  //       handicapAccessCheck: false,
+  //       addressButton: false,
+  //       currentLocationButton: false,
+  //       // userBarSelection: true,
+  //     })
+  //   }
+
+  // }
 
   //EDIT MARKER FUNCTION
   constructNewEditedMarker = () => {
 
-    const editedMarker = {
-      name: this.state.editedName,
-      location: this.state.editedLocationName,
-      changingStation: this.state.babyStationCheck,
-      handicapAccess: this.state.handicapAccessCheck,
-      rating: this.state.rating
-    }
+    if (this.state.rating === 0) {
 
-    console.log(editedMarker)
-    this.props.editMarker(editedMarker, this.state.activeMarker.id)
+      let previousRating = this.state.selectedPlace.rating
+
+      const editedMarker = {
+        name: this.state.editedName,
+        location: this.state.editedLocationName,
+        changingStation: this.state.babyStationCheck,
+        changingStation_2: this.state.babyStationCheck,
+        handicapAccess: this.state.handicapAccessCheck,
+        handicapAccess_2: this.state.handicapAccessCheck,
+        rating: previousRating
+      }
+
+      console.log(editedMarker)
+      this.props.editMarker(editedMarker, this.state.activeMarker.id)
+
+    } else {
+
+
+      const editedMarker = {
+        name: this.state.editedName,
+        location: this.state.editedLocationName,
+        changingStation: this.state.babyStationCheck,
+        changingStation_2: this.state.babyStationCheck,
+        handicapAccess: this.state.handicapAccessCheck,
+        handicapAccess_2: this.state.handicapAccessCheck,
+        rating: this.state.rating
+      }
+
+      console.log(editedMarker)
+      this.props.editMarker(editedMarker, this.state.activeMarker.id)
+    }
   }
+
+
+  //NOT IN USE
+  // constructNewMarkerWhenNameEmpty = () => {
+
+  //   const editedMarker = {
+  //     name: this.state.selectedPlace.name,
+  //     location: this.state.editedLocationName,
+  //     changingStation: this.state.babyStationCheck,
+  //     changingStation_2: this.state.babyStationCheck,
+  //     handicapAccess: this.state.handicapAccessCheck,
+  //     handicapAccess_2: this.state.handicapAccessCheck,
+  //     rating: this.state.rating
+  //   }
+
+  //   this.props.editMarker(editedMarker, this.state.activeMarker.id)
+
+  // }
+
+  // constructNewMarkerWhenLocationEmpty = () => {
+
+  //   const editedMarker = {
+  //     name: this.state.editedName,
+  //     location: this.state.selectedPlace.address,
+  //     changingStation_2: this.state.babyStationCheck,
+  //     changingStation: this.state.babyStationCheck,
+  //     handicapAccess: this.state.handicapAccessCheck,
+  //     handicapAccess_2: this.state.handicapAccessCheck,
+  //     rating: this.state.rating
+  //   }
+
+  //   this.props.editMarker(editedMarker, this.state.activeMarker.id)
+
+  // }
+
+
+  // constructNewEditedMarkerWhenFieldsEmpty = () => {
+
+  //   const editedMarker = {
+  //     name: this.state.selectedPlace.name,
+  //     location: this.state.selectedPlace.address,
+  //     changingStation: this.state.babyStationCheck,
+  //     changingStation_2: this.state.babyStationCheck,
+  //     handicapAccess: this.state.handicapAccessCheck,
+  //     handicapAccess_2: this.state.handicapAccessCheck,
+  //     rating: this.state.rating
+  //   }
+
+  //   this.props.editMarker(editedMarker, this.state.activeMarker.id)
+  // }
 
 
   deleteCurrentMarker = (id) => {
@@ -658,7 +777,12 @@ else if (this.state.editedName !== "" && this.state.editedLocationName === "") {
     console.log("selectedPlace", this.state.selectedPlace)
     // console.log("selected place rating", this.state.selectedPlace.rating)
     console.log("active Marker id", this.state.activeMarker)
-    console.log("infoWindow", this.currentInfoWindow)
+    console.log("selectedPlace property", this.state.selectedPlace.name)
+    console.log("selectedPlace property", this.state.selectedPlace.address)
+
+    console.log("editedName", this.state.currentName)
+    console.log("editedLocationName", this.state.currentLocationName)
+    // console.log("infoWindow", this.currentInfoWindow)
     // console.log("this id", this.id)
     // console.log("currentLocation state", this.props.bathrooms)
     console.log(this.state.rating)
@@ -708,6 +832,8 @@ else if (this.state.editedName !== "" && this.state.editedLocationName === "") {
     let infoWindowButtons = ""
     let deleteWarningMessage = ""
     //====================================
+    let babyCheckboxStatus = ""
+    let handiCheckboxStatus = ""
 
 
     //=================================START of CONDITIONAL STATEMENTS=============================
@@ -957,9 +1083,41 @@ else if (this.state.editedName !== "" && this.state.editedLocationName === "") {
       currentLocationTextboxes = null
     }
 
+    //#1
+    if (this.state.babyCheckCondition) {
+      babyCheckboxStatus = (
+
+
+        <p className="mockMarkerBabyCheck"><Icon className="fas fa-baby" color="info"></Icon>
+          &nbsp;{this.state.selectedPlace.changingStation}</p>
+      )
+    } else {
+      babyCheckboxStatus = (
+        <p className="mockMarkerBabyCheck"><Icon className="fas fa-baby" color="info"></Icon>
+          &nbsp;{this.state.babyCheckStatus}</p>
+      )
+    }
+
+    //#2
+    if (this.state.handiCheckCondition) {
+      handiCheckboxStatus = (
+
+
+        <p className="mockMarkerHandiCheck"><Icon className="fas fa-wheelchair" color="info"></Icon>
+          &nbsp;{this.state.selectedPlace.handicapAccess}</p>
+      )
+    } else {
+      handiCheckboxStatus = (
+        <p className="mockMarkerHandiCheck"><Icon className="fas fa-wheelchair" color="info"></Icon>
+          &nbsp;{this.state.handiCheckStatus}</p>
+      )
+    }
+
     //@
     if (this.state.editButton === true && this.state.currentLocationButton === false && this.state.addressButton === false) {
       infoWindowEditBoxes = (
+
+
 
         <StyleRoot>
           <Modal show={this.state.show} className="modalBox" onClose={this.close} {...this.props.modal} closeOnBlur={true}>
@@ -970,37 +1128,59 @@ else if (this.state.editedName !== "" && this.state.editedLocationName === "") {
               <h1 className="editTitle"><Icon className="fas fa-edit" color="warning"></Icon>
                 &nbsp;Edit this Marker</h1>
 
+              <div className="mockMarker">
+                <h5 className="mockMarkerName">{this.state.editedName}</h5>
+                <h5 className="mockMarkerAddress">{this.state.editedLocationName}</h5>
+                {babyCheckboxStatus}
+                {handiCheckboxStatus}
+                {/* <p className="mockMarkerHandiCheck"><Icon className="fas fa-wheelchair" color="info"></Icon>
+                    &nbsp;{this.state.selectedPlace.handicapAccess}</p> */}
+                <div className="mockMarkerRating">
+                  <StarRatingComponent
+                    name="rate3"
+                    starCount={5}
+                    value={this.state.selectedPlace.rating}
+                  />
+                </div>
+                <div className="mockButtons">
+                  <Button className="is-small is-static"><Icon className="fas fa-edit"></Icon>
+                    &nbsp;Edit Marker</Button>
+                  <Button className="is-small is-static"><Icon className="fas fa-trash-alt"></Icon>
+                    &nbsp;Delete Marker</Button>
+                </div>
+              </div>
+
               <div className="boxSeparator">
 
                 <div className="editBoxesDiv">
                   <label className="editNameLabel">Bathroom Name: </label>
-                  <input className="editNameBox" key={this.props.marker} id="editedName" type="text" onChange={this.handleEditTextboxState}></input>
+                  <input className="editNameBox" key={this.props.marker} id="editedName" type="text" value={this.state.editedName} maxLength="20" onChange={this.handleEditTextboxState}></input>
                   <label className="editLocationLabel">Location Name: </label>
-                  <input className="editLocationBox" key={this.props.marker} id="editedLocationName" type="text" onChange={this.handleEditTextboxState}></input>
+                  <input className="editLocationBox" key={this.props.marker} id="editedLocationName" type="text" maxLength="20" value={this.state.editedLocationName} onChange={this.handleEditTextboxState}></input>
                 </div>
 
                 <div className="checkSeparator">
 
-{/* make it so that if the state of these checkboxes is true according to the data then they will populated accordingly */}
                   <div className="editBabyCheckField">
-                    <input className="editBabyStation" type="checkbox" onClick={this.handleBabyStationCheckChange}></input>
+                    {/* #1 */}
+                    <input className="editBabyStation" type="checkbox" defaultChecked={this.state.selectedPlace.changingStation_2} onClick={this.handleBabyStationCheckChange}></input>
                     <Icon className="fas fa-baby" color="info"></Icon>
-                    &nbsp;<label className="editBabyCheckLabel" >Baby Changing Station</label>
+                    &nbsp;<label className="editBabyCheckLabel">Baby Changing Station</label>
                   </div>
-
+                  {/* #2 */}
                   <div className="editHandiAccessCheckField">
-                    <input className="editHandiAccess" type="checkbox" onClick={this.handleHandiAccessCheckChange}></input>
+                    <input className="editHandiAccess" type="checkbox" defaultChecked={this.state.selectedPlace.handicapAccess_2} onClick={this.handleHandiAccessCheckChange}></input>
                     <Icon className="fas fa-wheelchair" color="info"></Icon>
                     &nbsp;<label className="editHandiAccessLabel">Handicap Access</label>
                   </div>
 
                   <div>
+                    <p className="editRatingTitle">Your Rating: </p>
                     <StarRatingComponent
                       name="rate2"
                       starCount={5}
                       value={this.state.rating}
                       onStarClick={this.onStarClick.bind(this)}
-                      // onStarHover={Function(nextValue, prevValue, name)}
                       editing={true}
                     />
                   </div>
@@ -1031,8 +1211,10 @@ else if (this.state.editedName !== "" && this.state.editedLocationName === "") {
             <div className="deleteWarningMessageDiv modal-content" style={fadeInAnimation.fadeIn}>
               <h1 className="deleteWarningMessageTitle"><Icon className="fas fa-exclamation-triangle" color="danger"></Icon>&nbsp;Are you sure you want to delete this marker?</h1>
               <div className="deleteWarningMessageButtonDiv">
-                <Button onClick={() => this.deleteCurrentMarker(this.state.activeMarker.id)}>YES</Button>
-                <Button onClick={this.warningMessageToggle}>NO</Button>
+                <Button onClick={() => this.deleteCurrentMarker(this.state.activeMarker.id)} color="danger"><Icon className="fas fa-surprise" color="warning"></Icon>
+                  &nbsp;YES</Button>
+                <Button onClick={this.warningMessageToggle} color="link"><Icon className="fas fa-smile-wink" color="warning"></Icon>
+                  &nbsp;NO</Button>
               </div>
             </div>
           </Modal>
@@ -1105,11 +1287,13 @@ else if (this.state.editedName !== "" && this.state.editedLocationName === "") {
 
       if (currentUserMarker.changingStation) {
 
+
         changingStationLabel = "Available"
 
       } else {
 
-        changingStationLabel = "Not Available"
+
+        changingStationLabel = "Unavailable"
       }
 
       if (currentUserMarker.handicapAccess) {
@@ -1118,7 +1302,7 @@ else if (this.state.editedName !== "" && this.state.editedLocationName === "") {
 
       } else {
 
-        handicapAccessLabel = "Not Available"
+        handicapAccessLabel = "Unavailable"
       }
 
       if (currentUserMarker.rating === false) {
@@ -1146,7 +1330,9 @@ else if (this.state.editedName !== "" && this.state.editedLocationName === "") {
             scaledSize: new google.maps.Size(35, 35)
           }}
           changingStation={changingStationLabel}
+          changingStation_2={currentUserMarker.changingStation_2}
           handicapAccess={handicapAccessLabel}
+          handicapAccess_2={currentUserMarker.handicapAccess_2}
           position={currentUserMarker}
           draggable={true}
           onDragend={this.centerMoved} />
@@ -1167,7 +1353,7 @@ else if (this.state.editedName !== "" && this.state.editedLocationName === "") {
 
       } else {
 
-        changingStationLabel = "Not Available"
+        changingStationLabel = "Unavailable"
       }
 
       if (currentDefaultBathroom.handicapAccess) {
@@ -1176,7 +1362,7 @@ else if (this.state.editedName !== "" && this.state.editedLocationName === "") {
 
       } else {
 
-        handicapAccessLabel = "Not Available"
+        handicapAccessLabel = "Unavailable"
       }
 
       if (currentDefaultBathroom.rating === false) {

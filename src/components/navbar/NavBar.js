@@ -221,10 +221,12 @@ export default class NavBar extends Component {
 
     if (this.props.registerButton) {
       registrationForm = (
+        <StyleRoot>
         <Modal show={this.props.show} onClose={this.props.close} {...this.props.modal} closeOnBlur={true}>
-          <div id="registrationForm" className="registrationForm modal-content">
-            <h1 className="formTitle">Registragion Form</h1>
-            <table>
+          <div id="registrationForm" className="registrationForm modal-content" style={fadeInAnimation.fadeIn}>
+            <h1 className="formTitle"><Icon className="fas fa-user-edit" color="primary"></Icon>
+            &nbsp;&nbsp;Registragion Form</h1>
+            <table className="formTable">
               <thead>
                 <tr>
                   {/* <th>User Info</th> */}
@@ -232,26 +234,36 @@ export default class NavBar extends Component {
               </thead>
               <tbody>
                 <tr className="formContent">
-                  <td className="formName">Name: </td>
+                  <td className="formName"><Icon className="fas fa-user" color="info"></Icon>
+            &nbsp;&nbsp;Name: </td>
                   <td><input id="formName" placeholder="Name" onChange={this.handleFieldChange}></input></td>
-                  <td className="formLastName">Last name: </td>
+                  <td className="formLastName"><Icon className="fas fa-user" color="info"></Icon>
+            &nbsp;&nbsp;Last name: </td>
                   <td><input id="formLastName" placeholder="Last Name" onChange={this.handleFieldChange}></input></td>
-                  <td className="formUserName">Name: </td>
+                  <td className="formUserName"><Icon className="fas fa-user-tie userTie"></Icon>
+            &nbsp;&nbsp;User Name: </td>
                   <td><input id="formUserName" placeholder="User Name" onChange={this.handleFieldChange}></input></td>
-                  <td className="formEmail">Email: </td>
+                  <td className="formEmail"><Icon className="fas fa-at" color="danger"></Icon>
+            &nbsp;&nbsp;Email: </td>
                   <td><input id="formEmail" type="email" placeholder="Email" onChange={this.handleFieldChange}></input></td>
-                  <td className="formPass">Name: </td>
+                  <td className="formPass"><Icon className="fas fa-key" color="warning"></Icon>
+            &nbsp;&nbsp;Password: </td>
                   <td><input id="formPass" placeholder="Password" onChange={this.handleFieldChange}></input></td>
-                  <td className="formConfirmPass">Name: </td>
+                  <td className="formConfirmPass"><Icon className="fas fa-key"></Icon>
+            &nbsp;&nbsp;Confirm Password: </td>
                   <td><input id="formConfirmPass" placeholder="Confirm Password" onChange={this.handleFieldChange}></input></td>
-                  <td className="formDOB">Name: </td>
+                  <td className="formDOB"><Icon className="fas fa-calendar-alt" color="success"></Icon>
+            &nbsp;&nbsp;Date of Birth: </td>
                   <td><input id="formDOB" type="date" onChange={this.handleFieldChange}></input></td>
                 </tr>
               </tbody>
             </table>
-            <button  value="Submit" type='submit' className="formBtnInput" id="submitFormButton" onClick={this.registerNewUser}>Register</button>
+            <div className="formBtnInputDiv">
+                  <Button  value="Submit" type='submit' className="formBtnInput" color="link" id="submitFormButton" onClick={this.registerNewUser}>Register</Button>
+                  </div>
           </div>
         </Modal>
+        </StyleRoot>
       )
     } else {
       registrationForm = null
