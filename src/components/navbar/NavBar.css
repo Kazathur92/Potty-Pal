@@ -142,24 +142,39 @@ margin-right: 20px;
 
 .registrationForm {
   background-color: #282c34;
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* justify-content: center; */
-  /* float: center; */
+  border: solid 3px grey;
+  width: 50%;
+  height: 70%;
+  border-radius: 15px;
 }
 
 .formTitle {
-  /* display: flex; */
-  /* justify-content: center; */
-  /* display: flex; */
-  /* flex-direction: column; */
+  margin-top: 10px;
+  text-align: center;
+  font-size: 25px;
+  letter-spacing: 3px;
+  color: rgba(245, 245, 245, 0.877);
+}
+
+.formTable {
+  margin-top: 5px;
+  display:flex;
+  justify-content: center;
 }
 
 .formContent {
   display: flex;
   flex-direction: column;
-  /* float: center; */
-  /* justify-content: center; */
+}
+
+.formBtnInputDiv {
+  display: flex;
+  justify-content: center;
+  margin-top: 5%;
+}
+
+.formBtnInput {
+  border-radius: 10px;
 }
 
 .formName {
@@ -170,10 +185,26 @@ margin-right: 20px;
   color: rgba(245, 245, 245, 0.877);
 }
 
+.formUserName {
+  color: rgba(245, 245, 245, 0.877);
+}
+
+.userTie {
+  color: darkorchid;
+}
+
 .formEmail {
   color: rgba(245, 245, 245, 0.877);
 }
 
 .formPass {
+  color: rgba(245, 245, 245, 0.877);
+}
+
+.formConfirmPass {
+  color: rgba(245, 245, 245, 0.877);
+}
+
+.formDOB {
   color: rgba(245, 245, 245, 0.877);
 }
