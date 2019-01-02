@@ -122,6 +122,9 @@ export class MapContainer extends Component {
     handicapAccessCheck: false,
     handiCheckStatus: "",
     handiCheckCondition: true,
+    editBabyStationCheck: false,
+    editHandicapAccessCheck: false,
+    // checkCondition: false,
   }
 
   //Only use if not using currengGeo state
@@ -170,9 +173,6 @@ export class MapContainer extends Component {
   //need
   onMarkerClick = (props, marker, e) => {
 
-
-
-
     if (this.state.showingInfoWindow) {
 
       this.setState({
@@ -190,7 +190,6 @@ export class MapContainer extends Component {
         selectedPlace: props,
         activeMarker: marker,
         showingInfoWindow: true,
-        // rating: +this.state.selectedPlace.rating
       })
     }
   }
@@ -337,14 +336,14 @@ export class MapContainer extends Component {
 
       this.setState({
         babyStationCheck: true,
-        babyCheckStatus: "Available",
-        babyCheckCondition: false
+        // babyCheckStatus: "Available",
+        // babyCheckCondition: false
       })
     } else {
       this.setState({
         babyStationCheck: false,
-        babyCheckStatus: "Unavailable",
-        babyCheckCondition: false
+        // babyCheckStatus: "Unavailable",
+        // babyCheckCondition: false
       })
 
     }
@@ -355,18 +354,61 @@ export class MapContainer extends Component {
     if (evt.target.checked) {
       this.setState({
         handicapAccessCheck: true,
+        // handiCheckStatus: "Available",
+        // handiCheckCondition: false
+      })
+    } else {
+      this.setState({
+        handicapAccessCheck: false,
+        // handiCheckStatus: "Unavailable",
+        // handiCheckCondition: false
+      })
+
+    }
+  }
+
+  //========================EDIT CHECKBOXES
+  handleEditBabyStationCheckChange = (evt) => {
+    if (evt.target.checked) {
+
+      this.setState({
+        babyStationCheck: true,
+        babyCheckStatus: "Available",
+        babyCheckCondition: false,
+        editBabyStationCheck: true
+      })
+    } else {
+      this.setState({
+        babyStationCheck: false,
+        babyCheckStatus: "Unavailable",
+        babyCheckCondition: false,
+        editBabyStationCheck: false
+      })
+
+    }
+  }
+
+  //#2
+  handleEditHandiAccessCheckChange = (evt) => {
+    if (evt.target.checked) {
+      this.setState({
+        handicapAccessCheck: true,
         handiCheckStatus: "Available",
-        handiCheckCondition: false
+        handiCheckCondition: false,
+        editHandicapAccessCheck: true
       })
     } else {
       this.setState({
         handicapAccessCheck: false,
         handiCheckStatus: "Unavailable",
-        handiCheckCondition: false
+        handiCheckCondition: false,
+        editHandicapAccessCheck: false
       })
 
     }
   }
+
+
 
   //========================================CHECKBOXES END=========================
 
@@ -399,8 +441,61 @@ export class MapContainer extends Component {
 
   //=================INFO WINDOW STATES===========================
   //this changes the state of the infowindow content
-  handleInfoWindowContentState = () => {
 
+  handleInfoWindowContentState_1 = () => {
+
+
+    if (this.state.selectedPlace.changingStation_2 && this.state.selectedPlace.handicapAccess_2) {
+
+      let previousBabyCheckStatus = this.state.selectedPlace.changingStation_2
+      let previousHandiCheckStatus = this.state.selectedPlace.handicapAccess_2
+
+    this.setState({
+    editBabyStationCheck: previousBabyCheckStatus,
+    editHandicapAccessCheck: previousHandiCheckStatus
+    })
+console.log("both were true!")
+    // this.handleInfoWindowContentState_2()
+    this.handleInfoWindowIfCheckboxesTrue()
+
+  }
+  else if (this.state.selectedPlace.changingStation_2 === true && this.state.selectedPlace.handicapAccess_2 === false) {
+
+      let previousBabyCheckStatus = this.state.selectedPlace.changingStation_2
+      // let previousHandiCheckStatus = this.state.selectedPlace.handicapAccess_2
+console.log("baby was true handi was false")
+    this.setState({
+    editBabyStationCheck: previousBabyCheckStatus,
+    editHandicapAccessCheck: false
+    })
+
+    this.handleInfoWindowContentState_2()
+  }
+  else if (this.state.selectedPlace.handicapAccess_2 === true && this.state.selectedPlace.changingStation_2 === false) {
+
+    let previousHandiCheckStatus = this.state.selectedPlace.handicapAccess_2
+console.log("baby was false handi was true")
+    this.setState({
+      editBabyStationCheck: false,
+      editHandicapAccessCheck: previousHandiCheckStatus
+    })
+
+    this.handleInfoWindowContentState_2()
+  }
+  else {
+    console.log("both were false!")
+    this.setState({
+      editBabyStationCheck: false,
+      editHandicapAccessCheck: false
+      })
+
+      this.handleInfoWindowContentState_2()
+  }
+
+  }
+
+
+  handleInfoWindowIfCheckboxesTrue = () => {
     let placeName = this.state.selectedPlace.name
     let locationName = this.state.selectedPlace.address
 
@@ -411,10 +506,69 @@ export class MapContainer extends Component {
       userBarSelection: false,
       currentLocationButton: false,
       addressButton: false,
-      babyStationCheck: false,
-      handicapAccessCheck: false,
+      babyStationCheck: true,
+      handicapAccessCheck: true,
       show: true
     })
+  }
+
+  handleInfoWindowContentState_2 = () => {
+
+console.log("selecting path")
+console.log("editBabyStationCheck", this.state.editBabyStationCheck)
+console.log("editHandicapAccessCheck", this.state.editBabyStationCheck)
+
+
+if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessCheck === false) {
+
+  console.log("baby was true handi was false layer 2")
+  let placeName = this.state.selectedPlace.name
+  let locationName = this.state.selectedPlace.address
+
+  this.setState({
+    editedName: placeName,
+    editedLocationName: locationName,
+    editButton: true,
+    userBarSelection: false,
+    currentLocationButton: false,
+    addressButton: false,
+    babyStationCheck: true,
+    handicapAccessCheck: false,
+    show: true
+  })
+} else if (this.state.editBabyStationCheck === false && this.state.editHandicapAccessCheck === true) {
+
+  console.log("baby was false handi was true layer 2")
+  let placeName = this.state.selectedPlace.name
+  let locationName = this.state.selectedPlace.address
+
+  this.setState({
+    editedName: placeName,
+    editedLocationName: locationName,
+    editButton: true,
+    userBarSelection: false,
+    currentLocationButton: false,
+    addressButton: false,
+    babyStationCheck: false,
+    handicapAccessCheck: true,
+    show: true
+  })
+} else {
+
+  console.log("if boxes arent already checked")
+  let placeName = this.state.selectedPlace.name
+  let locationName = this.state.selectedPlace.address
+    this.setState({
+      editedName: placeName,
+      editedLocationName: locationName,
+      editButton: true,
+      userBarSelection: false,
+      currentLocationButton: false,
+      addressButton: false,
+      show: true
+    })
+}
+
   }
 
   handleEditBackButton = () => {
@@ -462,7 +616,7 @@ export class MapContainer extends Component {
     //if both values are not empty
     if (this.state.editedName !== "") {
 
-      console.log("both fields filled")
+      // console.log("both fields filled")
       this.setState({
         editButton: false,
         infoWindowContent: true,
@@ -478,63 +632,6 @@ export class MapContainer extends Component {
       window.alert("Marker needs a name")
     }
   }
-  //THE PROBLEM WITH THESE IS THAT IF USER WANTS TO PURPOSELY DELETE A FIELD IT WILL AUTO FILL
-  //if top value is empty, but bottom value is not
-
-  // if (this.state.editedName !== "" && this.state.editedLocationName !== "") {
-
-  //   console.log("both fields filled")
-  //   this.setState({
-  //     editButton: false,
-  //     infoWindowContent: true,
-  //     showingInfoWindow: false,
-  //   })
-
-  //   this.constructNewEditedMarker()
-  // }
-
-  //   else if (this.state.editedName === "" && this.state.editedLocationName !== "") {
-  //     console.log("name field empty")
-  //     this.setState({
-  //       editButton: false,
-  //       infoWindowContent: true,
-  //       showingInfoWindow: false,
-  //     })
-
-  //     this.constructNewMarkerWhenNameEmpty()
-  //   }
-
-  //   //if top value is not empty but bottom value is
-  //   else if (this.state.editedName !== "" && this.state.editedLocationName === "") {
-
-  //     console.log("location field empty")
-  //     this.setState({
-  //       editButton: false,
-  //       infoWindowContent: true,
-  //       showingInfoWindow: false,
-  //     })
-
-  //     this.constructNewMarkerWhenLocationEmpty()
-
-  //   }
-
-  //   //if both values are empty
-  //   else if (this.state.editedName === "" && this.state.editedLocationName === "") {
-
-
-  //     this.setState({
-  //       editButton: false,
-  //       infoWindowContent: true,
-  //       showingInfoWindow: false,
-  //     })
-
-  //     console.log('state edited', this.state)
-  //     console.log("editedName", this.state.editedName)
-
-  //     this.constructNewEditedMarkerWhenFieldsEmpty()
-
-  //   }
-  // }
 
   // //need
   renderChildren() {
@@ -672,7 +769,7 @@ export class MapContainer extends Component {
   //EDIT MARKER FUNCTION
   constructNewEditedMarker = () => {
 
-    if (this.state.rating === 0) {
+    if (this.state.rating === 0 && this.state.editBabyStationCheck && this.state.editHandicapAccessCheck) {
       //when values untouched
       let previousRating = this.state.selectedPlace.rating
       let previousBabyCheck = this.state.selectedPlace.changingStation_2
@@ -680,27 +777,63 @@ export class MapContainer extends Component {
       let previousHandiCheck = this.state.selectedPlace.handicapAccess_2
       let previousHandiCheck_2 = this.state.selectedPlace.handicapAccess_2
 
+
       const editedMarker = {
         name: this.state.editedName,
         location: this.state.editedLocationName,
 
-        // changingStation: previousBabyCheck,
-        // changingStation_2: previousBabyCheck_2,
-        // handicapAccess: previousHandiCheck,
-        // handicapAccess_2: previousHandiCheck_2,
-
-        changingStation: this.state.babyStationCheck,
-        changingStation_2: this.state.babyStationCheck,
-        handicapAccess: this.state.handicapAccessCheck,
-        handicapAccess_2: this.state.handicapAccessCheck,
-
+        changingStation: true,
+        changingStation_2: true,
+        handicapAccess: true,
+        handicapAccess_2: true,
         rating: previousRating
       }
 
-      console.log("if rating 0 and checkboxes false", editedMarker)
+      console.log("if rating 0 and checkboxes true", editedMarker)
       this.props.editMarker(editedMarker, this.state.activeMarker.id)
 
-    } else {
+    }
+    else if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessCheck === false) {
+
+      let previousRating = this.state.selectedPlace.rating
+
+      const editedMarker = {
+        name: this.state.editedName,
+        location: this.state.editedLocationName,
+
+        changingStation: true,
+        changingStation_2: true,
+        handicapAccess: false,
+        handicapAccess_2: false,
+        rating: this.state.rating
+      }
+
+      console.log("if rating 0 and baby is true but handi is false", editedMarker)
+      this.props.editMarker(editedMarker, this.state.activeMarker.id)
+
+    }
+
+    else if (this.state.editBabyStationCheck === false && this.state.editHandicapAccessCheck === true) {
+
+      let previousRating = this.state.selectedPlace.rating
+
+      const editedMarker = {
+        name: this.state.editedName,
+        location: this.state.editedLocationName,
+
+        changingStation: false,
+        changingStation_2: false,
+        handicapAccess: true,
+        handicapAccess_2: true,
+        rating: this.state.rating
+      }
+
+      console.log("if rating 0 and baby is true but handi is false", editedMarker)
+      this.props.editMarker(editedMarker, this.state.activeMarker.id)
+
+    }
+
+    else {
       //when values altered
       const editedMarker = {
         name: this.state.editedName,
@@ -712,7 +845,7 @@ export class MapContainer extends Component {
         rating: this.state.rating
       }
 
-      console.log("normal edit", editedMarker)
+      console.log("normal edit")
       this.props.editMarker(editedMarker, this.state.activeMarker.id)
     }
   }
@@ -815,6 +948,8 @@ export class MapContainer extends Component {
     // console.log("sessionStorage.userID = ", sessionStorage.userID)
     console.log("babyCheck", this.state.babyStationCheck)
     console.log("handiCheck", this.state.handicapAccessCheck)
+    console.log("editBabyCheck", this.state.editBabyStationCheck)
+    console.log("editHandiCheck", this.state.editHandicapAccessCheck)
   }
 
 
@@ -1211,22 +1346,22 @@ export class MapContainer extends Component {
 
                 <div className="editBoxesDiv">
                   <label className="editNameLabel">Bathroom Name: </label>
-                  <input className="editNameBox" key={this.props.marker} id="editedName" type="text" value={this.state.editedName} maxLength="20" onChange={this.handleEditTextboxState}></input>
+                  <input className="editNameBox" key={this.props.marker} id="editedName" type="text" value={this.state.editedName} maxLength="30" onChange={this.handleEditTextboxState}></input>
                   <label className="editLocationLabel">Location Name: </label>
-                  <input className="editLocationBox" key={this.props.marker} id="editedLocationName" type="text" maxLength="20" value={this.state.editedLocationName} onChange={this.handleEditTextboxState}></input>
+                  <input className="editLocationBox" key={this.props.marker} id="editedLocationName" type="text" maxLength="30" value={this.state.editedLocationName} onChange={this.handleEditTextboxState}></input>
                 </div>
 
                 <div className="checkSeparator">
 
                   <div className="editBabyCheckField">
                     {/* #1 */}
-                    <input className="editBabyStation" type="checkbox" defaultChecked={this.state.selectedPlace.changingStation_2} onClick={this.handleBabyStationCheckChange}></input>
+                    <input id="editBabyStationCheck" className="editBabyStation" type="checkbox" defaultChecked={this.state.selectedPlace.changingStation_2} onClick={this.handleEditBabyStationCheckChange}></input>
                     <Icon className="fas fa-baby" color="info"></Icon>
                     &nbsp;<label className="editBabyCheckLabel">Baby Changing Station</label>
                   </div>
                   {/* #2 */}
                   <div className="editHandiAccessCheckField">
-                    <input className="editHandiAccess" type="checkbox" defaultChecked={this.state.selectedPlace.handicapAccess_2} onClick={this.handleHandiAccessCheckChange}></input>
+                    <input id="editHandiStationCheck" className="editHandiAccess" type="checkbox" defaultChecked={this.state.selectedPlace.handicapAccess_2} onClick={this.handleEditHandiAccessCheckChange}></input>
                     <Icon className="fas fa-wheelchair" color="info"></Icon>
                     &nbsp;<label className="editHandiAccessLabel">Handicap Access</label>
                   </div>
@@ -1244,7 +1379,7 @@ export class MapContainer extends Component {
 
                 </div>
 
-                {/* <Button onClick={this.consoleLog}></Button> */}
+                <Button onClick={this.consoleLog}></Button>
               </div>
 
               <div className="editSubmitBtnDiv">
@@ -1290,7 +1425,7 @@ export class MapContainer extends Component {
     if (this.props.sessionStorage) {
       infoWindowButtons = (
         <div>
-          <Button id="editButton" className="infoWindowEditButton is-small" onClick={this.handleInfoWindowContentState}>
+          <Button id="editButton" className="infoWindowEditButton is-small" onClick={this.handleInfoWindowContentState_1}>
             <Icon className="fas fa-edit"></Icon>&nbsp;Edit Marker</Button>
           <Button id="deleteButton" className="infoWindowDeleteButton is-small" onClick={this.warningMessageToggle}>
             {/* onClick={() => this.deleteCurrentMarker(this.state.activeMarker.id)}> */}
@@ -1490,7 +1625,7 @@ export class MapContainer extends Component {
         </div>
         {userBarSelectionButtons}
 
-        {/* <button onClick={this.consoleLog}>console log current location</button> */}
+        <button onClick={this.consoleLog}>console log current location</button>
         <div>
           <br></br>
           <Map id="Map" google={this.props.google} style={style} className="background" zoom={14} initialCenter={userLocation}
