@@ -49,11 +49,6 @@ export default class ApplicationViews extends Component {
         {/* <button onClick={this.consoleLog}>console log current location</button> */}
 
 
-           {/* <Route path="/" render={(props) => {
-           return <Redirect to="/home" />
-           }}
-           /> */}
-
 
           <Route path="/" render={(props) => {
 
@@ -87,24 +82,6 @@ export default class ApplicationViews extends Component {
             </React.Fragment>
           }}
           />
-
-          {/* <Route path="/registration" render={(props) => {
-            return <RegistrationForm {...props}
-              //state change functions
-              logOutButton={this.props.logOutButton}
-              userBarStateChange={this.props.userBarStateChange}
-              registerStateChange={this.props.registerStateChange}
-              //C.R.U.D functions
-              addUser={this.props.addUser}
-              //state props
-              homeLink={this.props.homeLink}
-              interactionBar={this.props.interactionBar}
-              registerButton={this.props.registerButton}
-              //Data
-              users={this.props.users}
-            />
-          }}
-          /> */}
       </div>
     )
 
