@@ -916,8 +916,8 @@ export class MapContainer extends Component {
       extraInfoField_2 = (
         <StyleRoot>
           <div className="extraInfoDiv" style={slideDownAnimation.slideInDown}>
-            <label className="currLocationNameLabel extraInfoLabel">Location Name/Address: </label>
-            <input id="location" className="currLocationName" type="text" placeholder="Location Name/Address" onChange={this.handleTextBoxState}></input>
+            <label className="currLocationNameLabel extraInfoLabel">Knickname: </label>
+            <input id="currentName" className="currLocationName" type="text" placeholder="Location Name/Address" onChange={this.handleTextBoxState}></input>
           </div>
         </StyleRoot>
       )
@@ -946,7 +946,7 @@ export class MapContainer extends Component {
 
                 <div className="locationTextBoxes">
                   <label className="locationLabel">Which location? </label>
-                  <input id="currentName" className="locationTextbox" type="text" placeholder="Search Location" onChange={this.handleTextBoxState}></input>
+                  <input id="location" className="locationTextbox" type="text" placeholder="Search Location" onChange={this.handleTextBoxState}></input>
                 </div>
 
                 <div className="checkSeparator">
