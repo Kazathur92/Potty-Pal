@@ -578,6 +578,7 @@ export class MapContainer extends Component {
           lat: this.state.lat,
           lng: this.state.lng,
           public: true,
+          rating: this.state.rating,
           changingStation: this.state.babyStationCheck,
           changingStation_2: this.state.babyStationCheck,
           handicapAccess: this.state.handicapAccessCheck,
