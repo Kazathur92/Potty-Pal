@@ -612,47 +612,47 @@ export class MapContainer extends Component {
   //   }
   // };
 
-  // //current location POST
-  // constructNewCurrentGeoBathroom = () => {
+  //current location POST
+  constructNewCurrentGeoBathroom = () => {
 
-  //   if (this.state.currentName === "") {
-  //     window.alert("Bathroom needs a name");
-  //   } else {
-  //     //modal
-  //     this.setState({
-  //       show: false,
-  //       addressButton: false,
-  //       currentLocationButton: false,
-  //       userBarSelection: true,
-  //     })
+    if (this.state.currentName === "") {
+      window.alert("Bathroom needs a name");
+    } else {
+      //modal
+      this.setState({
+        show: false,
+        addressButton: false,
+        currentLocationButton: false,
+        userBarSelection: true,
+      })
 
-  //     const newCurrentGeoBathroom = {
-  //       name: this.state.currentName,
-  //       location: this.state.currentLocationName,
-  //       // lat: this.props.currentGeo.lat,
-  //       // lng: this.props.currentGeo.lng,
-  //       lat: this.state.userLocation.lat,
-  //       lng: this.state.userLocation.lng,
-  //       changingStation: this.state.babyStationCheck,
-  //       changingStation_2: this.state.babyStationCheck,
-  //       handicapAccess: this.state.handicapAccessCheck,
-  //       handicapAccess: this.state.handicapAccessCheck,
-  //       user_Id: +sessionStorage.userID
-  //     }
-  //     this.props.addMarker(newCurrentGeoBathroom)
+      const newCurrentGeoBathroom = {
+        name: this.state.currentName,
+        location: this.state.currentLocationName,
+        // lat: this.props.currentGeo.lat,
+        // lng: this.props.currentGeo.lng,
+        lat: this.state.userLocation.lat,
+        lng: this.state.userLocation.lng,
+        changingStation: this.state.babyStationCheck,
+        changingStation_2: this.state.babyStationCheck,
+        handicapAccess: this.state.handicapAccessCheck,
+        handicapAccess: this.state.handicapAccessCheck,
+        user_Id: +sessionStorage.userID
+      }
+      this.props.addMarker(newCurrentGeoBathroom)
 
-  //     this.setState({
-  //       currentName: "",
-  //       currentLocationName: "",
-  //       babyStationCheck: false,
-  //       handicapAccessCheck: false,
-  //       addressButton: false,
-  //       currentLocationButton: false,
-  //       // userBarSelection: true,
-  //     })
-  //   }
+      this.setState({
+        currentName: "",
+        currentLocationName: "",
+        babyStationCheck: false,
+        handicapAccessCheck: false,
+        addressButton: false,
+        currentLocationButton: false,
+        // userBarSelection: true,
+      })
+    }
 
-  // }
+  }
 
   //EDIT MARKER FUNCTION
   constructNewEditedMarker = () => {
