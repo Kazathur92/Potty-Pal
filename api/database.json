@@ -49,7 +49,9 @@
       "public": true,
       "rating": 3,
       "changingStation": false,
+      "changingStation_2": true,
       "handicapAccess": true,
+      "handicapAccess_2": false,
       "user_Id": 1,
       "id": 3
     },
@@ -60,21 +62,12 @@
       "public": true,
       "rating": 1,
       "changingStation": false,
+      "changingStation_2": false,
       "handicapAccess": false,
+      "handicapAccess_2": false,
       "user_Id": 1,
       "id": 4,
       "name": "Proctor Barn"
-    },
-    {
-      "name": "Home",
-      "location": "",
-      "lat": 36.237775299999996,
-      "lng": -86.6981898,
-      "changingStation": true,
-      "handicapAccess": true,
-      "user_Id": 1,
-      "id": 5,
-      "rating": 1
     }
   ],
   "users_markers": [
