@@ -129,6 +129,9 @@ padding: 30px;
   background-color: #282c34;
 }
 
+.ratingDiv {
+  margin-left: 10%;
+}
 
 /* ==================================SELECTION BAR END===================== */
 
@@ -139,7 +142,7 @@ padding: 30px;
 .searchLocationBox {
   background-color: #282c34;
   border: solid 3px grey;
-  height: 42%;
+  height: 50%;
   border-radius: 15px;
 }
 
@@ -226,7 +229,7 @@ padding: 30px;
 .currentLocationBoxes {
   background-color: #282c34;
   border: solid 3px grey;
-  height: 42%;
+  height: 48%;
   border-radius: 15px;
 }
 
@@ -307,7 +310,54 @@ padding: 30px;
   margin-left: 25%;
 }
 
+.amalgamator {
+  display:flex;
+}
+
 .extraInfoDropDown {
+  margin-top: 6.1%;
+  color: rgba(245, 245, 245, 0.877);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 15px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  width: 95px;
+  height: 24px;
+  background-color: #426e70;
+  border-top-color: #426e70;
+  border-bottom-color: #426e70;
+  border-left-color: #426e70;
+  border-right-color: #426e70;
+
+  /* TO BLEND IN */
+  /* background-color: #282c34;
+  border-top-color: #282c34;
+  border-bottom-color: #282c34;
+  border-left-color: #282c34;
+  border-right-color: #282c34; */
+}
+
+.extraInfoDropDown:hover {
+  color: rgba(192, 192, 192, 0.877);
+  width: 95px;
+  height: 24px;
+  border-bottom: #426e70;
+  background-color: #426e70;
+  border-top-color: #426e70;
+  border-bottom-color: #426e70;
+  border-left-color: #426e70;
+  border-right-color: #426e70;
+
+  /* TO BLEND IN */
+  /* background-color: #282c34;
+  border-top-color: #282c34;
+  border-bottom-color: #282c34;
+  border-left-color: #282c34;
+  border-right-color: #282c34; */
+}
+
+.extraInfoDropDown_2 {
+  margin-top: 6.1%;
   color: rgba(245, 245, 245, 0.877);
   border-top-left-radius: 5px;
   border-top-right-radius: 15px;
@@ -322,10 +372,11 @@ padding: 30px;
   border-right-color: #426e70;
 }
 
-.extraInfoDropDown:hover {
-  border-bottom: #426e70;
+.extraInfoDropDown_2:hover {
+  color: rgba(192, 192, 192, 0.877);
   width: 95px;
   height: 24px;
+  border-bottom: #426e70;
   background-color: #426e70;
   border-top-color: #426e70;
   border-bottom-color: #426e70;
@@ -359,7 +410,16 @@ padding: 30px;
   border-bottom-right-radius: 15px;
   width: 50%;
   padding: 2px;
-  margin-bottom: -11%;
+  margin-bottom: -5.8%;
+}
+
+.extraInfoDiv_2 {
+  background-color: #426e70;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  width: 50%;
+  padding: 2px;
+  margin-bottom: -10.9%;
 }
 
 .extraInfoLabel {
@@ -493,6 +553,7 @@ padding: 30px;
 }
 
 .editRatingTitle {
+  margin-top: 5px;
   font-size: 12px;
   color: rgba(245, 245, 245, 0.877);
 }

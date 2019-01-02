@@ -99,7 +99,7 @@ export class MapContainer extends Component {
     extraInfoState: false,
     littleArrowDownState: true,
     littleArrowUpState: false,
-    estraInfoState_2: false,
+    extraInfoState_2: false,
     littleArrowDownState_2: true,
     littleArrowUpState_2: false,
     //satates for values
@@ -143,55 +143,7 @@ export class MapContainer extends Component {
     )
   }
 
-  //==========================GEOCODE API FETCH and POST ======================
-  geocodeLocation = () => {
-    Geocode.setApiKey("AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs")
-    // console.log('location: ', this.state.location)
-    Geocode.fromAddress(this.state.location).then(
-      response => {
-        // console.log('happened 3', response)
-        const latitude = response.results[0].geometry.location.lat;
-        // console.log("latitude",latitude);
-        const longitude = response.results[0].geometry.location.lng;
-        // console.log("longitude", longitude)
-        this.setState({
-          lat: latitude,
-          lng: longitude
-        })
 
-
-        // console.log("lat state", this.state.lat)
-        let bathroom = {
-          name: this.state.currentName,
-          location: this.state.location,
-          lat: this.state.lat,
-          lng: this.state.lng,
-          public: true,
-          changingStation: this.state.babyStationCheck,
-          changingStation_2: this.state.babyStationCheck,
-          handicapAccess: this.state.handicapAccessCheck,
-          handicapAccess_2: this.state.handicapAccessCheck,
-          user_Id: +sessionStorage.userID
-        }
-        this.props.addMarker(bathroom)
-
-        this.setState({
-          currentName: "",
-          currentLocationName: "",
-          babyStationCheck: false,
-          handicapAccessCheck: false,
-          addressButton: false,
-          currentLocationButton: false,
-          // userBarSelection: true,
-        })
-
-      },
-      error => {
-        console.error(error);
-      }
-    )
-  }
-  //==================================================================================
 
   //dont think you need
   getInitialState() {
@@ -602,6 +554,61 @@ export class MapContainer extends Component {
   }
   // // ===========C.R.U.D==================================
 
+  //==========================GEOCODE API FETCH and POST ======================
+  geocodeLocation = () => {
+    Geocode.setApiKey("AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs")
+    // console.log('location: ', this.state.location)
+    Geocode.fromAddress(this.state.location).then(
+      response => {
+        // console.log('happened 3', response)
+        const latitude = response.results[0].geometry.location.lat;
+        // console.log("latitude",latitude);
+        const longitude = response.results[0].geometry.location.lng;
+        // console.log("longitude", longitude)
+        this.setState({
+          lat: latitude,
+          lng: longitude
+        })
+
+
+        // console.log("lat state", this.state.lat)
+        let bathroom = {
+          name: this.state.currentName,
+          location: this.state.location,
+          lat: this.state.lat,
+          lng: this.state.lng,
+          public: true,
+          changingStation: this.state.babyStationCheck,
+          changingStation_2: this.state.babyStationCheck,
+          handicapAccess: this.state.handicapAccessCheck,
+          handicapAccess_2: this.state.handicapAccessCheck,
+          user_Id: +sessionStorage.userID
+        }
+        this.props.addMarker(bathroom)
+
+        this.setState({
+          currentName: "",
+          currentLocationName: "",
+          babyStationCheck: false,
+          handicapAccessCheck: false,
+          addressButton: false,
+          currentLocationButton: false,
+          extraInfoState: false,
+          littleArrowDownState: true,
+          littleArrowUpState: false,
+          extraInfoState_2: false,
+          littleArrowDownState_2: true,
+          littleArrowUpState_2: false
+        })
+
+      },
+      error => {
+        console.error(error);
+      }
+    )
+  }
+  //==================================================================================
+
   // //typing address POST
   constructNewBathroom = () => {
     if (this.state.location === "") {
@@ -633,6 +640,7 @@ export class MapContainer extends Component {
         // lng: this.props.currentGeo.lng,
         lat: this.state.userLocation.lat,
         lng: this.state.userLocation.lng,
+        rating: this.state.rating,
         changingStation: this.state.babyStationCheck,
         changingStation_2: this.state.babyStationCheck,
         handicapAccess: this.state.handicapAccessCheck,
@@ -641,6 +649,7 @@ export class MapContainer extends Component {
       }
       this.props.addMarker(newCurrentGeoBathroom)
 
+      //TODO why changing checkbox state here to false?
       this.setState({
         currentName: "",
         currentLocationName: "",
@@ -648,7 +657,12 @@ export class MapContainer extends Component {
         handicapAccessCheck: false,
         addressButton: false,
         currentLocationButton: false,
-        // userBarSelection: true,
+        extraInfoState: false,
+        littleArrowDownState: true,
+        littleArrowUpState: false,
+        extraInfoState_2: false,
+        littleArrowDownState_2: true,
+        littleArrowUpState_2: false
       })
     }
 
@@ -658,25 +672,35 @@ export class MapContainer extends Component {
   constructNewEditedMarker = () => {
 
     if (this.state.rating === 0) {
-
+      //when values untouched
       let previousRating = this.state.selectedPlace.rating
+      let previousBabyCheck = this.state.selectedPlace.changingStation_2
+      let previousBabyCheck_2 = this.state.selectedPlace.changingStation_2
+      let previousHandiCheck = this.state.selectedPlace.handicapAccess_2
+      let previousHandiCheck_2 = this.state.selectedPlace.handicapAccess_2
 
       const editedMarker = {
         name: this.state.editedName,
         location: this.state.editedLocationName,
+
+        // changingStation: previousBabyCheck,
+        // changingStation_2: previousBabyCheck_2,
+        // handicapAccess: previousHandiCheck,
+        // handicapAccess_2: previousHandiCheck_2,
+
         changingStation: this.state.babyStationCheck,
         changingStation_2: this.state.babyStationCheck,
         handicapAccess: this.state.handicapAccessCheck,
         handicapAccess_2: this.state.handicapAccessCheck,
+
         rating: previousRating
       }
 
-      console.log(editedMarker)
+      console.log("if rating 0 and checkboxes false", editedMarker)
       this.props.editMarker(editedMarker, this.state.activeMarker.id)
 
     } else {
-
-
+      //when values altered
       const editedMarker = {
         name: this.state.editedName,
         location: this.state.editedLocationName,
@@ -687,7 +711,7 @@ export class MapContainer extends Component {
         rating: this.state.rating
       }
 
-      console.log(editedMarker)
+      console.log("normal edit", editedMarker)
       this.props.editMarker(editedMarker, this.state.activeMarker.id)
     }
   }
@@ -763,7 +787,6 @@ export class MapContainer extends Component {
     currentLocationButton: false,
     editButton: false,
     deleteButton: false,
-    // userBarSelection: true,
     extraInfoState: false,
     littleArrowDownState: true,
     littleArrowUpState: false,
@@ -776,19 +799,21 @@ export class MapContainer extends Component {
   consoleLog = () => {
     console.log("selectedPlace", this.state.selectedPlace)
     // console.log("selected place rating", this.state.selectedPlace.rating)
-    console.log("active Marker id", this.state.activeMarker)
-    console.log("selectedPlace property", this.state.selectedPlace.name)
-    console.log("selectedPlace property", this.state.selectedPlace.address)
+    // console.log("active Marker id", this.state.activeMarker)
+    // console.log("selectedPlace property", this.state.selectedPlace.name)
+    // console.log("selectedPlace property", this.state.selectedPlace.address)
 
-    console.log("editedName", this.state.currentName)
-    console.log("editedLocationName", this.state.currentLocationName)
+    // console.log("editedName", this.state.currentName)
+    // console.log("editedLocationName", this.state.currentLocationName)
     // console.log("infoWindow", this.currentInfoWindow)
     // console.log("this id", this.id)
     // console.log("currentLocation state", this.props.bathrooms)
-    console.log(this.state.rating)
+    console.log("rating", this.state.rating)
     // console.log("userID", this.userID)
     // console.log(sessionStorage)
     // console.log("sessionStorage.userID = ", sessionStorage.userID)
+    console.log("babyCheck", this.state.babyStationCheck)
+    console.log("handiCheck", this.state.handicapAccessCheck)
   }
 
 
@@ -846,10 +871,11 @@ export class MapContainer extends Component {
           <div className="userBar" style={flipInAnimation.flipInX}>
             <Button type="submit" className="addButton is-normal is-rounded" style={headShakeAnimation.headShake} onClick={this.handleAddBathroomSelectionState}>
               <Icon className="fas fa-toilet"></Icon>&nbsp;Add Bathroom</Button>
-            <Button className="favoritesButton is-normal is-rounded" onClick={this.handleFieldChange}>
+            {/* TODO for version 2 */}
+            {/* <Button className="favoritesButton is-normal is-rounded" onClick={this.handleFieldChange}>
               <Icon className="fas fa-heart"></Icon>&nbsp;&nbsp;Favorites</Button>
             <Button className="trendingButton is-normal is-rounded" onClick={this.handleFieldChange}>
-              <Icon className="fas fa-star"></Icon>&nbsp;&nbsp;Trending</Button>
+              <Icon className="fas fa-star"></Icon>&nbsp;&nbsp;Trending</Button> */}
           </div>
         </StyleRoot>
       );
@@ -863,7 +889,9 @@ export class MapContainer extends Component {
     if (this.props.sessionStorage === true) {
       logOutButton = (
         <StyleRoot>
-          <Button id="logOutButton" style={flipInAnimation.flipInX} className="logOutButton is-normal is-rounded" onClick={this.handleLogOutStateChanges}><Icon className="fas fa-sign-out-alt"></Icon>&nbsp;&nbsp;Log Out</Button>
+          <div style={flipInAnimation.flipInX}>
+            <Button id="logOutButton" className="logOutButton is-normal is-rounded" onClick={this.handleLogOutStateChanges}><Icon className="fas fa-sign-out-alt"></Icon>&nbsp;&nbsp;Log Out</Button>
+          </div>
         </StyleRoot>
       )
     } else {
@@ -963,13 +991,26 @@ export class MapContainer extends Component {
                     &nbsp;<label className="handiAccessCheckLabel">Handicap Access</label>
                   </div>
 
+
                 </div>
 
               </div>
 
               <div className="extraInfoFieldDiv">
-                <Button className="extraInfoDropDown" onClick={this.handleExtraInfoState_2}><p className="extraInfoWords">{littleArrowUpIcon_2}{littleArrowDownIcon_2}
-                  &nbsp;Extra Info</p></Button>
+                <div className="amalgamator">
+                  <Button className="extraInfoDropDown" onClick={this.handleExtraInfoState_2}><p className="extraInfoWords">{littleArrowUpIcon_2}{littleArrowDownIcon_2}
+                    &nbsp;Extra Info</p></Button>
+                  <div className="ratingDiv">
+                    <p className="editRatingTitle">Your Rating: </p>
+                    <StarRatingComponent
+                      name="rate3"
+                      starCount={5}
+                      value={this.state.rating}
+                      onStarClick={this.onStarClick.bind(this)}
+                      editing={true}
+                    />
+                  </div>
+                </div>
                 {extraInfoField_2}
               </div>
 
@@ -977,6 +1018,7 @@ export class MapContainer extends Component {
                 <Button className="markItButton" onClick={this.constructNewBathroom}><Icon className="fas fa-restroom"></Icon>
                   &nbsp;&nbsp;Mark It</Button>
               </div>
+
 
             </div>
 
@@ -1010,7 +1052,7 @@ export class MapContainer extends Component {
     if (this.state.extraInfoState) {
       extraInfoField = (
         <StyleRoot>
-          <div className="extraInfoDiv" style={slideDownAnimation.slideInDown}>
+          <div className="extraInfoDiv_2" style={slideDownAnimation.slideInDown}>
             <label className="currLocationNameLabel extraInfoLabel">Location Name/Address: </label>
             <input id="currentLocationName" className="currLocationName" type="text" placeholder="Location Name/Address" onChange={this.handleTextBoxState}></input>
           </div>
@@ -1060,13 +1102,26 @@ export class MapContainer extends Component {
                     &nbsp;<label className="currHandiAccessCheckLabel">Handicap Access</label>
                   </div>
 
+
                 </div>
 
               </div>
 
               <div className="extraInfoFieldDiv">
-                <Button className="extraInfoDropDown" onClick={this.handleExtraInfoState}><p className="extraInfoWords">{littleArrowUpIcon}{littleArrowDownIcon}
-                  &nbsp;Extra Info</p></Button>
+                <div className="amalgamator">
+                  <Button className="extraInfoDropDown_2" onClick={this.handleExtraInfoState}><p className="extraInfoWords">{littleArrowUpIcon}{littleArrowDownIcon}
+                    &nbsp;Extra Info</p></Button>
+                  <div className="ratingDiv">
+                    <p className="editRatingTitle">Your Rating: </p>
+                    <StarRatingComponent
+                      name="rate3"
+                      starCount={5}
+                      value={this.state.rating}
+                      onStarClick={this.onStarClick.bind(this)}
+                      editing={true}
+                    />
+                  </div>
+                </div>
                 {extraInfoField}
               </div>
 
@@ -1074,6 +1129,7 @@ export class MapContainer extends Component {
                 <Button className="markItButton" onClick={this.constructNewCurrentGeoBathroom}><Icon className="fas fa-restroom"></Icon>
                   &nbsp;&nbsp;Mark It</Button>
               </div>
+
 
             </div>
           </Modal>
@@ -1187,11 +1243,13 @@ export class MapContainer extends Component {
 
                 </div>
 
+                <Button onClick={this.consoleLog}></Button>
               </div>
 
               <div className="editSubmitBtnDiv">
-                <Button className="markItButton" onClick={() => this.handleSubmitChangesButtonState()}>Submit Changes</Button>
+                <Button className="markItButton" color="link" onClick={() => this.handleSubmitChangesButtonState()}>Submit Changes</Button>
               </div>
+
             </div>
 
           </Modal>
@@ -1431,7 +1489,7 @@ export class MapContainer extends Component {
         </div>
         {userBarSelectionButtons}
 
-        {/* <button onClick={this.consoleLog}>console log current location</button> */}
+        <button onClick={this.consoleLog}>console log current location</button>
         <div>
           <br></br>
           <Map id="Map" google={this.props.google} style={style} className="background" zoom={14} initialCenter={userLocation}

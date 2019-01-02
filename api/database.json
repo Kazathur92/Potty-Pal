@@ -68,6 +68,19 @@
       "user_Id": 1,
       "id": 4,
       "name": "Proctor Barn"
+    },
+    {
+      "name": "Home",
+      "location": "",
+      "lat": 36.2378255,
+      "lng": -86.6986105,
+      "rating": 3,
+      "changingStation": true,
+      "changingStation_2": true,
+      "handicapAccess": true,
+      "handicapAccess_2": true,
+      "user_Id": 1,
+      "id": 5
     }
   ],
   "users_markers": [
