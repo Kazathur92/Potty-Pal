@@ -1,0 +1,49 @@
+.sideBarDiv {
+  width: 30%;
+  border-radius: 10px;
+  margin-top: -5%;
+  position: fixed;
+}
+
+.sideBarNav {
+
+}
+
+.cardDiv {
+  background-color: rgba(245, 245, 245, 0.877);
+
+}
+
+.cardContainer {
+  background-color: rgba(245, 245, 245, 0.877);
+
+}
+
+
+.sidebarCloseButton:hover {
+color: blue;
+}
+
+#button_3 {
+  visibility: visible;
+}
+
+.closeButton {
+  visibility: hidden;
+}
+
+.markerCard {
+  /* background-color: white; */
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.markerCard:hover {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  color: rgba(245, 245, 245, 0.877);
+  background-color: rgb(92, 31, 122);
+}
+/* nav {
+  width: 30%
+} */

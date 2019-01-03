@@ -4,6 +4,8 @@
 
 }
 
+
+
 button {
   outline: none;
   border: none;
@@ -111,6 +113,24 @@ button {
   border-right-color: #b28e00;
 }
 
+.myMarkerButton {
+  color: rgba(245, 245, 245, 0.877);
+  background-color: darkorchid;
+  border-top-color: darkorchid;
+  border-bottom-color: darkorchid;
+  border-left-color: darkorchid;
+  border-right-color: darkorchid;
+}
+
+.myMarkerButton:hover {
+  color: rgba(245, 245, 245, 0.877);
+  background-color: rgb(114, 37, 153);
+  border-top-color: rgb(114, 37, 153);
+  border-bottom-color: rgb(114, 37, 153);
+  border-left-color: rgb(114, 37, 153);
+  border-right-color: rgb(114, 37, 153);
+}
+
 /* ==============================INTERACTION BAR START====================== */
 
 .interactionBar {
@@ -142,7 +162,7 @@ padding: 30px;
 .searchLocationBox {
   background-color: #282c34;
   border: solid 3px grey;
-  height: 50%;
+  height: 47%;
   border-radius: 15px;
 }
 
@@ -229,7 +249,7 @@ padding: 30px;
 .currentLocationBoxes {
   background-color: #282c34;
   border: solid 3px grey;
-  height: 48%;
+  height: 47%;
   border-radius: 15px;
 }
 

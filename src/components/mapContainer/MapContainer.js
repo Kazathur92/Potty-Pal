@@ -6,6 +6,8 @@ import { slideInDown, flipInX, headShake, fadeIn, flipInY } from 'react-animatio
 import Radium, { StyleRoot } from 'radium';
 import Geocode from "react-geocode"
 import InfoWindowEx from '../infoWindowEx/InfoWindowEx'
+import MyMarkerSideBar from '../myMarkersSideBar/MyMarkersSideBar'
+import SideBarEditModal from '../editModalFromSidebar/SideBarEditModal'
 import "./Container.css"
 
 // =================USING GOOGLE-MAPS-REACT==============================
@@ -16,6 +18,12 @@ const style = {
   marginTop: '0px',
   width: '95%',
   height: '80%'
+}
+
+const color = {
+  color: 'red',
+  backgroundColor: 'red',
+  border: "3px solid black"
 }
 
 //=============================ANIMATIONS==============================
@@ -94,6 +102,8 @@ export class MapContainer extends Component {
     editFields: false,
     editButton: false,
     deleteButton: false,
+    deleteButton_2: false,
+    myMarkerButton: false,
     //userBarSelection states
     userBarSelection: false,
     extraInfoState: false,
@@ -124,7 +134,13 @@ export class MapContainer extends Component {
     handiCheckCondition: true,
     editBabyStationCheck: false,
     editHandicapAccessCheck: false,
-    // checkCondition: false,
+    //marker states
+    iconChange: false,
+    currentMarker: "",
+    //
+    sideBarEditModal: false,
+    sideBarMarkerToBeDeleted: "",
+    // sideBarItemClicked: false
   }
 
   //Only use if not using currengGeo state
@@ -194,6 +210,15 @@ export class MapContainer extends Component {
     }
   }
 
+  //I made this one
+  onMarkerHover = (props, marker, e) => {
+
+    this.setState({
+      selectedPlace: props,
+      activeMarker: marker,
+    })
+  }
+
   //need
   onInfoWindowClose = () => {
     this.setState({
@@ -238,6 +263,20 @@ export class MapContainer extends Component {
     }
   }
 
+  handleMyMarkerButtonState = () => {
+
+    if (this.state.myMarkerButton) {
+      this.setState({
+        myMarkerButton: false
+      })
+    } else {
+      this.setState({
+        myMarkerButton: true
+      })
+    }
+
+  }
+
   handleBackButtonState = () => {
     //modal
     this.setState({
@@ -249,7 +288,9 @@ export class MapContainer extends Component {
       littleArrowUpState: false,
       extraInfoState_2: false,
       littleArrowDownState_2: true,
-      littleArrowUpState_2: false
+      littleArrowUpState_2: false,
+      showingInfoWindow: false,
+      rating: 0
       // show: true,
     })
   }
@@ -328,6 +369,39 @@ export class MapContainer extends Component {
   }
 
 
+  //=========================================ICONS STATES START==================
+
+  handleIconState_1 = (props, id, e) => {
+
+    let inactiveMarkerId = id
+    let markerProps = props
+
+    // this.onMarkerHover(markerProps)
+
+    this.setState({
+      currentMarker: props,
+      currentIcon: true,
+    })
+
+    // console.log(id)
+    // console.log(this.state.currentIcon)
+  }
+
+  //dont think ill need this one, since I can just make a conditional statement.
+  handleIconState_2 = (props, id, e) => {
+
+    let activeMarkerId = id
+
+    this.setState({
+      currentMarker: props,
+      currentIcon: false,
+    })
+    // console.log(activeMarkerId)
+  }
+
+  //===========================================ICONS STATES END====================
+
+
   //========================================CHECKBOXES START======================
 
   //#1
@@ -336,14 +410,10 @@ export class MapContainer extends Component {
 
       this.setState({
         babyStationCheck: true,
-        // babyCheckStatus: "Available",
-        // babyCheckCondition: false
       })
     } else {
       this.setState({
         babyStationCheck: false,
-        // babyCheckStatus: "Unavailable",
-        // babyCheckCondition: false
       })
 
     }
@@ -428,6 +498,8 @@ export class MapContainer extends Component {
       addressButton: false,
       userBarSelection: false,
       currentLocationButton: false,
+      myMarkerButton: false,
+      rating: 0
     })
   }
   //+
@@ -450,47 +522,47 @@ export class MapContainer extends Component {
       let previousBabyCheckStatus = this.state.selectedPlace.changingStation_2
       let previousHandiCheckStatus = this.state.selectedPlace.handicapAccess_2
 
-    this.setState({
-    editBabyStationCheck: previousBabyCheckStatus,
-    editHandicapAccessCheck: previousHandiCheckStatus
-    })
-console.log("both were true!")
-    // this.handleInfoWindowContentState_2()
-    this.handleInfoWindowIfCheckboxesTrue()
+      this.setState({
+        editBabyStationCheck: previousBabyCheckStatus,
+        editHandicapAccessCheck: previousHandiCheckStatus
+      })
+      console.log("both were true!")
+      // this.handleInfoWindowContentState_2()
+      this.handleInfoWindowIfCheckboxesTrue()
 
-  }
-  else if (this.state.selectedPlace.changingStation_2 === true && this.state.selectedPlace.handicapAccess_2 === false) {
+    }
+    else if (this.state.selectedPlace.changingStation_2 === true && this.state.selectedPlace.handicapAccess_2 === false) {
 
       let previousBabyCheckStatus = this.state.selectedPlace.changingStation_2
       // let previousHandiCheckStatus = this.state.selectedPlace.handicapAccess_2
-console.log("baby was true handi was false")
-    this.setState({
-    editBabyStationCheck: previousBabyCheckStatus,
-    editHandicapAccessCheck: false
-    })
-
-    this.handleInfoWindowContentState_2()
-  }
-  else if (this.state.selectedPlace.handicapAccess_2 === true && this.state.selectedPlace.changingStation_2 === false) {
-
-    let previousHandiCheckStatus = this.state.selectedPlace.handicapAccess_2
-console.log("baby was false handi was true")
-    this.setState({
-      editBabyStationCheck: false,
-      editHandicapAccessCheck: previousHandiCheckStatus
-    })
-
-    this.handleInfoWindowContentState_2()
-  }
-  else {
-    console.log("both were false!")
-    this.setState({
-      editBabyStationCheck: false,
-      editHandicapAccessCheck: false
+      console.log("baby was true handi was false")
+      this.setState({
+        editBabyStationCheck: previousBabyCheckStatus,
+        editHandicapAccessCheck: false
       })
 
       this.handleInfoWindowContentState_2()
-  }
+    }
+    else if (this.state.selectedPlace.handicapAccess_2 === true && this.state.selectedPlace.changingStation_2 === false) {
+
+      let previousHandiCheckStatus = this.state.selectedPlace.handicapAccess_2
+      console.log("baby was false handi was true")
+      this.setState({
+        editBabyStationCheck: false,
+        editHandicapAccessCheck: previousHandiCheckStatus
+      })
+
+      this.handleInfoWindowContentState_2()
+    }
+    else {
+      console.log("both were false!")
+      this.setState({
+        editBabyStationCheck: false,
+        editHandicapAccessCheck: false
+      })
+
+      this.handleInfoWindowContentState_2()
+    }
 
   }
 
@@ -514,60 +586,62 @@ console.log("baby was false handi was true")
 
   handleInfoWindowContentState_2 = () => {
 
-console.log("selecting path")
-console.log("editBabyStationCheck", this.state.editBabyStationCheck)
-console.log("editHandicapAccessCheck", this.state.editBabyStationCheck)
+    // console.log("selecting path")
+    // console.log("editBabyStationCheck", this.state.editBabyStationCheck)
+    // console.log("editHandicapAccessCheck", this.state.editBabyStationCheck)
 
 
-if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessCheck === false) {
+    if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessCheck === false) {
 
-  console.log("baby was true handi was false layer 2")
-  let placeName = this.state.selectedPlace.name
-  let locationName = this.state.selectedPlace.address
+      console.log("baby was true handi was false layer 2")
+      let placeName = this.state.selectedPlace.name
+      let locationName = this.state.selectedPlace.address
 
-  this.setState({
-    editedName: placeName,
-    editedLocationName: locationName,
-    editButton: true,
-    userBarSelection: false,
-    currentLocationButton: false,
-    addressButton: false,
-    babyStationCheck: true,
-    handicapAccessCheck: false,
-    show: true
-  })
-} else if (this.state.editBabyStationCheck === false && this.state.editHandicapAccessCheck === true) {
+      this.setState({
+        editedName: placeName,
+        editedLocationName: locationName,
+        editButton: true,
+        userBarSelection: false,
+        currentLocationButton: false,
+        addressButton: false,
+        babyStationCheck: true,
+        handicapAccessCheck: false,
+        show: true
+      })
+    } else if (this.state.editBabyStationCheck === false && this.state.editHandicapAccessCheck === true) {
 
-  console.log("baby was false handi was true layer 2")
-  let placeName = this.state.selectedPlace.name
-  let locationName = this.state.selectedPlace.address
+      console.log("baby was false handi was true layer 2")
+      let placeName = this.state.selectedPlace.name
+      let locationName = this.state.selectedPlace.address
 
-  this.setState({
-    editedName: placeName,
-    editedLocationName: locationName,
-    editButton: true,
-    userBarSelection: false,
-    currentLocationButton: false,
-    addressButton: false,
-    babyStationCheck: false,
-    handicapAccessCheck: true,
-    show: true
-  })
-} else {
+      this.setState({
+        editedName: placeName,
+        editedLocationName: locationName,
+        editButton: true,
+        userBarSelection: false,
+        currentLocationButton: false,
+        addressButton: false,
+        babyStationCheck: false,
+        handicapAccessCheck: true,
+        show: true
+      })
+    } else {
 
-  console.log("if boxes arent already checked")
-  let placeName = this.state.selectedPlace.name
-  let locationName = this.state.selectedPlace.address
-    this.setState({
-      editedName: placeName,
-      editedLocationName: locationName,
-      editButton: true,
-      userBarSelection: false,
-      currentLocationButton: false,
-      addressButton: false,
-      show: true
-    })
-}
+      console.log("if boxes arent already checked")
+      let placeName = this.state.selectedPlace.name
+      let locationName = this.state.selectedPlace.address
+      let previousRating = this.state.selectedPlace.rating
+      this.setState({
+        editedName: placeName,
+        editedLocationName: locationName,
+        editButton: true,
+        userBarSelection: false,
+        currentLocationButton: false,
+        addressButton: false,
+        show: true,
+        rating: previousRating
+      })
+    }
 
   }
 
@@ -575,12 +649,188 @@ if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessChe
 
     this.setState({
       editButton: false,
-      babyCheckCondition: true
+      babyCheckCondition: true,
+      sideBarEditModal: false,
+      showingInfoWindow: false,
+      rating: 0
     })
   }
 
   //=================================================================
   //+
+
+
+  //==========================SIDE BAR STATE CHANGING FUNCTIONS=============================
+  //TODO this after checkboxesfirst function in markeritem
+  handleSidebarEditState = () => {
+
+    if (this.state.sideBarEditModal) {
+      this.setState({
+        sideBarEditModal: false,
+        show: false,
+        editedName: "",
+        editedLocationName: ""
+      })
+    }
+    else {
+      this.setState({
+        sideBarEditModal: true,
+        show: true,
+        babyCheckCondition: true,
+        handiCheckCondition: true
+      })
+
+      this.changeCheckboxStatesFirst()
+
+    }
+  }
+
+  changeStateAndSubmitEdit = () => {
+    this.setState({
+      sideBarEditModal: false,
+      show: false,
+      editButton: false,
+      currentLocationButton: false,
+      addressButton: false,
+    })
+
+    this.constructNewEditedMarkerSidebar()
+  }
+
+  //in MarkItem component
+  changeCheckboxStatesFirst = () => {
+
+
+    if (this.state.currentMarker.changingStation_2 && this.state.currentMarker.handicapAccess_2) {
+
+      let previousBabyCheckStatus = this.state.currentMarker.changingStation_2
+      let previousHandiCheckStatus = this.state.currentMarker.handicapAccess_2
+
+      this.setState({
+        editBabyStationCheck: previousBabyCheckStatus,
+        editHandicapAccessCheck: previousHandiCheckStatus
+      })
+      console.log("both were true!")
+      // this.handleInfoWindowContentState_2()
+      this.ifCheckboxesTrue()
+
+    }
+    else if (this.state.currentMarker.changingStation_2 === true && this.state.currentMarker.handicapAccess_2 === false) {
+
+      let previousBabyCheckStatus = this.state.currentMarker.changingStation_2
+      // let previousHandiCheckStatus = this.state.currentMarker.handicapAccess_2
+      console.log("baby was true handi was false")
+      this.setState({
+        editBabyStationCheck: previousBabyCheckStatus,
+        editHandicapAccessCheck: false
+      })
+
+      this.moreStateChangesBeforeEdit()
+    }
+    else if (this.state.currentMarker.handicapAccess_2 === true && this.state.currentMarker.changingStation_2 === false) {
+
+      let previousHandiCheckStatus = this.state.currentMarker.handicapAccess_2
+      console.log("baby was false handi was true")
+      this.setState({
+        editBabyStationCheck: false,
+        editHandicapAccessCheck: previousHandiCheckStatus
+      })
+
+      this.moreStateChangesBeforeEdit()
+    }
+    else {
+      console.log("both were false!")
+      this.setState({
+        editBabyStationCheck: false,
+        editHandicapAccessCheck: false
+      })
+
+      this.moreStateChangesBeforeEdit()
+    }
+
+  }
+
+
+  ifCheckboxesTrue = () => {
+    let placeName = this.state.currentMarker.name
+    let locationName = this.state.currentMarker.location
+
+    this.setState({
+      editedName: placeName,
+      editedLocationName: locationName,
+      editButton: true,
+      userBarSelection: false,
+      currentLocationButton: false,
+      addressButton: false,
+      babyStationCheck: true,
+      handicapAccessCheck: true,
+      // show: true
+    })
+  }
+
+  moreStateChangesBeforeEdit = () => {
+
+    // console.log("selecting path")
+    // console.log("editBabyStationCheck", this.state.editBabyStationCheck)
+    // console.log("editHandicapAccessCheck", this.state.editBabyStationCheck)
+
+
+    if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessCheck === false) {
+
+      console.log("baby was true handi was false layer 2")
+      let placeName = this.state.currentMarker.name
+      let locationName = this.state.currentMarker.location
+
+      this.setState({
+        editedName: placeName,
+        editedLocationName: locationName,
+        editButton: true,
+        userBarSelection: false,
+        currentLocationButton: false,
+        addressButton: false,
+        babyStationCheck: true,
+        handicapAccessCheck: false,
+        // show: true
+      })
+    } else if (this.state.editBabyStationCheck === false && this.state.editHandicapAccessCheck === true) {
+
+      console.log("baby was false handi was true layer 2")
+      let placeName = this.state.currentMarker.name
+      let locationName = this.state.currentMarker.location
+
+      this.setState({
+        editedName: placeName,
+        editedLocationName: locationName,
+        editButton: true,
+        userBarSelection: false,
+        currentLocationButton: false,
+        addressButton: false,
+        babyStationCheck: false,
+        handicapAccessCheck: true,
+        // show: true
+      })
+    } else {
+
+      console.log("if boxes arent already checked")
+      let placeName = this.state.currentMarker.name
+      let locationName = this.state.currentMarker.location
+      let previousRating = this.state.currentMarker.rating
+      this.setState({
+        editedName: placeName,
+        editedLocationName: locationName,
+        editButton: true,
+        userBarSelection: false,
+        currentLocationButton: false,
+        addressButton: false,
+        // show: true,
+        rating: previousRating
+      })
+    }
+
+  }
+  //========================================sidebar end================================
+
+  // ====================================================================================
 
   //this handles the state of the value from the textboxes inside the info window
   handleEditTextboxState = (evt) => {
@@ -610,6 +860,9 @@ if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessChe
     }
   }
 
+
+
+
   handleSubmitChangesButtonState = () => {
 
 
@@ -622,7 +875,8 @@ if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessChe
         infoWindowContent: true,
         showingInfoWindow: false,
         babyCheckCondition: true,
-        handiCheckCondition: true
+        handiCheckCondition: true,
+        sideBarEditModal: false,
       })
 
       this.constructNewEditedMarker()
@@ -676,6 +930,8 @@ if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessChe
           lng: this.state.lng,
           public: true,
           rating: this.state.rating,
+          inactiveIcon: "https://cdn3.iconfinder.com/data/icons/map-and-location-fill/144/Place_Restroom-512.png",
+          activeIcon: "https://cdn4.iconfinder.com/data/icons/bold-purple-free-samples/32/Men_Symbol_Restroom_Human_Toilet-512.png",
           changingStation: this.state.babyStationCheck,
           changingStation_2: this.state.babyStationCheck,
           handicapAccess: this.state.handicapAccessCheck,
@@ -739,6 +995,8 @@ if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessChe
         lat: this.state.userLocation.lat,
         lng: this.state.userLocation.lng,
         rating: this.state.rating,
+        inactiveIcon: "https://cdn3.iconfinder.com/data/icons/map-and-location-fill/144/Place_Restroom-512.png",
+        activeIcon: "https://cdn4.iconfinder.com/data/icons/bold-purple-free-samples/32/Men_Symbol_Restroom_Human_Toilet-512.png",
         changingStation: this.state.babyStationCheck,
         changingStation_2: this.state.babyStationCheck,
         handicapAccess: this.state.handicapAccessCheck,
@@ -773,10 +1031,8 @@ if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessChe
       //when values untouched
       let previousRating = this.state.selectedPlace.rating
       let previousBabyCheck = this.state.selectedPlace.changingStation_2
-      let previousBabyCheck_2 = this.state.selectedPlace.changingStation_2
-      let previousHandiCheck = this.state.selectedPlace.handicapAccess_2
-      let previousHandiCheck_2 = this.state.selectedPlace.handicapAccess_2
 
+      // console.log("previous rating", previousRating)
 
       const editedMarker = {
         name: this.state.editedName,
@@ -793,9 +1049,74 @@ if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessChe
       this.props.editMarker(editedMarker, this.state.activeMarker.id)
 
     }
+
+    else if (this.state.rating === 0 && this.state.editBabyStationCheck === true && this.state.editHandicapAccessCheck === false) {
+
+      let previousRating = this.state.selectedPlace.rating
+      console.log("previous rating", previousRating)
+
+      const editedMarker = {
+        name: this.state.editedName,
+        location: this.state.editedLocationName,
+
+        changingStation: true,
+        changingStation_2: true,
+        handicapAccess: false,
+        handicapAccess_2: false,
+        rating: previousRating
+      }
+
+      console.log("if rating 0 and baby is true but handi is false", editedMarker)
+      this.props.editMarker(editedMarker, this.state.activeMarker.id)
+
+    }
+
+    else if (this.state.rating === 0 && this.state.editBabyStationCheck === false && this.state.editHandicapAccessCheck === true) {
+
+      let previousRating = this.state.selectedPlace.rating
+      console.log("previous rating", previousRating)
+
+      const editedMarker = {
+        name: this.state.editedName,
+        location: this.state.editedLocationName,
+
+        changingStation: false,
+        changingStation_2: false,
+        handicapAccess: true,
+        handicapAccess_2: true,
+        rating: previousRating
+      }
+
+      console.log("if rating 0 and baby is false but handi is true", editedMarker)
+      this.props.editMarker(editedMarker, this.state.activeMarker.id)
+
+    }
+
+    else if (this.state.rating === 0 && this.state.editBabyStationCheck === false && this.state.editHandicapAccessCheck === false) {
+
+      let previousRating = this.state.selectedPlace.rating
+      console.log("previous rating", previousRating)
+
+      const editedMarker = {
+        name: this.state.editedName,
+        location: this.state.editedLocationName,
+
+        changingStation: false,
+        changingStation_2: false,
+        handicapAccess: false,
+        handicapAccess_2: false,
+        rating: previousRating
+      }
+
+      console.log("if rating 0 and both baby and handi are false", editedMarker)
+      this.props.editMarker(editedMarker, this.state.activeMarker.id)
+
+    }
+
     else if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessCheck === false) {
 
       let previousRating = this.state.selectedPlace.rating
+      console.log("previous rating", previousRating)
 
       const editedMarker = {
         name: this.state.editedName,
@@ -808,7 +1129,7 @@ if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessChe
         rating: this.state.rating
       }
 
-      console.log("if rating 0 and baby is true but handi is false", editedMarker)
+      console.log("if baby is true but handi is false", editedMarker)
       this.props.editMarker(editedMarker, this.state.activeMarker.id)
 
     }
@@ -828,7 +1149,7 @@ if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessChe
         rating: this.state.rating
       }
 
-      console.log("if rating 0 and baby is true but handi is false", editedMarker)
+      console.log("if baby is true but handi is false", editedMarker)
       this.props.editMarker(editedMarker, this.state.activeMarker.id)
 
     }
@@ -851,56 +1172,6 @@ if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessChe
   }
 
 
-  //NOT IN USE
-  // constructNewMarkerWhenNameEmpty = () => {
-
-  //   const editedMarker = {
-  //     name: this.state.selectedPlace.name,
-  //     location: this.state.editedLocationName,
-  //     changingStation: this.state.babyStationCheck,
-  //     changingStation_2: this.state.babyStationCheck,
-  //     handicapAccess: this.state.handicapAccessCheck,
-  //     handicapAccess_2: this.state.handicapAccessCheck,
-  //     rating: this.state.rating
-  //   }
-
-  //   this.props.editMarker(editedMarker, this.state.activeMarker.id)
-
-  // }
-
-  // constructNewMarkerWhenLocationEmpty = () => {
-
-  //   const editedMarker = {
-  //     name: this.state.editedName,
-  //     location: this.state.selectedPlace.address,
-  //     changingStation_2: this.state.babyStationCheck,
-  //     changingStation: this.state.babyStationCheck,
-  //     handicapAccess: this.state.handicapAccessCheck,
-  //     handicapAccess_2: this.state.handicapAccessCheck,
-  //     rating: this.state.rating
-  //   }
-
-  //   this.props.editMarker(editedMarker, this.state.activeMarker.id)
-
-  // }
-
-
-  // constructNewEditedMarkerWhenFieldsEmpty = () => {
-
-  //   const editedMarker = {
-  //     name: this.state.selectedPlace.name,
-  //     location: this.state.selectedPlace.address,
-  //     changingStation: this.state.babyStationCheck,
-  //     changingStation_2: this.state.babyStationCheck,
-  //     handicapAccess: this.state.handicapAccessCheck,
-  //     handicapAccess_2: this.state.handicapAccessCheck,
-  //     rating: this.state.rating
-  //   }
-
-  //   this.props.editMarker(editedMarker, this.state.activeMarker.id)
-  // }
-
-
   deleteCurrentMarker = (id) => {
 
 
@@ -912,6 +1183,218 @@ if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessChe
     this.props.deleteMarker(id)
 
   }
+
+
+  //==================================SIDE BAR crud========================
+  constructNewEditedMarkerSidebar = () => {
+
+    if (this.state.rating === 0 && this.state.editBabyStationCheck && this.state.editHandicapAccessCheck) {
+      //when values untouched
+      let previousRating = this.state.currentMarker.rating
+      let previousBabyCheck = this.state.currentMarker.changingStation_2
+
+      // console.log("previous rating", previousRating)
+
+      const editedMarker = {
+        name: this.state.editedName,
+        location: this.state.editedLocationName,
+
+        changingStation: true,
+        changingStation_2: true,
+        handicapAccess: true,
+        handicapAccess_2: true,
+        rating: previousRating
+      }
+
+      console.log("(sidebar) if rating 0 and checkboxes true", editedMarker)
+      this.props.editMarker(editedMarker, this.state.currentMarker.id)
+
+    }
+
+    else if (this.state.rating === 0 && this.state.editBabyStationCheck === true && this.state.editHandicapAccessCheck === false) {
+
+      let previousRating = this.state.currentMarker.rating
+      console.log("(from sidebar) previous rating", previousRating)
+
+      const editedMarker = {
+        name: this.state.editedName,
+        location: this.state.editedLocationName,
+
+        changingStation: true,
+        changingStation_2: true,
+        handicapAccess: false,
+        handicapAccess_2: false,
+        rating: previousRating
+      }
+
+      console.log("(sidebar) if rating 0 and baby is true but handi is false", editedMarker)
+      this.props.editMarker(editedMarker, this.state.currentMarker.id)
+
+    }
+
+    else if (this.state.rating === 0 && this.state.editBabyStationCheck === false && this.state.editHandicapAccessCheck === true) {
+
+      let previousRating = this.state.currentMarker.rating
+      console.log("(from sidebar) previous rating", previousRating)
+
+      const editedMarker = {
+        name: this.state.editedName,
+        location: this.state.editedLocationName,
+
+        changingStation: false,
+        changingStation_2: false,
+        handicapAccess: true,
+        handicapAccess_2: true,
+        rating: previousRating
+      }
+
+      console.log("(sidebar) if rating 0 and baby is false but handi is true", editedMarker)
+      this.props.editMarker(editedMarker, this.state.currentMarker.id)
+
+    }
+
+    else if (this.state.rating === 0 && this.state.editBabyStationCheck === false && this.state.editHandicapAccessCheck === false) {
+
+      let previousRating = this.state.currentMarker.rating
+      console.log("(from sidebar) previous rating", previousRating)
+
+      const editedMarker = {
+        name: this.state.editedName,
+        location: this.state.editedLocationName,
+
+        changingStation: false,
+        changingStation_2: false,
+        handicapAccess: false,
+        handicapAccess_2: false,
+        rating: previousRating
+      }
+
+      console.log("(sidebar) if rating 0 and both baby and handi are false", editedMarker)
+      this.props.editMarker(editedMarker, this.state.currentMarker.id)
+
+    }
+
+    else if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessCheck === false) {
+
+      let previousRating = this.state.currentMarker.rating
+      console.log("(from sidebar) previous rating", previousRating)
+
+      const editedMarker = {
+        name: this.state.editedName,
+        location: this.state.editedLocationName,
+
+        changingStation: true,
+        changingStation_2: true,
+        handicapAccess: false,
+        handicapAccess_2: false,
+        rating: this.state.rating
+      }
+
+      console.log("(sidebar) if baby is true but handi is false", editedMarker)
+      this.props.editMarker(editedMarker, this.state.currentMarker.id)
+      this.reversingRatingSidebarState()
+    }
+
+    else if (this.state.editBabyStationCheck === false && this.state.editHandicapAccessCheck === true) {
+
+      let previousRating = this.state.currentMarker.rating
+
+      const editedMarker = {
+        name: this.state.editedName,
+        location: this.state.editedLocationName,
+
+        changingStation: false,
+        changingStation_2: false,
+        handicapAccess: true,
+        handicapAccess_2: true,
+        rating: this.state.rating
+      }
+
+      console.log("(sidebar) if baby is true but handi is false", editedMarker)
+      this.props.editMarker(editedMarker, this.state.currentMarker.id)
+      this.reversingRatingSidebarState()
+    }
+
+    else {
+      //when values altered
+      const editedMarker = {
+        name: this.state.editedName,
+        location: this.state.editedLocationName,
+        changingStation: this.state.babyStationCheck,
+        changingStation_2: this.state.babyStationCheck,
+        handicapAccess: this.state.handicapAccessCheck,
+        handicapAccess_2: this.state.handicapAccessCheck,
+        rating: this.state.rating
+      }
+
+      console.log("(sidebar) normal edit")
+      this.props.editMarker(editedMarker, this.state.currentMarker.id)
+      this.reversingRatingSidebarState()
+    }
+  }
+
+  reversingRatingSidebarState = () => {
+    this.setState({
+      rating: 0
+    })
+  }
+
+
+  warningMessageToggleSideBar = (id) => {
+    if (this.state.deleteButton_2) {
+      this.setState({
+        deleteButton_2: false,
+        show: false,
+        sideBarMarkerToBeDeleted: ""
+      })
+    }
+    else {
+      this.setState({
+        deleteButton_2: true,
+        userBarSelection: false,
+        show: true,
+        sideBarMarkerToBeDeleted: id
+      })
+
+    }
+  }
+
+
+  deleteCurrentMarkerWithSideBarId = (id) => {
+
+
+    this.setState({
+      showingInfoWindow: false,
+      deleteButton_2: false,
+      show: false
+    })
+    this.props.deleteMarker(id)
+
+
+    //all of this below is supposed to filter only the user id markers
+    //so that it can close the side bar if there are no more left
+    //in it, but it doesnt work.
+//     this.props.markers.filter(markers => {
+// console.log("markers", markers)
+//       let myMarkers = []
+
+//       if (markers.user_Id === +sessionStorage.userID) {
+//         let arrayOfMarkers = markers
+//         console.log("arrayOfMarkers", arrayOfMarkers)
+//         arrayOfMarkers.push(myMarkers)
+//       }
+
+
+//       if (myMarkers === 0) {
+//         this.setState({
+//           myMarkerButton: false,
+//         })
+//       }
+//     }
+//     )
+
+  }
+
   //=====================================================
 
   //modal
@@ -926,7 +1409,10 @@ if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessChe
     littleArrowUpState: false,
     extraInfoState_2: false,
     littleArrowDownState_2: true,
-    littleArrowUpState_2: false
+    littleArrowUpState_2: false,
+    sideBarEditModal: false,
+    showingInfoWindow: false,
+    rating: 0
   });
 
   //CONSOLE LOG
@@ -935,21 +1421,23 @@ if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessChe
     // console.log("selected place rating", this.state.selectedPlace.rating)
     // console.log("active Marker id", this.state.activeMarker)
     // console.log("selectedPlace property", this.state.selectedPlace.name)
-    // console.log("selectedPlace property", this.state.selectedPlace.address)
+    console.log("selectedPlace property", this.state.selectedPlace.address)
 
     // console.log("editedName", this.state.currentName)
     // console.log("editedLocationName", this.state.currentLocationName)
     // console.log("infoWindow", this.currentInfoWindow)
     // console.log("this id", this.id)
     // console.log("currentLocation state", this.props.bathrooms)
-    console.log("rating", this.state.rating)
+    console.log("this.state.rating", this.state.rating)
     // console.log("userID", this.userID)
     // console.log(sessionStorage)
     // console.log("sessionStorage.userID = ", sessionStorage.userID)
-    console.log("babyCheck", this.state.babyStationCheck)
-    console.log("handiCheck", this.state.handicapAccessCheck)
+    // console.log("babyCheck", this.state.babyStationCheck)
+    // console.log("handiCheck", this.state.handicapAccessCheck)
     console.log("editBabyCheck", this.state.editBabyStationCheck)
     console.log("editHandiCheck", this.state.editHandicapAccessCheck)
+    // console.log("currentIcon", this.state.currentIcon)
+    console.log("this.state.currentMarker", this.state.currentMarker)
   }
 
 
@@ -995,13 +1483,16 @@ if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessChe
     //====================================
     let babyCheckboxStatus = ""
     let handiCheckboxStatus = ""
-
+    //===============sidebar==============
+    let sideBar = ""
+    let SidebarEdit = ""
+    let deleteWarningMessage_2 = ""
 
     //=================================START of CONDITIONAL STATEMENTS=============================
 
 
     //==================================================USER BAR=====================================================
-    if (this.props.sessionStorage === true && this.state.addressButton === false && this.state.currentLocationButton === false && this.state.editButton === false && this.state.deleteButton === false) {
+    if (this.props.sessionStorage === true && this.state.addressButton === false && this.state.currentLocationButton === false && this.state.editButton === false && this.state.deleteButton === false && this.state.sideBarEditModal === false) {
       userBar = (
         <StyleRoot>
           <div className="userBar" style={flipInAnimation.flipInX}>
@@ -1012,6 +1503,7 @@ if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessChe
               <Icon className="fas fa-heart"></Icon>&nbsp;&nbsp;Favorites</Button>
             <Button className="trendingButton is-normal is-rounded" onClick={this.handleFieldChange}>
               <Icon className="fas fa-star"></Icon>&nbsp;&nbsp;Trending</Button> */}
+            <Button className="myMarkerButton is-normal is-rounded" onClick={this.handleMyMarkerButtonState}><Icon className="fas fa-map-marked-alt" ></Icon>&nbsp;&nbsp;My Markers</Button>
           </div>
         </StyleRoot>
       );
@@ -1278,8 +1770,6 @@ if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessChe
     //#1
     if (this.state.babyCheckCondition) {
       babyCheckboxStatus = (
-
-
         <p className="mockMarkerBabyCheck"><Icon className="fas fa-baby" color="info"></Icon>
           &nbsp;{this.state.selectedPlace.changingStation}</p>
       )
@@ -1294,12 +1784,12 @@ if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessChe
     if (this.state.handiCheckCondition) {
       handiCheckboxStatus = (
 
-
         <p className="mockMarkerHandiCheck"><Icon className="fas fa-wheelchair" color="info"></Icon>
           &nbsp;{this.state.selectedPlace.handicapAccess}</p>
       )
     } else {
       handiCheckboxStatus = (
+
         <p className="mockMarkerHandiCheck"><Icon className="fas fa-wheelchair" color="info"></Icon>
           &nbsp;{this.state.handiCheckStatus}</p>
       )
@@ -1361,7 +1851,7 @@ if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessChe
                   </div>
                   {/* #2 */}
                   <div className="editHandiAccessCheckField">
-                    <input id="editHandiStationCheck" className="editHandiAccess" type="checkbox" defaultChecked={this.state.selectedPlace.handicapAccess_2} onClick={this.handleEditHandiAccessCheckChange}></input>
+                    <input id="editHandicapAccessCheck" className="editHandiAccess" type="checkbox" defaultChecked={this.state.selectedPlace.handicapAccess_2} onClick={this.handleEditHandiAccessCheckChange}></input>
                     <Icon className="fas fa-wheelchair" color="info"></Icon>
                     &nbsp;<label className="editHandiAccessLabel">Handicap Access</label>
                   </div>
@@ -1396,9 +1886,9 @@ if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessChe
     }
 
 
-    //=========================DELETE WARNING MESSAGE===================
+    //=========================DELETE WARNING MESSAGES===================
 
-    if (this.state.deleteButton === true && this.state.currentLocationButton === false && this.state.addressButton === false && this.state.editButton === false) {
+    if (this.state.deleteButton === true && this.state.currentLocationButton === false && this.state.addressButton === false && this.state.editButton === false && this.state.deleteButton_2 === false) {
       deleteWarningMessage = (
         <StyleRoot>
           <Modal show={this.state.show} className="modalBox" onClose={this.close} {...this.props.modal} closeOnBlur={true}>
@@ -1419,6 +1909,28 @@ if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessChe
       deleteWarningMessage = null
     }
 
+    if (this.state.deleteButton_2 === true && this.state.currentLocationButton === false && this.state.addressButton === false && this.state.editButton === false && this.state.deleteButton === false) {
+      deleteWarningMessage_2 = (
+        <StyleRoot>
+          <Modal show={this.state.show} className="modalBox" onClose={this.close} {...this.props.modal} closeOnBlur={true}>
+            <div className="deleteWarningMessageDiv modal-content" style={fadeInAnimation.fadeIn}>
+              <h1 className="deleteWarningMessageTitle"><Icon className="fas fa-exclamation-triangle" color="danger"></Icon>&nbsp;Are you sure you want to delete this marker?</h1>
+              <div className="deleteWarningMessageButtonDiv">
+                <Button onClick={() => this.deleteCurrentMarker(this.state.sideBarMarkerToBeDeleted)} color="danger"><Icon className="fas fa-surprise" color="warning"></Icon>
+                  &nbsp;YES</Button>
+                <Button onClick={this.warningMessageToggleSideBar} color="link"><Icon className="fas fa-smile-wink" color="warning"></Icon>
+                  &nbsp;NO</Button>
+              </div>
+            </div>
+          </Modal>
+        </StyleRoot>
+      )
+    }
+    else {
+      deleteWarningMessage = null
+    }
+
+
     //========================INFO WINDOW CONTENT========================
 
 
@@ -1438,8 +1950,6 @@ if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessChe
     else {
       infoWindowButtons = null
     }
-
-
 
     if (this.state.showingInfoWindow && this.state.infoWindowContent) {
       // console.log(this.state.selectedPlace)
@@ -1469,6 +1979,80 @@ if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessChe
       infoWindowContent = null
     }
 
+    //=====================================SIDEBAR================================
+
+    if (this.state.myMarkerButton) {
+      sideBar = (
+        <MyMarkerSideBar
+          //C.R.U.D
+          deleteMarker={this.props.deleteMarker}
+          editMarker={this.props.editMarker}
+          //data states
+          markers={this.props.markers}
+          currentMarker={this.state.currentMarker}
+          //rating states
+          rating={this.state.rating}
+          //state changing functions
+          handleInfoWindowContentState_1={this.handleInfoWindowContentState_1}
+          handleIconState_1={this.handleIconState_1}
+          handleIconState_2={this.handleIconState_2}
+          handleSidebarEditState={this.handleSidebarEditState}
+          handleMyMarkerButtonState={this.handleMyMarkerButtonState}
+          //authentication states
+          sessionStorage={this.state.sessionStorage}
+          warningMessageToggleSideBar={this.warningMessageToggleSideBar}
+        />
+      );
+    }
+    else {
+      sideBar = null
+    }
+
+    if (this.state.sideBarEditModal) {
+
+      SidebarEdit = (
+        <SideBarEditModal
+          //C.R.U.D
+          editMarker={this.props.editMarker}
+          //checkbox state values
+          editBabyStationCheck={this.state.editBabyStationCheck}
+          editHandicapAccessCheck={this.state.editHandicapAccessCheck}
+          babyCheckStatus={this.state.babyCheckStatus}
+          handiCheckStatus={this.state.handiCheckStatus}
+          babyCheckCondition={this.state.babyCheckCondition}
+          handiCheckCondition={this.state.handiCheckCondition}
+          //modal states
+          close={this.close}
+          show={this.state.show}
+          //data states
+          markers={this.props.markers}
+          selectedPlace={this.state.selectedPlace}
+          activeMarker={this.state.activeMarker}
+          currentMarker={this.state.currentMarker}
+          //rating states
+          // rating={this.state.rating}
+          onStarClick={this.onStarClick.bind(this)}
+          //textbox values states
+          editedName={this.state.editedName}
+          editedLocationName={this.state.editedLocationName}
+          //state changing functions
+          handleEditTextboxState={this.handleEditTextboxState}
+          handleEditBabyStationCheckChange={this.handleEditBabyStationCheckChange}
+          handleEditHandiAccessCheckChange={this.handleEditHandiAccessCheckChange}
+          handleEditBackButton={this.handleEditBackButton}
+          handleSubmitChangesButtonState={this.handleSubmitChangesButtonState}
+          changeStateAndSubmitEdit={this.changeStateAndSubmitEdit}
+          //console log
+          consoleLog={this.consoleLog}
+          //renders
+          babyCheckboxStatus={babyCheckboxStatus}
+          handiCheckboxStatus={handiCheckboxStatus}
+        />
+      )
+    }
+    else {
+      SidebarEdit = null
+    }
 
     //=========================================================================
 
@@ -1478,6 +2062,7 @@ if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessChe
       let handicapAccessLabel = ""
       let userLabel = "Marker Owner Rating: "
       let userRating = ""
+      let icon = ""
 
       if (currentUserMarker.changingStation) {
 
@@ -1508,6 +2093,38 @@ if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessChe
         userRating = +currentUserMarker.rating
       }
 
+      //icons will have to have 2 different icon properties in the database with the different images urls.
+      //after that here we can say if iconChange is true or false render icon with that image
+
+      if (this.state.currentMarker.id === currentUserMarker.id && this.state.currentIcon) {
+        icon = {
+          url: currentUserMarker.activeIcon,
+          anchor: new google.maps.Point(32, 32),
+          scaledSize: new google.maps.Size(30, 30)
+        }
+      } else {
+        icon = {
+          url: currentUserMarker.inactiveIcon,
+          anchor: new google.maps.Point(32, 32),
+          scaledSize: new google.maps.Size(35, 35)
+        }
+      }
+
+
+      // if (this.state.iconChange) {
+      //       icon = {
+      //         url: "https://cdn4.iconfinder.com/data/icons/bold-purple-free-samples/32/Men_Symbol_Restroom_Human_Toilet-512.png",
+      //             anchor: new google.maps.Point(32, 32),
+      //             scaledSize: new google.maps.Size(35, 35)
+      //       }
+      //     } else {
+      //       icon = {
+      //         url: "https://cdn3.iconfinder.com/data/icons/map-and-location-fill/144/Place_Restroom-512.png",
+      //             anchor: new google.maps.Point(32, 32),
+      //             scaledSize: new google.maps.Size(35, 35)
+      //       }
+      //     }
+
       return (
         <Marker
           key={currentUserMarker.id}
@@ -1518,11 +2135,8 @@ if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessChe
           userId={currentUserMarker.user_Id}
           ratingLabel={userLabel}
           rating={userRating}
-          icon={{
-            url: "https://cdn3.iconfinder.com/data/icons/map-and-location-fill/144/Place_Restroom-512.png",
-            anchor: new google.maps.Point(32, 32),
-            scaledSize: new google.maps.Size(35, 35)
-          }}
+          icon={icon}
+          style={color}
           changingStation={changingStationLabel}
           changingStation_2={currentUserMarker.changingStation_2}
           handicapAccess={handicapAccessLabel}
@@ -1607,6 +2221,11 @@ if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessChe
 
     })
 
+
+
+
+
+
     //======================END of CONDITIONAL STATEMENTS==================================
 
 
@@ -1618,20 +2237,25 @@ if (this.state.editBabyStationCheck === true && this.state.editHandicapAccessChe
         {searchBox}
         {currentLocationTextboxes}
         {infoWindowEditBoxes}
+        {SidebarEdit}
         {deleteWarningMessage}
+        {deleteWarningMessage_2}
         <div className="interactionBar">
           {logOutButton}
           {userBar}
         </div>
         {userBarSelectionButtons}
-
-        <button onClick={this.consoleLog}>console log current location</button>
+        {/* <button onClick={this.consoleLog}>console log current location</button> */}
         <div>
+
           <br></br>
-          <Map id="Map" google={this.props.google} style={style} className="background" zoom={14} initialCenter={userLocation}
-
+          <Map id="Map" google={this.props.google}
+            style={style}
+            className="background"
+            zoom={14}
+            initialCenter={userLocation}
             onClick={this.onMapClick}>
-
+            {sideBar}
             {makeMarker}
             {makeDefaultMarkers}
 
