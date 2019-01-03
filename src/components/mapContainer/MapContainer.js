@@ -853,7 +853,11 @@ export class MapContainer extends Component {
     else {
       this.setState({
         deleteButton: true,
+        deleteButon_2: false,
         userBarSelection: false,
+        editButton: false,
+        addressButton: false,
+        currentLocationButton: false,
         show: true
       })
 
@@ -1927,7 +1931,7 @@ export class MapContainer extends Component {
       )
     }
     else {
-      deleteWarningMessage = null
+      deleteWarningMessage_2 = null
     }
 
 
@@ -1965,7 +1969,7 @@ export class MapContainer extends Component {
           <p className="infoWindowHandi" >
             <Icon className="fas fa-wheelchair" color="info"></Icon>
             &nbsp;Handicap Access: {this.state.selectedPlace.handicapAccess}</p>
-          <p className="infoWindowRatingLabel">{this.state.selectedPlace.ratingLabel}</p>
+          <p className="infoWindowRatingLabel">{this.state.selectedPlace.ratingLabel}{this.state.selectedPlace.rating}</p>
           <StarRatingComponent
             name="rate1"
             starCount={5}
@@ -2270,46 +2274,3 @@ export class MapContainer extends Component {
 export default GoogleApiWrapper({
   apiKey: ("AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs")
 })(MapContainer)
-
-  //===================================================END==============================================
-
-
-
-
-
-
-
-    //     ============USING GOOGLE-MAP-REACT======NOT IN USE================
-    //     const AnyReactComponent = ({ text }) => <div>{text}</div>;
-
-    // export default class SimpleMap extends Component {
-
-    //   static defaultProps = {
-    //     center: {
-    //       lat: 59.95,
-    //       lng: 30.33
-    //     },
-    //     zoom: 11
-    //   };
-
-    //   render() {
-    //     return (
-    //       <div style={{ height: '100vh', width: '100%' }}>
-    //       <GoogleMapReact
-    //         bootstrapURLKeys={{ key: "AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs"}}
-    //         defaultCenter={this.props.center}
-    //         defaultZoom={this.props.zoom}
-    //       >
-    //          <AnyReactComponent
-    //           lat={59.955413}
-    //           lng={30.337844}
-    //           text={'Kreyser Avrora'}
-    //         />
-    //       </GoogleMapReact>
-    //     </div>
-
-    // );
-    // }
-
-    // }
-    // =========================================================================

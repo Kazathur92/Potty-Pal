@@ -17,6 +17,9 @@ button {
 
 .background {
   background-color: rgba(7, 45, 95, 0.877);
+  background-image: url("https://www.interactone.com/wp-content/uploads/2015/09/splash-Edit-no-white-space.png");
+  background-position-y: 100%;
+  background-repeat: no-repeat
 }
 
 .infoWindows {

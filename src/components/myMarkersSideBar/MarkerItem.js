@@ -96,12 +96,13 @@ render() {
           />
 <Card.Footer>
         <Card.Footer.Item renderAs="a" type="button"
+        className="cardEdit"
         // onClick={this.props.handleInfoWindowContentState_1}
         onClick={this.props.handleSidebarEditState}
         >
           Edit
         </Card.Footer.Item>
-        <Card.Footer.Item renderAs="a" type="button" onClick={() => this.deleteIt(this.props.marker.id)}>
+        <Card.Footer.Item renderAs="a" type="button" className="cardDelete" onClick={() => this.deleteIt(this.props.marker.id)}>
           Delete
         </Card.Footer.Item >
       </Card.Footer>

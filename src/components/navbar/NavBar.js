@@ -215,7 +215,9 @@ export default class NavBar extends Component {
 
     let Title = (
       <StyleRoot>
+        <div className="titleDiv">
         <h1 className="appTitle" style={rotateInAnimation.rotateIn}>Potty Pal</h1>
+        </div>
       </StyleRoot>
     )
 

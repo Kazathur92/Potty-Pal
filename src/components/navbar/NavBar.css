@@ -1,17 +1,32 @@
+.titleDiv {
+  display:flex;
+  justify-content: center;
+}
+
 .appTitle {
   font-size: 50px;
+  text-shadow: 3px 3px #282c34;
   /* margin-top: -90px; */
   letter-spacing: 5px;
   color: rgba(245, 245, 245, 0.877);
+  font-weight: bold;
+  font-style: italic;
+  font-family: Impact, Charcoal, sans-serif;
+  border: 2px solid black;
+  border-radius: 10px;
+  width: 25%;
+  background-color: #00889b;
 
 }
 
 
 .nav {
-  /* display: flex; */
-  /* flex-direction: row-reverse; */
+  background-image: url("https://ya-webdesign.com/images/png-water-8.png");
+  background-position: -50%;
+  background-repeat: no-repeat;
 
-  /* text-align: right; */
+
+
   background-color: rgb(6, 104, 143);
   height: 140px;
 }

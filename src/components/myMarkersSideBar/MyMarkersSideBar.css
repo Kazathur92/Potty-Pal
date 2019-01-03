@@ -19,6 +19,28 @@
 
 }
 
+.cardEdit {
+  color: darkblue;
+  font-weight: bold;
+}
+
+.cardEdit:hover {
+  color: rgba(245, 245, 245, 0.877);
+  background-color: rgb(67, 21, 90);
+  border-bottom-right-radius: 10px;
+}
+
+
+.cardDelete {
+  color: darkblue;
+  font-weight: bold;
+}
+
+.cardDelete:hover {
+ color:  rgba(245, 245, 245, 0.877);
+ background-color: rgb(67, 21, 90);
+ border-bottom-right-radius: 10px;
+}
 
 .sidebarCloseButton:hover {
 color: blue;
@@ -42,7 +64,7 @@ color: blue;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
   color: rgba(245, 245, 245, 0.877);
-  background-color: rgb(92, 31, 122);
+  background-color: rgb(117, 75, 138);
 }
 /* nav {
   width: 30%
