@@ -192,7 +192,7 @@ export default class MyMarkerSideBar extends Component {
 &nbsp;MARKER COLLECTION</h6>
           <nav className="sideBarNav">
               {markerCard}
-              <h5></h5>
+              {/* <h5></h5> */}
               {/* {noMarkers} */}
           </nav>
           </Container>

@@ -1576,7 +1576,7 @@ export class MapContainer extends Component {
       extraInfoField_2 = (
         <StyleRoot>
           <div className="extraInfoDiv" style={slideDownAnimation.slideInDown}>
-            <label className="currLocationNameLabel extraInfoLabel">Knickname: </label>
+            <label className="currLocationNameLabel extraInfoLabel">Nickname: </label>
             <input id="currentName" className="currLocationName" type="text" placeholder="Location Name" onChange={this.handleTextBoxState}></input>
           </div>
         </StyleRoot>
@@ -1873,7 +1873,7 @@ export class MapContainer extends Component {
 
                 </div>
 
-                <Button onClick={this.consoleLog}></Button>
+                {/* <Button onClick={this.consoleLog}></Button> */}
               </div>
 
               <div className="editSubmitBtnDiv">
