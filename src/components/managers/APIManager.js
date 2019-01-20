@@ -31,7 +31,9 @@ export default class APIManager {
 
   getAllMaps(query) {
 
-    return fetch(`https://heuristic-mestorf-ea2618.netlify.com/api/maps?${query}`).then(e => e.json())
+    return fetch(`https://heuristic-mestorf-ea2618.netlify.com/api/maps?${query}`, {
+      mode: 'no-cors',
+    }).then(e => e.json())
   }
 
   deleteLocal(id, route) {
