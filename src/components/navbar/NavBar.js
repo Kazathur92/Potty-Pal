@@ -51,6 +51,7 @@ export default class NavBar extends Component {
   consoleLog = () => {
     console.log(this.state.formEmail)
     console.log(this.state.formPass)
+    console.log(sessionStorage.getItem("username"))
   }
 
 
@@ -152,6 +153,7 @@ export default class NavBar extends Component {
     let navButtons = ""
     let emptyUserBar = ""
     let registrationForm = ""
+    let userName = ""
 
     //not in use
     // if (this.props.homeLink) {
@@ -163,6 +165,22 @@ export default class NavBar extends Component {
     // } else {
     //   homeLink = null
     // }
+
+    userName = sessionStorage.getItem("username")
+
+    if (this.props.textboxTitles === false) {
+      userName = (
+        <StyleRoot>
+          <div id="userNameDiv" className="userNameDiv" style={fadeInAnimation.fadeIn}>
+          <p className="welcome">Welcome,</p>
+            <p className="welcomeUser">{userName}</p>
+          </div>
+        </StyleRoot>
+      );
+    } else {
+      userName = null
+    }
+
 
     if (this.props.textboxTitles) {
       textboxTitlesField = (
@@ -277,6 +295,7 @@ export default class NavBar extends Component {
         <nav className="nav">
           {/* {homeLink} */}
           {Title}
+          {userName}
           {/* <button onClick={this.consoleLog}>console Log</button> */}
           <div id="textboxesTitle" className="textboxesTitle">
             {textboxTitlesField}

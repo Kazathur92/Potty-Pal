@@ -18,7 +18,28 @@
 
 }
 
+.userNameDiv {
+  display: flex;
+  flex-direction: row;
+  float: right;
+  margin-right: 4%;
+  margin-top: -4%;
+}
 
+.welcome {
+  font-size: 20px;
+  /* margin-top: 100%; */
+  margin-right: 10px;
+  font-weight: bold;
+  color: rgba(245, 245, 245, 0.877);
+}
+
+.welcomeUser {
+  font-size: 20px;
+  /* margin-top: 100%; */
+  font-weight: bold;
+  color: rgba(245, 245, 245, 0.877);
+}
 
 /* ipad */
 @media screen and (max-width: 992px) {
@@ -37,6 +58,41 @@
 
 } */
 
+@media screen and (max-width: 1025px) {
+  .appTitle {
+    font-size: 200%;
+    width: 29%;
+    margin-top: 50px;
+    margin-bottom: 35px;
+  }
+
+  .userNameDiv {
+    float:left;
+    margin-left: 4%;
+    margin-top: -10%;
+  }
+
+
+}
+
+
+@media screen and (max-width: 800px) {
+  .appTitle {
+    font-size: 200%;
+    width: 29%;
+    margin-top: 50px;
+    margin-bottom: 35px;
+  }
+
+  .userNameDiv {
+    float:left;
+    margin-left: 4%;
+    margin-top: -15%;
+  }
+
+
+}
+
 /* most phohes */
 @media screen and (max-width: 700px) {
   .appTitle {
@@ -45,7 +101,46 @@
     margin-top: 50px;
     margin-bottom: 35px;
   }
+
+  .userNameDiv {
+    margin-right: 25%;
+    margin-top: -35%;
+  }
+
+
 }
+
+@media screen and (max-width: 450px) {
+  .appTitle {
+    font-size: 200%;
+    width: 80%;
+    margin-top: 50px;
+    margin-bottom: 35px;
+  }
+
+  .userNameDiv {
+    margin-right: 27%;
+    margin-top: -30%;
+  }
+
+
+}
+
+@media screen and (max-width: 380px) {
+  .appTitle {
+    font-size: 200%;
+    width: 80%;
+    margin-top: 50px;
+    margin-bottom: 35px;
+  }
+
+  .userNameDiv {
+    margin-right: 25%;
+    margin-top: -35%;
+  }
+
+}
+
 
 /* iphone 5/se */
 
@@ -188,6 +283,12 @@ float:left;
   .passTextBox{
 
   }
+
+  .userNameDiv {
+    margin-right: 19%;
+    margin-top: -40%;
+  }
+
 }
 
 
