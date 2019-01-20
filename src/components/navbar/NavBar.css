@@ -342,7 +342,6 @@ float:left;
 
 
 
-
 /* loging in */
 .textboxes2 {
 
@@ -379,6 +378,55 @@ margin-right: 20px;
 .fakeUserBar {
     background-color: #282c34;
     min-height: 50px;
+}
+
+@media screen and (max-width: 300px) {
+
+  .navRight {
+    text-align: center;
+    margin-right:0px;
+  }
+
+  .textboxesTitle {
+  }
+
+
+  .textboxTitles2{
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .textBoxEmailTitle {
+    font-weight: bold;
+    color:  rgba(245, 245, 245, 0.877);
+    margin-left: 3%;
+  }
+
+  .textBoxPassTitle{
+    font-weight: bold;
+    color:  rgba(245, 245, 245, 0.877);
+  }
+
+  .textBoxes {
+  }
+
+  .textboxes2 {
+    display: flex;
+    margin-left: 0%;
+    margin-right: 10px;
+  }
+  .emailTextBox{
+    width: 35%;
+  }
+  .passTextBox{
+    width: 35%;
+  }
+
+  .userNameDiv {
+    margin-right: 19%;
+    margin-top: -40%;
+  }
+
 }
 
 /* =====================================REGISTRATION FORM========================*/
