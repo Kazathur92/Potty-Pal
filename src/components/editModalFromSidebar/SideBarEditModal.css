@@ -1,0 +1,136 @@
+.editDiv {
+  background-color: #282c34;
+  border: solid 3px grey;
+  height: 62%;
+  border-radius: 15px;
+}
+
+.editTitle {
+  text-align: center;
+  font-size: 25px;
+  letter-spacing: 3px;
+  color: rgba(245, 245, 245, 0.877);
+}
+
+.mockMarker {
+  margin-top: 15px;
+  border-radius: 10px;
+  background-color:   rgba(245, 245, 245, 0.877);
+  margin-left: 30%;
+  margin-right: 30%;
+}
+
+.mockMarkerName {
+  display: flex;
+  justify-content: center;
+}
+
+.mockMarkerAddress {
+  display: flex;
+  justify-content: center;
+}
+
+.mockMarkerBabyCheck {
+  display: flex;
+  justify-content: center;
+}
+
+.mockMarkerHandiCheck {
+  display: flex;
+  justify-content: center;
+}
+
+.mockMarkerRating {
+  display: flex;
+  justify-content: center;
+}
+
+.mockButtons {
+  display:flex;
+  justify-content: center;
+}
+
+.editBoxesDiv {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+}
+
+.editNameLabel{
+  font-size: 12px;
+  color: rgba(245, 245, 245, 0.877);
+}
+
+.editNameBox {
+  width: 80%;
+}
+
+.editLocationLabel {
+  font-size: 12px;
+  color: rgba(245, 245, 245, 0.877);
+
+}
+
+.editLocationBox {
+  width: 80%;
+}
+
+
+.editBabyCheckField {
+  margin-top: -7px;
+  margin-bottom: 7px;
+}
+
+.editBabyCheckLabel {
+  font-size: 10px;
+  color: rgba(245, 245, 245, 0.877);
+}
+
+.editBabyStation {
+
+}
+
+.editHandiAccessCheckField {
+
+}
+
+.editHandiAccessLabel {
+  font-size: 10px;
+  color: rgba(245, 245, 245, 0.877);
+}
+
+.editHandiAccess {
+
+}
+
+.editRatingTitle {
+  margin-top: 5px;
+  font-size: 12px;
+  color: rgba(245, 245, 245, 0.877);
+}
+
+.editBackBtn {
+  color: rgba(245, 245, 245, 0.877);
+  background-color: cadetblue;
+  border-top-color: cadetblue;
+  border-bottom-color: cadetblue;
+  border-left-color: cadetblue;
+  border-right-color: cadetblue;
+}
+
+.editBackBtn:hover {
+  /* border-top-left-radius: 15px; */
+  color: rgba(245, 245, 245, 0.877);
+  background-color: #426e70;
+  border-top-color: #426e70;
+  border-bottom-color: #426e70;
+  border-left-color: #426e70;
+  border-right-color: #426e70;
+}
+
+.editSubmitBtnDiv {
+  display: flex;
+  justify-content: center;
+  /* margin-top: 8%; */
+  padding: 10px;
+}

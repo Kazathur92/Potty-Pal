@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom'
 import NavBar from "./components/navbar/NavBar"
 // import RegistrationForm from "./components/registration/RegistrationForm"
 import MapContainer from "./components/mapContainer/MapContainer.js"
+import { Button, Modal, Icon } from "react-bulma-components/full";
 import './App.css';
 
 
@@ -26,6 +27,7 @@ export default class ApplicationViews extends Component {
           homeStateChange={this.props.homeStateChange}
           close={this.props.close}
           registerStateChange={this.props.registerStateChange}
+
           //C.R.U.D functions
           addUser={this.props.addUser}
           //state props
@@ -48,7 +50,7 @@ export default class ApplicationViews extends Component {
         </NavBar>
         {/* <button onClick={this.consoleLog}>console log current location</button> */}
 
-
+      {/* <Button onClick={this.props.setingUserMarkers}>setting Markeds</Button> */}
 
           <Route path="/" render={(props) => {
 
@@ -57,6 +59,7 @@ export default class ApplicationViews extends Component {
                 //state change functions
                 userBarMakeSelectionState={this.props.userBarMakeSelectionState}
                 logOutButton={this.props.logOutButton}
+                setingUserMarkers={this.props.setingUserMarkers}
                 //C.R.U.D
                 addMarker={this.props.addMarker}
                 deleteMarker={this.props.deleteMarker}
@@ -74,6 +77,7 @@ export default class ApplicationViews extends Component {
                 markers={this.props.markers}
                 users={this.props.users}
                 bathrooms={this.props.bathrooms}
+                userMarkers={this.props.userMarkers}
                 //authentication
                 isAuthenticated={this.props.isAuthenticated}
 

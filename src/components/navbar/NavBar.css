@@ -1,17 +1,158 @@
+.titleDiv {
+  display:flex;
+  justify-content: center;
+}
+
 .appTitle {
   font-size: 50px;
-  /* margin-top: -90px; */
+  text-shadow: 3px 3px #282c34;
   letter-spacing: 5px;
   color: rgba(245, 245, 245, 0.877);
+  font-weight: bold;
+  font-style: italic;
+  font-family: Impact, Charcoal, sans-serif;
+  border: 2px solid black;
+  border-radius: 10px;
+  width: 25%;
+  background-color: #00889b;
+
+}
+
+.userNameDiv {
+  display: flex;
+  flex-direction: row;
+  float: right;
+  margin-right: 4%;
+  margin-top: -4%;
+}
+
+.welcome {
+  font-size: 20px;
+  /* margin-top: 100%; */
+  margin-right: 10px;
+  font-weight: bold;
+  color: rgba(245, 245, 245, 0.877);
+}
+
+.welcomeUser {
+  font-size: 20px;
+  /* margin-top: 100%; */
+  font-weight: bold;
+  color: rgba(245, 245, 245, 0.877);
+}
+
+/* ipad */
+@media screen and (max-width: 992px) {
+  .appTitle {
+    font-size: 200%;
+    width: 30%;
+    margin-top: 50px;
+    margin-bottom: 35px;
+  }
+}
+
+/* .textboxes2 {
+
+  text-align: right;
+  margin-right: 65px;
+
+} */
+
+@media screen and (max-width: 1025px) {
+  .appTitle {
+    font-size: 200%;
+    width: 29%;
+    margin-top: 50px;
+    margin-bottom: 35px;
+  }
+
+  .userNameDiv {
+    float:left;
+    margin-left: 4%;
+    margin-top: -10%;
+  }
+
 
 }
 
 
-.nav {
-  /* display: flex; */
-  /* flex-direction: row-reverse; */
+@media screen and (max-width: 800px) {
+  .appTitle {
+    font-size: 200%;
+    width: 29%;
+    margin-top: 50px;
+    margin-bottom: 35px;
+  }
 
-  /* text-align: right; */
+  .userNameDiv {
+    float:left;
+    margin-left: 4%;
+    margin-top: -15%;
+  }
+
+
+}
+
+/* most phohes */
+@media screen and (max-width: 700px) {
+  .appTitle {
+    font-size: 200%;
+    width: 80%;
+    margin-top: 50px;
+    margin-bottom: 35px;
+  }
+
+  .userNameDiv {
+    margin-right: 25%;
+    margin-top: -35%;
+  }
+
+
+}
+
+@media screen and (max-width: 450px) {
+  .appTitle {
+    font-size: 200%;
+    width: 80%;
+    margin-top: 50px;
+    margin-bottom: 35px;
+  }
+
+  .userNameDiv {
+    margin-right: 27%;
+    margin-top: -30%;
+  }
+
+
+}
+
+@media screen and (max-width: 380px) {
+  .appTitle {
+    font-size: 200%;
+    width: 80%;
+    margin-top: 50px;
+    margin-bottom: 35px;
+  }
+
+  .userNameDiv {
+    margin-right: 25%;
+    margin-top: -35%;
+  }
+
+}
+
+
+/* iphone 5/se */
+
+
+
+.nav {
+  background-image: url("https://ya-webdesign.com/images/png-water-8.png");
+  background-position: -50%;
+  background-repeat: no-repeat;
+
+
+
   background-color: rgb(6, 104, 143);
   height: 140px;
 }
@@ -91,7 +232,7 @@ float:left;
 .textBoxEmailTitle {
   font-weight: bold;
   color:  rgba(245, 245, 245, 0.877);
-margin-right: 104px;
+  margin-right: 104px;
 }
 
 .textBoxPassTitle {
@@ -100,7 +241,108 @@ margin-right: 104px;
   margin-right: 117px;
 }
 
-/* login */
+/* iphone 5/se */
+@media screen and (max-width: 362px) {
+
+  .navRight {
+    text-align: center;
+    margin-right:0px;
+  }
+
+  .textboxesTitle {
+  }
+
+
+  .textboxTitles2{
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .textBoxEmailTitle {
+    font-weight: bold;
+    color:  rgba(245, 245, 245, 0.877);
+    margin-left: 3%;
+  }
+
+  .textBoxPassTitle{
+    font-weight: bold;
+    color:  rgba(245, 245, 245, 0.877);
+  }
+
+  .textBoxes {
+  }
+
+  .textboxes2 {
+    display: flex;
+    margin-left: 3%;
+    margin-right: 0px;
+  }
+  .emailTextBox{
+
+  }
+  .passTextBox{
+
+  }
+
+  .userNameDiv {
+    margin-right: 19%;
+    margin-top: -40%;
+  }
+
+}
+
+@media screen and (max-width: 323px) {
+
+  .navRight {
+    text-align: center;
+    margin-right:0px;
+  }
+
+  .textboxesTitle {
+  }
+
+
+  .textboxTitles2{
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .textBoxEmailTitle {
+    font-weight: bold;
+    color:  rgba(245, 245, 245, 0.877);
+    margin-left: 3%;
+  }
+
+  .textBoxPassTitle{
+    font-weight: bold;
+    color:  rgba(245, 245, 245, 0.877);
+  }
+
+  .textBoxes {
+  }
+
+  .textboxes2 {
+    display: flex;
+    margin-left: 3%;
+    margin-right: 0px;
+  }
+  .emailTextBox{
+
+  }
+  .passTextBox{
+
+  }
+
+  .userNameDiv {
+    margin-right: 19%;
+    margin-top: -40%;
+  }
+
+}
+
+
+
+/* loging in */
 .textboxes2 {
 
   text-align: right;
@@ -136,6 +378,55 @@ margin-right: 20px;
 .fakeUserBar {
     background-color: #282c34;
     min-height: 50px;
+}
+
+@media screen and (max-width: 300px) {
+
+  .navRight {
+    text-align: center;
+    margin-right:0px;
+  }
+
+  .textboxesTitle {
+  }
+
+
+  .textboxTitles2{
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .textBoxEmailTitle {
+    font-weight: bold;
+    color:  rgba(245, 245, 245, 0.877);
+    margin-left: 3%;
+  }
+
+  .textBoxPassTitle{
+    font-weight: bold;
+    color:  rgba(245, 245, 245, 0.877);
+  }
+
+  .textBoxes {
+  }
+
+  .textboxes2 {
+    display: flex;
+    margin-left: 0%;
+    margin-right: 10px;
+  }
+  .emailTextBox{
+    width: 35%;
+  }
+  .passTextBox{
+    width: 35%;
+  }
+
+  .userNameDiv {
+    margin-right: 19%;
+    margin-top: -40%;
+  }
+
 }
 
 /* =====================================REGISTRATION FORM========================*/

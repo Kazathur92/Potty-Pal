@@ -4,6 +4,8 @@
 
 }
 
+
+
 button {
   outline: none;
   border: none;
@@ -15,6 +17,9 @@ button {
 
 .background {
   background-color: rgba(7, 45, 95, 0.877);
+  background-image: url("https://www.interactone.com/wp-content/uploads/2015/09/splash-Edit-no-white-space.png");
+  background-position-y: 100%;
+  background-repeat: no-repeat
 }
 
 .infoWindows {
@@ -23,12 +28,12 @@ button {
   background-color: cadetblue;
 }
 
-.logOutButtonField {
+/* .logOutButtonField {
 
   float:left;
   margin-top: 10px;
   margin-left: 10px;
-}
+} */
 
  .logOutButton {
   font-weight: bold;
@@ -51,6 +56,43 @@ button {
   border-right-color: #8c0000;
 }
 
+/* iphone 5/se */
+@media screen and (max-width: 600px) {
+  .logOutButton {
+    /* margin: auto; */
+    margin-left: 0px;
+    margin-bottom: 10%;
+    /* display: flex; */
+    /* justify-content: flex-end; */
+  }
+
+  .addButton{
+    margin-top: 0%;
+  }
+
+  .myMarkerButton{
+    margin-top: 3%;
+  }
+
+
+}
+
+@media screen and (max-width: 400px) {
+  .logOutButton {
+    margin-left: 27%;
+    margin-bottom: 0px;
+  }
+
+  .addButton{
+    margin-top: 3%;
+  }
+
+  .myMarkerButton{
+    margin-top: 3%;
+  }
+
+}
+
 /* animation */
 .userBar {
   width: 90%;
@@ -64,6 +106,7 @@ button {
   border-left-color: #42c5f4;
   border-right-color: #42c5f4;
   font-weight: bold;
+  margin-right: 3%;
 }
 .addButton:hover {
   color: rgba(245, 245, 245, 0.877);
@@ -111,6 +154,24 @@ button {
   border-right-color: #b28e00;
 }
 
+.myMarkerButton {
+  color: rgba(245, 245, 245, 0.877);
+  background-color: darkorchid;
+  border-top-color: darkorchid;
+  border-bottom-color: darkorchid;
+  border-left-color: darkorchid;
+  border-right-color: darkorchid;
+}
+
+.myMarkerButton:hover {
+  color: rgba(245, 245, 245, 0.877);
+  background-color: rgb(114, 37, 153);
+  border-top-color: rgb(114, 37, 153);
+  border-bottom-color: rgb(114, 37, 153);
+  border-left-color: rgb(114, 37, 153);
+  border-right-color: rgb(114, 37, 153);
+}
+
 /* ==============================INTERACTION BAR START====================== */
 
 .interactionBar {
@@ -129,6 +190,9 @@ padding: 30px;
   background-color: #282c34;
 }
 
+.ratingDiv {
+  margin-left: 10%;
+}
 
 /* ==================================SELECTION BAR END===================== */
 
@@ -139,7 +203,7 @@ padding: 30px;
 .searchLocationBox {
   background-color: #282c34;
   border: solid 3px grey;
-  height: 42%;
+  height: 47%;
   border-radius: 15px;
 }
 
@@ -149,6 +213,7 @@ padding: 30px;
   letter-spacing: 3px;
   color: rgba(245, 245, 245, 0.877);
 }
+
 
 .locationTextBoxes {
   display: flex;
@@ -160,11 +225,12 @@ padding: 30px;
 .locationLabel {
   font-size: 12px;
   color: rgba(245, 245, 245, 0.877);
-  }
+}
 
-  .locationTextbox {
+.locationTextbox {
   width: 80%;
-  }
+}
+
 
 
 /* search check */
@@ -218,7 +284,39 @@ padding: 30px;
 
 .searchSwitchModeBtn {
   float: right;
+
 }
+
+
+@media screen and (max-width: 400px) {
+
+  .searchWindowTitle {
+    text-align: center;
+    font-size: 15px;
+    letter-spacing: 3px;
+    color: rgba(245, 245, 245, 0.877);
+  }
+
+
+  .locationTextBoxes {
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+}
+
+  .extraInfoFieldDiv {
+    margin-left: 25px;
+  }
+
+  .extraInfoDiv {
+    margin-top: -5px;
+  }
+
+
+}
+
+
+
 /* ===============================SEARCH LOCATION DIV END======================= */
 
 /* ===================================CURRENT LOCATION DIV START==================== */
@@ -226,12 +324,13 @@ padding: 30px;
 .currentLocationBoxes {
   background-color: #282c34;
   border: solid 3px grey;
-  height: 42%;
+  height: 47%;
   border-radius: 15px;
 }
 
 .currLocBackBtn {
   color: antiquewhite;
+  border-top-left-radius: 15px;
   background-color: cadetblue;
   border-top-color: cadetblue;
   border-bottom-color: cadetblue;
@@ -241,6 +340,7 @@ padding: 30px;
 
 .currLocBackBtn:hover {
   color: antiquewhite;
+  border-top-left-radius: 15px;
   background-color: #426e70;
   border-top-color: #426e70;
   border-bottom-color: #426e70;
@@ -307,7 +407,54 @@ padding: 30px;
   margin-left: 25%;
 }
 
+.amalgamator {
+  display:flex;
+}
+
 .extraInfoDropDown {
+  margin-top: 6.1%;
+  color: rgba(245, 245, 245, 0.877);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 15px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  width: 95px;
+  height: 24px;
+  background-color: #426e70;
+  border-top-color: #426e70;
+  border-bottom-color: #426e70;
+  border-left-color: #426e70;
+  border-right-color: #426e70;
+
+  /* TO BLEND IN */
+  /* background-color: #282c34;
+  border-top-color: #282c34;
+  border-bottom-color: #282c34;
+  border-left-color: #282c34;
+  border-right-color: #282c34; */
+}
+
+.extraInfoDropDown:hover {
+  color: rgba(192, 192, 192, 0.877);
+  width: 95px;
+  height: 24px;
+  border-bottom: #426e70;
+  background-color: #426e70;
+  border-top-color: #426e70;
+  border-bottom-color: #426e70;
+  border-left-color: #426e70;
+  border-right-color: #426e70;
+
+  /* TO BLEND IN */
+  /* background-color: #282c34;
+  border-top-color: #282c34;
+  border-bottom-color: #282c34;
+  border-left-color: #282c34;
+  border-right-color: #282c34; */
+}
+
+.extraInfoDropDown_2 {
+  margin-top: 6.1%;
   color: rgba(245, 245, 245, 0.877);
   border-top-left-radius: 5px;
   border-top-right-radius: 15px;
@@ -322,10 +469,11 @@ padding: 30px;
   border-right-color: #426e70;
 }
 
-.extraInfoDropDown:hover {
-  border-bottom: #426e70;
+.extraInfoDropDown_2:hover {
+  color: rgba(192, 192, 192, 0.877);
   width: 95px;
   height: 24px;
+  border-bottom: #426e70;
   background-color: #426e70;
   border-top-color: #426e70;
   border-bottom-color: #426e70;
@@ -359,7 +507,16 @@ padding: 30px;
   border-bottom-right-radius: 15px;
   width: 50%;
   padding: 2px;
-  margin-bottom: -11%;
+  margin-bottom: -5.8%;
+}
+
+.extraInfoDiv_2 {
+  background-color: #426e70;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  width: 50%;
+  padding: 2px;
+  margin-bottom: -10.9%;
 }
 
 .extraInfoLabel {
@@ -382,6 +539,49 @@ padding: 30px;
 .currSwitchModeBtn {
   float: right;
 }
+
+@media screen and (max-width: 400px) {
+
+
+  .currLocTitle {
+    text-align: center;
+    font-size: 15px;
+    letter-spacing: 3px;
+    color: rgba(245, 245, 245, 0.877);
+  }
+
+  .boxSeparator {
+    display: flex;
+    margin-top: 30px;
+    margin-left: 8%;
+  }
+
+  .currLocTextBoxes {
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+  }
+
+  .extraInfoDropDown {
+    margin-top: 10%;
+  }
+
+  .extraInfoDropDown_2 {
+    margin-top: 10%;
+  }
+
+  .extraInfoFieldDiv {
+    margin-left: 25px;
+  }
+
+  .extraInfoDiv_2 {
+    margin-top: -5px;
+  }
+
+
+}
+
+
 /* ===================================CURRENT LOCATION DIV END====================  */
 
 
@@ -493,6 +693,7 @@ padding: 30px;
 }
 
 .editRatingTitle {
+  margin-top: 5px;
   font-size: 12px;
   color: rgba(245, 245, 245, 0.877);
 }
@@ -587,4 +788,3 @@ margin-top: 10%;
 display:flex;
 justify-content: space-evenly;
 }
-

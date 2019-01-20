@@ -40,6 +40,7 @@ class App extends Component {
     //Geocode npm
     userLocation: { lat: 40.6627, lng: -86.7816 }, //without the currentGeo
     loading: true,
+    userMarkers: []
   }
 
   //36.1627},%20${-86.7{()=> 816
@@ -73,19 +74,18 @@ class App extends Component {
   componentDidMount() {
 
 
-
     //This renders the user bar if the user has not logged out, but just refreshed
     this.ifSessionStorageFound()
 
     //gets CURRENT GEO
     GeolocationManager.getCurrentGeolocation()
-      .then(currentGeo => this.setState({ currentGeo: currentGeo.location }))
+    .then(currentGeo => this.setState({ currentGeo: currentGeo.location }))
     //gets USERS
     UserManager.UserManagerGetAll()
-      .then(users => this.setState({ users: users }))
+    .then(users => this.setState({ users: users }))
     //gets MARKERS
     MarkerManager.MarkerManagerGetAll()
-      .then(markers => this.setState({ markers: markers }))
+    .then(markers => this.setState({ markers: markers }))
 
 
     navigator.geolocation.getCurrentPosition(
@@ -93,7 +93,7 @@ class App extends Component {
         const { latitude, longitude } = position.coords;
 
         BathroomManager.BathroomManagerGetAll(`&location=${latitude},%20${longitude}&radius=10000`)
-          .then(allBathrooms => this.setState({ bathrooms: allBathrooms.results }))
+        .then(allBathrooms => this.setState({ bathrooms: allBathrooms.results }))
 
         this.setState({
           userLocation: { lat: latitude, lng: longitude },
@@ -103,11 +103,11 @@ class App extends Component {
       () => {
         this.setState({ loading: false })
       }
-    )
+      )
 
-  }
+    }
 
-  // ============================AUTHENTICATION===========================
+    // ============================AUTHENTICATION===========================
 
   ifSessionStorageFound = () => {
     if (sessionStorage.getItem("userID") !== null) {
@@ -123,6 +123,21 @@ class App extends Component {
   }
 
 
+  //not in use
+  setingUserMarkers = () => {
+    let myMarkers = []
+    this.state.markers.map(currentMarker => {
+      if(currentMarker.user_Id === +sessionStorage.userID){
+        myMarkers.push(currentMarker)
+      }
+    })
+            this.setState({
+              userMarkers: myMarkers
+            })
+            // .catch(function () {
+            //   alert("oops error")
+            // })
+  }
 
 
 
@@ -255,7 +270,8 @@ class App extends Component {
 
 
   consoleLog = () => {
-    console.log(this.state.userLocation)
+    // console.log(this.state.userLocation)
+    console.log(this.state.userMarkers)
   }
 
 
@@ -278,6 +294,7 @@ class App extends Component {
           navBarStateChange={this.navBarStateChange}
           homeStateChange={this.homeStateChange}
           registerStateChange={this.registerStateChange}
+          setingUserMarkers={this.setingUserMarkers}
           close={this.close}
           //C.R.U.D functions
           addUser={this.addUser}
@@ -301,6 +318,7 @@ class App extends Component {
           users={this.state.users}
           bathrooms={this.state.bathrooms}
           userLocaion={userLocation}
+          userMarkers={this.state.userMarkers}
           //authentication
           isAuthenticated={this.isAuthenticated}
           userVerification_Step2={this.userVerification_Step2}

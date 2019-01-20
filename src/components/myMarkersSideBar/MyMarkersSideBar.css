@@ -1,0 +1,153 @@
+.sideBarDiv {
+  width: 30%;
+  /* height: 10px; */
+  border-radius: 10px;
+  margin-top: -5%;
+  position: fixed;
+}
+/* .userMarker1 {
+  height: 50px;
+  overflow: auto;
+} */
+.sideBarNav {
+  height: 30rem;
+  overflow: auto;
+}
+
+.cardDiv {
+  background-color: rgba(245, 245, 245, 0.877);
+
+}
+
+
+.cardContainer {
+  background-color: rgba(245, 245, 245, 0.877);
+}
+
+.cardEdit {
+  color: darkblue;
+  font-weight: bold;
+}
+
+.cardEdit:hover {
+  color: rgba(245, 245, 245, 0.877);
+  background-color: rgb(67, 21, 90);
+  border-bottom-right-radius: 10px;
+}
+
+
+.cardDelete {
+  color: darkblue;
+  font-weight: bold;
+}
+
+.cardDelete:hover {
+ color:  rgba(245, 245, 245, 0.877);
+ background-color: rgb(67, 21, 90);
+ border-bottom-right-radius: 10px;
+}
+
+.sidebarCloseButton:hover {
+color: blue;
+}
+
+#button_3 {
+  visibility: visible;
+}
+
+.closeButton {
+  visibility: hidden;
+}
+
+.markerCard {
+  /* background-color: white; */
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.markerCard:hover {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  color: rgba(245, 245, 245, 0.877);
+  background-color: rgb(117, 75, 138);
+}
+/* nav {
+  width: 30%
+} */
+
+@media screen and (max-width: 600px) {
+  .sideBarDiv {
+    width: 30%;
+    height: 100px;
+    border-radius: 10px;
+    margin-top: -50%;
+    position: fixed;
+  }
+
+  .markerName{
+    font-size: 10px;
+  }
+
+  .markerLocation{
+    font-size: 10px;
+  }
+
+  .markerBaby{
+
+    font-size: 10px;
+  }
+
+  .markerHandi{
+    font-size: 10px;
+  }
+
+  .cardEdit{
+    font-size: 10px;
+  }
+
+  .cardDelete{
+    font-size: 10px;
+  }
+
+}
+
+@media screen and (max-width: 400px) {
+  .sideBarDiv {
+    width: 30%;
+    height: 100px;
+    border-radius: 10px;
+    margin-top: -100%;
+    position: fixed;
+  }
+
+  .sidebarTitle{
+    font-size: 10px;
+    margin-right: 20px;
+    /* margin-left:  */
+  }
+
+  .markerName{
+    font-size: 10px;
+  }
+
+  .markerLocation{
+    font-size: 10px;
+  }
+
+  .markerBaby{
+
+    font-size: 10px;
+  }
+
+  .markerHandi{
+    font-size: 10px;
+  }
+
+  .cardEdit{
+    font-size: 10px;
+  }
+
+  .cardDelete{
+    font-size: 10px;
+  }
+}
