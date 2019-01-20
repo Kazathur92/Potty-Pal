@@ -31,7 +31,7 @@ export default class APIManager {
 
   getAllMaps(query) {
 
-    return fetch(`https://maps.googleapis.com/api/maps?${query}`, {
+    return fetch(`https://heuristic-mestorf-ea2618.netlify.com/api/maps?${query}`, {
       headers: {
       mode: 'no-cors'
     },
