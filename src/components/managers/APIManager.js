@@ -35,6 +35,7 @@ export default class APIManager {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+      key: "899c35a68b18411d60afbc4c95c76bec6aeb2136693817214ede3c90bbf33674",
       mode: 'no-cors'
     },
     }).then(e => e.json())
