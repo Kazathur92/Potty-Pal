@@ -242,7 +242,56 @@ float:left;
 }
 
 /* iphone 5/se */
-@media screen and (max-width: 350px) {
+@media screen and (max-width: 362px) {
+
+  .navRight {
+    text-align: center;
+    margin-right:0px;
+  }
+
+  .textboxesTitle {
+  }
+
+
+  .textboxTitles2{
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .textBoxEmailTitle {
+    font-weight: bold;
+    color:  rgba(245, 245, 245, 0.877);
+    margin-left: 3%;
+  }
+
+  .textBoxPassTitle{
+    font-weight: bold;
+    color:  rgba(245, 245, 245, 0.877);
+  }
+
+  .textBoxes {
+  }
+
+  .textboxes2 {
+    display: flex;
+    margin-left: 3%;
+    margin-right: 0px;
+  }
+  .emailTextBox{
+
+  }
+  .passTextBox{
+
+  }
+
+  .userNameDiv {
+    margin-right: 19%;
+    margin-top: -40%;
+  }
+
+}
+
+@media screen and (max-width: 323px) {
 
   .navRight {
     text-align: center;
