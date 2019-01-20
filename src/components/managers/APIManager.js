@@ -29,12 +29,14 @@ export default class APIManager {
     return fetch(`${LocalRemoteURL}/${this.route}`).then(e => e.json())
   }
 
+
+  //this has been altered, see APIManagerOg for original one which worked with localhost.
   getAllMaps(query) {
 
     return fetch(`https://heuristic-mestorf-ea2618.netlify.com/api/maps?${query}`, {
       method: "GET",
       headers: {
-        "Content-Type": "application/json",
+        // "Content-Type": "application/json",
       key: "899c35a68b18411d60afbc4c95c76bec6aeb2136693817214ede3c90bbf33674",
       mode: 'no-cors'
     },
