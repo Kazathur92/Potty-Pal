@@ -82,11 +82,11 @@ render() {
   onMouseLeave={() => this.props.handleIconState_2(this.props.markerProperties, this.props.marker.id)}
   >
   {/* <Button id={`button_${this.props.marker.id}`} className="closeButton">x</Button> */}
-<p>{this.props.marker.name}</p>
-<p>{this.props.marker.location}</p>
-<p><Icon className="fas fa-baby" color="info"></Icon>
+<p className="markerName">{this.props.marker.name}</p>
+<p className="markerLocation">{this.props.marker.location}</p>
+<p className="markerBaby"><Icon className="fas fa-baby" color="info"></Icon>
 &nbsp;{this.props.changingStation}</p>
-<p><Icon className="fas fa-wheelchair" color="info"></Icon>
+<p className="markerHandi"><Icon className="fas fa-wheelchair" color="info"></Icon>
 &nbsp;{this.props.handicapAccess}</p>
 <StarRatingComponent
             name="rate5"

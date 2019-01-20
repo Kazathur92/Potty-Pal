@@ -6,7 +6,6 @@
 .appTitle {
   font-size: 50px;
   text-shadow: 3px 3px #282c34;
-  /* margin-top: -90px; */
   letter-spacing: 5px;
   color: rgba(245, 245, 245, 0.877);
   font-weight: bold;
@@ -18,6 +17,38 @@
   background-color: #00889b;
 
 }
+
+
+
+/* ipad */
+@media screen and (max-width: 992px) {
+  .appTitle {
+    font-size: 200%;
+    width: 30%;
+    margin-top: 50px;
+    margin-bottom: 35px;
+  }
+}
+
+/* .textboxes2 {
+
+  text-align: right;
+  margin-right: 65px;
+
+} */
+
+/* most phohes */
+@media screen and (max-width: 700px) {
+  .appTitle {
+    font-size: 200%;
+    width: 80%;
+    margin-top: 50px;
+    margin-bottom: 35px;
+  }
+}
+
+/* iphone 5/se */
+
 
 
 .nav {
@@ -106,7 +137,7 @@ float:left;
 .textBoxEmailTitle {
   font-weight: bold;
   color:  rgba(245, 245, 245, 0.877);
-margin-right: 104px;
+  margin-right: 104px;
 }
 
 .textBoxPassTitle {
@@ -115,7 +146,54 @@ margin-right: 104px;
   margin-right: 117px;
 }
 
-/* login */
+/* iphone 5/se */
+@media screen and (max-width: 350px) {
+
+  .navRight {
+    text-align: center;
+    margin-right:0px;
+  }
+
+  .textboxesTitle {
+  }
+
+
+  .textboxTitles2{
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .textBoxEmailTitle {
+    font-weight: bold;
+    color:  rgba(245, 245, 245, 0.877);
+    margin-left: 3%;
+  }
+
+  .textBoxPassTitle{
+    font-weight: bold;
+    color:  rgba(245, 245, 245, 0.877);
+  }
+
+  .textBoxes {
+  }
+
+  .textboxes2 {
+    display: flex;
+    margin-left: 3%;
+    margin-right: 0px;
+  }
+  .emailTextBox{
+
+  }
+  .passTextBox{
+
+  }
+}
+
+
+
+
+/* loging in */
 .textboxes2 {
 
   text-align: right;

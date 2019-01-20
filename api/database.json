@@ -87,6 +87,36 @@
       "handicapAccess_2": false,
       "user_Id": 2,
       "id": 5
+    },
+    {
+      "name": "Nashville Software School",
+      "location": "NSS",
+      "lat": 36.1326341,
+      "lng": -86.75641999999999,
+      "rating": 4,
+      "inactiveIcon": "https://cdn3.iconfinder.com/data/icons/map-and-location-fill/144/Place_Restroom-512.png",
+      "activeIcon": "https://cdn4.iconfinder.com/data/icons/bold-purple-free-samples/32/Men_Symbol_Restroom_Human_Toilet-512.png",
+      "changingStation": false,
+      "changingStation_2": false,
+      "handicapAccess": true,
+      "handicapAccess_2": true,
+      "user_Id": 1,
+      "id": 6
+    },
+    {
+      "name": "HOME",
+      "location": "",
+      "lat": 36.2377906,
+      "lng": -86.6990598,
+      "rating": 3,
+      "inactiveIcon": "https://cdn3.iconfinder.com/data/icons/map-and-location-fill/144/Place_Restroom-512.png",
+      "activeIcon": "https://cdn4.iconfinder.com/data/icons/bold-purple-free-samples/32/Men_Symbol_Restroom_Human_Toilet-512.png",
+      "changingStation": false,
+      "changingStation_2": false,
+      "handicapAccess": false,
+      "handicapAccess_2": false,
+      "user_Id": 1,
+      "id": 7
     }
   ],
   "users_markers": [

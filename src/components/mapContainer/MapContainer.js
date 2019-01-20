@@ -8,6 +8,7 @@ import Geocode from "react-geocode"
 import InfoWindowEx from '../infoWindowEx/InfoWindowEx'
 import MyMarkerSideBar from '../myMarkersSideBar/MyMarkersSideBar'
 import SideBarEditModal from '../editModalFromSidebar/SideBarEditModal'
+import TestSideBar from '../myMarkersSideBar/TestSideBar'
 import "./Container.css"
 
 // =================USING GOOGLE-MAPS-REACT==============================
@@ -264,7 +265,7 @@ export class MapContainer extends Component {
   }
 
   handleMyMarkerButtonState = () => {
-
+    this.props.setingUserMarkers()
     if (this.state.myMarkerButton) {
       this.setState({
         myMarkerButton: false
@@ -1597,7 +1598,7 @@ export class MapContainer extends Component {
               <Button className="searchBackButton is-small" onClick={this.handleBackButtonState}>
                 <Icon className="fas fa-backward"></Icon>&nbsp;&nbsp;Back</Button>
               <Button className="searchSwitchModeBtn is-small is-rounded" onClick={this.handleSearchSwitchModeButton}>
-                <Icon className="fas fa-map-marker-alt" color="danger"></Icon>
+                <Icon className="phoneSizeIcon fas fa-map-marker-alt" color="danger"></Icon>
                 &nbsp;&nbsp;Switch to Current Location</Button>
               <h1 className="searchWindowTitle"><Icon className="fas fa-search-location" color="info"></Icon>
                 &nbsp;&nbsp;Add by Location Name</h1>
@@ -1987,6 +1988,29 @@ export class MapContainer extends Component {
 
     if (this.state.myMarkerButton) {
       sideBar = (
+
+        // <TestSideBar
+        // //C.R.U.D
+        // deleteMarker={this.props.deleteMarker}
+        // editMarker={this.props.editMarker}
+        // //data states
+        // markers={this.props.markers}
+        // currentMarker={this.state.currentMarker}
+        // userMarkers={this.props.userMarkers}
+        // //rating states
+        // rating={this.state.rating}
+        // //state changing functions
+        // handleInfoWindowContentState_1={this.handleInfoWindowContentState_1}
+        // handleIconState_1={this.handleIconState_1}
+        // handleIconState_2={this.handleIconState_2}
+        // handleSidebarEditState={this.handleSidebarEditState}
+        // handleMyMarkerButtonState={this.handleMyMarkerButtonState}
+        // //authentication states
+        // sessionStorage={this.state.sessionStorage}
+        // warningMessageToggleSideBar={this.warningMessageToggleSideBar}
+
+        // />
+
         <MyMarkerSideBar
           //C.R.U.D
           deleteMarker={this.props.deleteMarker}
@@ -1994,6 +2018,7 @@ export class MapContainer extends Component {
           //data states
           markers={this.props.markers}
           currentMarker={this.state.currentMarker}
+          userMarkers={this.props.userMarkers}
           //rating states
           rating={this.state.rating}
           //state changing functions
@@ -2005,6 +2030,7 @@ export class MapContainer extends Component {
           //authentication states
           sessionStorage={this.state.sessionStorage}
           warningMessageToggleSideBar={this.warningMessageToggleSideBar}
+
         />
       );
     }
@@ -2147,7 +2173,7 @@ export class MapContainer extends Component {
           handicapAccess_2={currentUserMarker.handicapAccess_2}
           position={currentUserMarker}
           draggable={true}
-          onDragend={this.centerMoved} />
+          onDragend={this.centerMoved}/>
       )
     })
 

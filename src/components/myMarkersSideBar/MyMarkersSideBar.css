@@ -1,12 +1,17 @@
 .sideBarDiv {
   width: 30%;
+  /* height: 10px; */
   border-radius: 10px;
   margin-top: -5%;
   position: fixed;
 }
-
+/* .userMarker1 {
+  height: 50px;
+  overflow: auto;
+} */
 .sideBarNav {
-
+  height: 30rem;
+  overflow: auto;
 }
 
 .cardDiv {
@@ -14,9 +19,9 @@
 
 }
 
+
 .cardContainer {
   background-color: rgba(245, 245, 245, 0.877);
-
 }
 
 .cardEdit {
@@ -69,3 +74,80 @@ color: blue;
 /* nav {
   width: 30%
 } */
+
+@media screen and (max-width: 600px) {
+  .sideBarDiv {
+    width: 30%;
+    height: 100px;
+    border-radius: 10px;
+    margin-top: -50%;
+    position: fixed;
+  }
+
+  .markerName{
+    font-size: 10px;
+  }
+
+  .markerLocation{
+    font-size: 10px;
+  }
+
+  .markerBaby{
+
+    font-size: 10px;
+  }
+
+  .markerHandi{
+    font-size: 10px;
+  }
+
+  .cardEdit{
+    font-size: 10px;
+  }
+
+  .cardDelete{
+    font-size: 10px;
+  }
+
+}
+
+@media screen and (max-width: 400px) {
+  .sideBarDiv {
+    width: 30%;
+    height: 100px;
+    border-radius: 10px;
+    margin-top: -100%;
+    position: fixed;
+  }
+
+  .sidebarTitle{
+    font-size: 10px;
+    margin-right: 20px;
+    /* margin-left:  */
+  }
+
+  .markerName{
+    font-size: 10px;
+  }
+
+  .markerLocation{
+    font-size: 10px;
+  }
+
+  .markerBaby{
+
+    font-size: 10px;
+  }
+
+  .markerHandi{
+    font-size: 10px;
+  }
+
+  .cardEdit{
+    font-size: 10px;
+  }
+
+  .cardDelete{
+    font-size: 10px;
+  }
+}

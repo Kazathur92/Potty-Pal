@@ -81,7 +81,7 @@ const slideOutLeftAnimation = {
 
 //==========================================================================
 
-export default class MyMarkerSideBar extends Component {
+export default class TestSideBar extends Component {
 
 
   state = {
@@ -238,6 +238,8 @@ export default class MyMarkerSideBar extends Component {
 
 
 
+
+
     //not in use, supposed to change animation when sidebar closed
     // let animation =""
 
@@ -251,13 +253,23 @@ export default class MyMarkerSideBar extends Component {
       <StyleRoot>
         <div style={slideInLeftAnimation.slideInLeft} className="" onMouseOver={this.toggleSideBarAnimation_1}>
         <Container className="cardContainer sideBarDiv">
-        <h6 className="sidebarTitle"><Icon className="fas fa-chevron-circle-left sidebarCloseButton" onClick={this.props.handleMyMarkerButtonState}></Icon>
+        <h6><Icon className="fas fa-chevron-circle-left sidebarCloseButton" onClick={this.props.handleMyMarkerButtonState}></Icon>
 &nbsp;MARKER COLLECTION</h6>
+<div className="userMarker1">
+{/* <p>{this.props.userMarkers[0].name}</p>
+<p>{this.props.userMarkers[0].location}</p>
+<p>rating: {this.props.userMarkers[0].rating}</p>
+<p>woobydooby</p>
+<p>yahoo!</p> */}
+{markerCard}
+</div>
 {/* <Button onClick={this.consoleLog}>console log</Button> */}
-          <nav className="sideBarNav">
-              {markerCard}
+          {/* <nav className="sideBarNav"> */}
+              {/* {markerCard} */}
 
-          </nav>
+      {/* {first3Markers} */}
+          {/* <p>{this.state.userMarkers[0].name}</p> */}
+          {/* </nav> */}
           </Container>
         </div>
       </StyleRoot>
