@@ -55,12 +55,12 @@ class App extends Component {
 
     // return fetch("https://maps.googleapis.com/maps/api/place/textsearch/json?query=restrooms&location=36.1627,%20-86.7816&radius=10000", {
       // https://maps.googleapis.com/maps/api/place/textsearch/json?query=public+bathroom&location=36.1627,%20-86.7816&radius=10000&expand:place_id&key=AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs
-    return fetch("https://maps.googleapis.com/maps/api/place/textsearch/json?query=public+bathroom&location=36.1627,%20-86.7816&radius=10000&expand:place_id&key=AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs", {
+    return fetch("https://maps.googleapis.com/maps/api/place/textsearch/json?query=public+bathroom&location=36.1627,%20-86.7816&radius=10000", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
-        // key: "AIzaSyDt5XcKR4N-Gm0W525I90N-xunjpzPZhNA"
+        key: "AIzaSyDt5XcKR4N-Gm0W525I90N-xunjpzPZhNA",
         mode: 'no-cors'
 
       }
