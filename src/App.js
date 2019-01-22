@@ -59,16 +59,16 @@ class App extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
+        // "Access-Control-Allow-Origin": "*",
         key: "AIzaSyDt5XcKR4N-Gm0W525I90N-xunjpzPZhNA",
-        mode: 'no-cors'
+        // mode: 'no-cors'
 
       }
     })
       // return fetch("https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=public+bathroom&inputtype=textquery&fields=photos,formatted_address,geometry&locationbias=circle:10000@36.1627,%20-86.7816&key=AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs")
         .then(e => console.log(e.json()))
       // .then(e => e.json())
-      .then(e => this.setState({ bathrooms: e.results }))
+      // .then(e => this.setState({ bathrooms: e.results }))
     // .then((e) => console.log("data here", e))
   }
 
