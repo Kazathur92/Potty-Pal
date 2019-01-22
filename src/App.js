@@ -99,8 +99,7 @@ class App extends Component {
         const { latitude, longitude } = position.coords;
 
         BathroomManager.BathroomManagerGetAll(`&location=${latitude},%20${longitude}&radius=10000`)
-        .then(allBathrooms => console.log(allBathrooms))
-          // this.setState({ bathrooms: allBathrooms.results }))
+        .then(allBathrooms => this.setState({ bathrooms: allBathrooms.results }))
 
         this.setState({
           userLocation: { lat: latitude, lng: longitude },
