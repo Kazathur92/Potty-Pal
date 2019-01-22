@@ -33,7 +33,7 @@ export default class APIManager {
   //this has been altered, see APIManagerOg for original one which worked with
   getAllMaps(query) {
 
-    return fetch(`http://localhost:6060/api/maps?${query}`
+    return fetch(`https://potty-pal.herokuapp.com:80/api/maps?${query}`
     // , {
       // method: "GET",
       // headers: {

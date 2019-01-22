@@ -55,20 +55,20 @@ class App extends Component {
 
     // return fetch("https://maps.googleapis.com/maps/api/place/textsearch/json?query=restrooms&location=36.1627,%20-86.7816&radius=10000", {
       // https://maps.googleapis.com/maps/api/place/textsearch/json?query=public+bathroom&location=36.1627,%20-86.7816&radius=10000&expand:place_id&key=AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs
-    return fetch("https://maps.googleapis.com/maps/api/place/textsearch/json?query=public+bathroom&location=36.1627,%20-86.7816&radius=10000", {
+    return fetch("https://maps.googleapis.com/maps/api/place/textsearch/json?query=public+bathroom&location=36.1627,%20-86.7816&radius=10000&key=AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         // "Access-Control-Allow-Origin": "*",
-        key: "AIzaSyDt5XcKR4N-Gm0W525I90N-xunjpzPZhNA",
+        // key: "AIzaSyDt5XcKR4N-Gm0W525I90N-xunjpzPZhNA",
         // mode: 'no-cors'
 
       }
     })
       // return fetch("https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=public+bathroom&inputtype=textquery&fields=photos,formatted_address,geometry&locationbias=circle:10000@36.1627,%20-86.7816&key=AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs")
-        .then(e => console.log(e.json()))
-      // .then(e => e.json())
-      // .then(e => this.setState({ bathrooms: e.results }))
+        // .then(e => console.log(e.json()))
+      .then(e => e.json())
+      .then(e => this.setState({ bathrooms: e.results }))
     // .then((e) => console.log("data here", e))
   }
 
@@ -98,8 +98,8 @@ class App extends Component {
       position => {
         const { latitude, longitude } = position.coords;
 
-        // BathroomManager.BathroomManagerGetAll(`&location=${latitude},%20${longitude}&radius=10000`)
-        // .then(allBathrooms => this.setState({ bathrooms: allBathrooms.results }))
+        BathroomManager.BathroomManagerGetAll(`&location=${latitude},%20${longitude}&radius=10000`)
+        .then(allBathrooms => this.setState({ bathrooms: allBathrooms.results }))
 
         this.setState({
           userLocation: { lat: latitude, lng: longitude },
