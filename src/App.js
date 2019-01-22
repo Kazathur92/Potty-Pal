@@ -66,8 +66,8 @@ class App extends Component {
       }
     })
       // return fetch("https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=public+bathroom&inputtype=textquery&fields=photos,formatted_address,geometry&locationbias=circle:10000@36.1627,%20-86.7816&key=AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs")
-        // .then(e => console.log(e.json()))
-      .then(e => e.json())
+        .then(e => console.log(e.json()))
+      // .then(e => e.json())
       .then(e => this.setState({ bathrooms: e.results }))
     // .then((e) => console.log("data here", e))
   }
