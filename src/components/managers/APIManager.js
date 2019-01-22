@@ -30,17 +30,19 @@ export default class APIManager {
   }
 
 
-  //this has been altered, see APIManagerOg for original one which worked with localhost.
+  //this has been altered, see APIManagerOg for original one which worked with
   getAllMaps(query) {
 
-    return fetch(`https://heuristic-mestorf-ea2618.netlify.com/api/maps?${query}`, {
-      method: "GET",
-      headers: {
+    return fetch(`http://localhost:6060/api/maps?${query}`
+    // , {
+      // method: "GET",
+      // headers: {
         // "Content-Type": "application/json",
-      key: "899c35a68b18411d60afbc4c95c76bec6aeb2136693817214ede3c90bbf33674",
-      mode: 'no-cors'
-    },
-    }).then(e => e.json())
+      // key: "899c35a68b18411d60afbc4c95c76bec6aeb2136693817214ede3c90bbf33674",
+      // mode: 'no-cors'
+    // },
+    // }
+    ).then(e => e.json())
   }
 
   deleteLocal(id, route) {

@@ -54,6 +54,7 @@ class App extends Component {
 
 
     // return fetch("https://maps.googleapis.com/maps/api/place/textsearch/json?query=restrooms&location=36.1627,%20-86.7816&radius=10000", {
+      // https://maps.googleapis.com/maps/api/place/textsearch/json?query=public+bathroom&location=36.1627,%20-86.7816&radius=10000&expand:place_id&key=AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs
     return fetch("https://maps.googleapis.com/maps/api/place/textsearch/json?query=public+bathroom&location=36.1627,%20-86.7816&radius=10000&expand:place_id&key=AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs", {
       method: "GET",
       headers: {
@@ -63,9 +64,9 @@ class App extends Component {
       }
     })
       // return fetch("https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=public+bathroom&inputtype=textquery&fields=photos,formatted_address,geometry&locationbias=circle:10000@36.1627,%20-86.7816&key=AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs")
-      //   // .then(e => console.log(e.json()))
+        // .then(e => console.log(e.json()))
       .then(e => e.json())
-      .then(e => this.setState({ bathrooms: e.results }))
+      .then(e => this.setState({ bathrooms: e }))
     // .then((e) => console.log("data here", e))
   }
 
@@ -87,13 +88,16 @@ class App extends Component {
     MarkerManager.MarkerManagerGetAll()
     .then(markers => this.setState({ markers: markers }))
 
+    // BathroomManager.BathroomManagerGetAll(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=public+bathroom&location=36.1627,%20-86.7816&radius=10000&key=AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs`)
+    // .then(allBathrooms => this.setState({ bathrooms: allBathrooms.results }))
+
 
     navigator.geolocation.getCurrentPosition(
       position => {
         const { latitude, longitude } = position.coords;
 
-        BathroomManager.BathroomManagerGetAll(`&location=${latitude},%20${longitude}&radius=10000`)
-        .then(allBathrooms => this.setState({ bathrooms: allBathrooms.results }))
+        // BathroomManager.BathroomManagerGetAll(`&location=${latitude},%20${longitude}&radius=10000`)
+        // .then(allBathrooms => this.setState({ bathrooms: allBathrooms.results }))
 
         this.setState({
           userLocation: { lat: latitude, lng: longitude },
@@ -270,8 +274,9 @@ class App extends Component {
 
 
   consoleLog = () => {
+    console.log(this.state.bathrooms)
     // console.log(this.state.userLocation)
-    console.log(this.state.userMarkers)
+    // console.log(this.state.userMarkers)
   }
 
 
@@ -284,8 +289,8 @@ class App extends Component {
       <div className="App">
 
         {/* consoleLog */}
-        {/* <button onClick={this.consoleLog}>Console Log</button> */}
-        {/* <button onClick={() => this.getDataTest()}>Test</button> */}
+        <button onClick={this.consoleLog}>Console Log</button>
+        <button onClick={() => this.getDataTest()}>Test</button>
         <ApplicationViews
           //state changing functions
           logOutButton={this.logOutButton}
