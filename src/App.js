@@ -59,6 +59,7 @@ class App extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
         // key: "AIzaSyDt5XcKR4N-Gm0W525I90N-xunjpzPZhNA"
         mode: 'no-cors'
 
