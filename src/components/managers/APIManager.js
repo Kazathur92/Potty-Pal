@@ -33,7 +33,7 @@ export default class APIManager {
   //this has been altered, see APIManagerOg for original one which worked with
   getAllMaps(query) {
 
-    return fetch(`https://potty-pal.herokuapp.com:443/api/maps?${query}`).then(e => e.json())
+    return fetch(`https://potty-pal-proxy.herokuapp.com/api/maps?${query}`).then(e => e.json())
   }
 
   deleteLocal(id, route) {
