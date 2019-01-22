@@ -40,7 +40,8 @@ class App extends Component {
     //Geocode npm
     userLocation: { lat: 40.6627, lng: -86.7816 }, //without the currentGeo
     loading: true,
-    userMarkers: []
+    userMarkers: [],
+    jsonData: []
   }
 
   //36.1627},%20${-86.7{()=> 816
@@ -50,8 +51,26 @@ class App extends Component {
      });
 
 
-  getDataTest = () => {
+     getJsonDataTest = () => {
+      return fetch("https://potty-pal-json.herokuapp.com/users", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          // "Access-Control-Allow-Origin": "*",
+          // key: "AIzaSyDt5XcKR4N-Gm0W525I90N-xunjpzPZhNA",
+          // mode: 'no-cors'
 
+        }
+      })
+        // return fetch("https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=public+bathroom&inputtype=textquery&fields=photos,formatted_address,geometry&locationbias=circle:10000@36.1627,%20-86.7816&key=AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs")
+          // .then(e => console.log(e.json()))
+        .then(e => e.json())
+        .then(e => this.setState({ jsonData: e }))
+      // .then((e) => console.log("data here", e))
+    }
+
+
+  getDataTest = () => {
 
     // return fetch("https://maps.googleapis.com/maps/api/place/textsearch/json?query=restrooms&location=36.1627,%20-86.7816&radius=10000", {
       // https://maps.googleapis.com/maps/api/place/textsearch/json?query=public+bathroom&location=36.1627,%20-86.7816&radius=10000&expand:place_id&key=AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs
@@ -277,6 +296,7 @@ class App extends Component {
 
   consoleLog = () => {
     console.log(this.state.bathrooms)
+    console.log(this.state.jsonData)
     // console.log(this.state.userLocation)
     // console.log(this.state.userMarkers)
   }
@@ -291,8 +311,9 @@ class App extends Component {
       <div className="App">
 
         {/* consoleLog */}
-        <button onClick={this.consoleLog}>Console Log</button>
-        <button onClick={() => this.getDataTest()}>Test</button>
+        {/* <button onClick={this.consoleLog}>Console Log</button> */}
+        {/* <button onClick={() => this.getDataTest()}>Test</button> */}
+        {/* <button onClick={() => this.getJsonDataTest()}>JSONDATA</button> */}
         <ApplicationViews
           //state changing functions
           logOutButton={this.logOutButton}
