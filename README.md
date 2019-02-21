@@ -60,7 +60,7 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 
 ## EDIT A MARKER
-![](src/images/edirMarker.gif)
+![](src/images/editMarker.gif)
 
 
 ## DELETE THE MARKER
