@@ -56,7 +56,7 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 
 ## ADDING A MARKER WITH GEOLOCATION
-![](src/images/geolocation_marker.gif)
+![](src/images/geolocation_marker_better.gif)
 
 
 ## EDIT A MARKER
