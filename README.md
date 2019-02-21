@@ -45,3 +45,8 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 ## LOGIN
 ![](src/images/potty_pal_login.gif)
+
+
+## ADDING A MARKER WITH CURRENT LOCATION
+
+![](src/images/current_location_marker.gif)
