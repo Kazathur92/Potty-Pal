@@ -43,6 +43,9 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 
+
+<img src="src/images/pottyPalTitle.png" alt="potty pal" width=100><img
+
 ## LOGIN
 ![](src/images/potty_pal_login.gif)
 
