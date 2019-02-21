@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+// import Container from "./components/mapContainer/Container.js"
 import { Route } from 'react-router-dom'
 import NavBar from "./components/navbar/NavBar"
 // import RegistrationForm from "./components/registration/RegistrationForm"
@@ -17,6 +18,7 @@ export default class ApplicationViews extends Component {
   render() {
     return (
       <div>
+      {/* <Container /> */}
         <NavBar
           //state changing functions
           {...this.props}
@@ -82,6 +84,7 @@ export default class ApplicationViews extends Component {
                 isAuthenticated={this.props.isAuthenticated}
 
               />
+
 
             </React.Fragment>
           }}

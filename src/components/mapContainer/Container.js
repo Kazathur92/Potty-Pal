@@ -12,21 +12,21 @@ const style = {
 }
 
 
-state = {
-  //google-maps-react
-  showingInfoWindow: false,
-  activeMarker: {},
-  selectedPlace: {},
-  newMarker: false,
-}
 
 
 
 
 
-export default class Container extends Component {
+class Container extends Component {
 
 
+  state = {
+    //google-maps-react
+    showingInfoWindow: false,
+    activeMarker: {},
+    selectedPlace: {},
+    newMarker: false,
+  }
 
   onInfoWindowClose = () => {
     this.setState({
@@ -71,24 +71,10 @@ export default class Container extends Component {
         </InfoWindow>
 
       </Map>
-
-
-
-
     )
-
-
-
   }
-
-
-
-
-
-
 }
 
 export default GoogleApiWrapper({
-  apiKey: ("YOUR API KEY")
-})
-  (Container)
+  apiKey: ("AIzaSyDOEBqiYykHzoCJyKAij9f2UwaF-DxtuBs")
+})(Container)
