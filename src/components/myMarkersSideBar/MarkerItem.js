@@ -7,52 +7,52 @@ import './MyMarkersSideBar.css'
 
 //=============================ANIMATIONS================================
 const rotateInAnimation = {
-  rotateIn: {
-    animation: "2s",
-    animationName: Radium.keyframes(rotateIn, "rotateIn")
-  }
+    rotateIn: {
+        animation: "2s",
+        animationName: Radium.keyframes(rotateIn, "rotateIn")
+    }
 }
 
 const slideDownAnimation = {
-  slideInDown: {
-    animation: "1s",
-    animationName: Radium.keyframes(slideInDown, "sildeInDown")
-  }
+    slideInDown: {
+        animation: "1s",
+        animationName: Radium.keyframes(slideInDown, "sildeInDown")
+    }
 }
 
 const fadeInAnimation = {
-  fadeIn: {
-    animation: "1s",
-    animationName: Radium.keyframes(fadeIn, "fadeIn")
-  }
+    fadeIn: {
+        animation: "1s",
+        animationName: Radium.keyframes(fadeIn, "fadeIn")
+    }
 }
 
 const flipInAnimation = {
-  flipInX: {
-    animation: "1s",
-    animationName: Radium.keyframes(flipInX, "flipInX")
-  }
+    flipInX: {
+        animation: "1s",
+        animationName: Radium.keyframes(flipInX, "flipInX")
+    }
 }
 
 const headShakeAnimation = {
-  headShake: {
-    animation: "3s",
-    animationName: Radium.keyframes(headShake, "headShake")
-  }
+    headShake: {
+        animation: "3s",
+        animationName: Radium.keyframes(headShake, "headShake")
+    }
 }
 
 const flipInYAnimation = {
-  flipInY: {
-    animation: "1s",
-    animationName: Radium.keyframes(flipInY, "flipInY")
-  }
+    flipInY: {
+        animation: "1s",
+        animationName: Radium.keyframes(flipInY, "flipInY")
+    }
 }
 
 const slideInRightAnimation = {
-  slideInRight: {
-    animation: "2s",
-    animationName: Radium.keyframes(slideInRight, "slideInright")
-  }
+    slideInRight: {
+        animation: "2s",
+        animationName: Radium.keyframes(slideInRight, "slideInright")
+    }
 }
 //==========================================================================
 
@@ -60,55 +60,55 @@ const slideInRightAnimation = {
 
 export default class MarkerItem extends Component {
 
-state = {
+    state = {
 
-}
-
-
-
-deleteIt = (id) => {
-
-  this.props.warningMessageToggleSideBar(id)
-
-}
+    }
 
 
 
-render() {
+    deleteIt = (id) => {
 
-  return(
-<div className="">
-  <Card className="markerCard" onMouseOver={() => this.props.handleIconState_1(this.props.markerProperties, this.props.marker.id)}
-  onMouseLeave={() => this.props.handleIconState_2(this.props.markerProperties, this.props.marker.id)}
-  >
-  {/* <Button id={`button_${this.props.marker.id}`} className="closeButton">x</Button> */}
-<p className="markerName">{this.props.marker.name}</p>
-<p className="markerLocation">{this.props.marker.location}</p>
-<p className="markerBaby"><Icon className="fas fa-baby" color="info"></Icon>
-&nbsp;{this.props.changingStation}</p>
-<p className="markerHandi"><Icon className="fas fa-wheelchair" color="info"></Icon>
-&nbsp;{this.props.handicapAccess}</p>
-<StarRatingComponent
-            name="rate5"
-            starCount={5}
-            value={this.props.markerProperties.rating}
-            // value={this.props.currentMarker.rating}
-          />
-<Card.Footer>
-        <Card.Footer.Item renderAs="a" type="button"
-        className="cardEdit"
-        // onClick={this.props.handleInfoWindowContentState_1}
-        onClick={this.props.handleSidebarEditState}
-        >
-          Edit
+        this.props.warningMessageToggleSideBar(id)
+
+    }
+
+
+
+    render() {
+
+        return (
+            <div className="">
+                <Card className="markerCard" onMouseOver={() => this.props.handleIconState_1(this.props.markerProperties, this.props.marker.id)}
+                    onMouseLeave={() => this.props.handleIconState_2(this.props.markerProperties, this.props.marker.id)}
+                >
+                    {/* <Button id={`button_${this.props.marker.id}`} className="closeButton">x</Button> */}
+                    <p className="markerName">{this.props.marker.name}</p>
+                    <p className="markerLocation">{this.props.marker.location}</p>
+                    <p className="markerBaby"><Icon className="fas fa-baby" color="info"></Icon>
+                        &nbsp;{this.props.changingStation}</p>
+                    <p className="markerHandi"><Icon className="fas fa-wheelchair" color="info"></Icon>
+                        &nbsp;{this.props.handicapAccess}</p>
+                    <StarRatingComponent
+                        name="rate5"
+                        starCount={5}
+                        value={this.props.markerProperties.rating}
+                    // value={this.props.currentMarker.rating}
+                    />
+                    <Card.Footer>
+                        <Card.Footer.Item renderAs="a" type="button"
+                            className="cardEdit"
+                            // onClick={this.props.handleInfoWindowContentState_1}
+                            onClick={this.props.handleSidebarEditState}
+                        >
+                            Edit
         </Card.Footer.Item>
-        <Card.Footer.Item renderAs="a" type="button" className="cardDelete" onClick={() => this.deleteIt(this.props.marker.id)}>
-          Delete
+                        <Card.Footer.Item renderAs="a" type="button" className="cardDelete" onClick={() => this.deleteIt(this.props.marker.id)}>
+                            Delete
         </Card.Footer.Item >
-      </Card.Footer>
-</Card>
-</div>
+                    </Card.Footer>
+                </Card>
+            </div>
 
-  )
-}
+        )
+    }
 }

@@ -75,12 +75,120 @@ color: blue;
   width: 30%
 } */
 
+@media screen and (max-width: 1080px) {
+    .sideBarDiv {
+      width: 30%;
+      height: 100px;
+      border-radius: 10px;
+      margin-top: -10%;
+      position: fixed;
+    }
+
+    .markerName{
+      font-size: 10px;
+    }
+
+    .markerLocation{
+      font-size: 10px;
+    }
+
+    .markerBaby{
+
+      font-size: 10px;
+    }
+
+    .markerHandi{
+      font-size: 10px;
+    }
+
+    .cardEdit{
+      font-size: 10px;
+    }
+
+    .cardDelete{
+      font-size: 10px;
+    }
+
+  }
+
+@media screen and (max-width: 1000px) {
+    .sideBarDiv {
+      width: 30%;
+      height: 100px;
+      border-radius: 10px;
+      margin-top: -7%;
+      position: fixed;
+    }
+
+    .markerName{
+      font-size: 10px;
+    }
+
+    .markerLocation{
+      font-size: 10px;
+    }
+
+    .markerBaby{
+
+      font-size: 10px;
+    }
+
+    .markerHandi{
+      font-size: 10px;
+    }
+
+    .cardEdit{
+      font-size: 10px;
+    }
+
+    .cardDelete{
+      font-size: 10px;
+    }
+
+  }
+
+  @media screen and (max-width: 815px) {
+    .sideBarDiv {
+      width: 30%;
+      height: 100px;
+      border-radius: 10px;
+      margin-top: -20%;
+      position: fixed;
+    }
+
+    .markerName{
+      font-size: 10px;
+    }
+
+    .markerLocation{
+      font-size: 10px;
+    }
+
+    .markerBaby{
+
+      font-size: 10px;
+    }
+
+    .markerHandi{
+      font-size: 10px;
+    }
+
+    .cardEdit{
+      font-size: 10px;
+    }
+
+    .cardDelete{
+      font-size: 10px;
+    }
+
+  }
+
 @media screen and (max-width: 600px) {
   .sideBarDiv {
     width: 30%;
     height: 100px;
     border-radius: 10px;
-    margin-top: -50%;
+    margin-top: -20%;
     position: fixed;
   }
 
@@ -111,12 +219,47 @@ color: blue;
 
 }
 
+@media screen and (max-width: 528px) {
+    .sideBarDiv {
+      width: 30%;
+      height: 100px;
+      border-radius: 10px;
+      margin-top: -30%;
+      position: fixed;
+    }
+
+    .markerName{
+      font-size: 10px;
+    }
+
+    .markerLocation{
+      font-size: 10px;
+    }
+
+    .markerBaby{
+
+      font-size: 10px;
+    }
+
+    .markerHandi{
+      font-size: 10px;
+    }
+
+    .cardEdit{
+      font-size: 10px;
+    }
+
+    .cardDelete{
+      font-size: 10px;
+    }
+}
+
 @media screen and (max-width: 400px) {
   .sideBarDiv {
     width: 30%;
     height: 100px;
     border-radius: 10px;
-    margin-top: -100%;
+    margin-top: -80%;
     position: fixed;
   }
 
