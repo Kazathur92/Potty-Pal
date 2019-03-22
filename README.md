@@ -43,4 +43,4 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 
-<img src="src/images/pottyPallTitle.png" alt="Take a Hike" width=150 >
+<img src="src/images/pottyPalTitle.png" alt="Potty Pal" width=150 >
