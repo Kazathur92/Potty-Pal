@@ -43,4 +43,36 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 
+## Potty-Pal
+
 <img src="src/images/pottyPalTitle.png" alt="Potty Pal" width=150 >
+
+## How to use the App:
+
+## Log In
+![](src/images/potty_pal_login.gif)
+
+## Look at Public Bathrooms
+![](src/images/defaultBathrooms.gif)
+
+## Add a Bathroom Marker using Current Location
+![](src/images/current_location_marker.gif)
+
+## Add a Bathroom Marker using Geolocation
+![](src/images/geolocation_marker.gif)
+
+## Edit your Bathroom Markers
+![](src/images/editMarker.gif)
+
+## Delete your BathroomMarkers
+![](src/images/deleteMarker.gif)
+
+## App deployed in Heroku:
+
+Potty Pal is a full stack app, there are 2 servers Potty-Pal communicates with, a Json server and a Proxy back end Node server. Since both of these are also hosted in Heroku you first need to wake them up by clickin on the links below before you click on the Potty-Pal link.
+
+Json Server Link: (https://https://potty-pal-json.herokuapp.com/)
+Proxy Back End Node Server Link: (https://https://potty-pal-proxy.herokuapp.com/)
+
+Potty-Pal: (https://https://potty-pal.herokuapp.com/)
+
