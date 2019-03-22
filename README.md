@@ -59,7 +59,7 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 ![](src/images/current_location_marker.gif)
 
 ## Add a Bathroom Marker using Geolocation
-![](src/images/geolocation_marker.gif)
+![](src/images/geolocation_marker_better.gif)
 
 ## Edit your Bathroom Markers
 ![](src/images/editMarker.gif)
@@ -72,6 +72,7 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 Potty Pal is a full stack app, there are 2 servers Potty-Pal communicates with, a Json server and a Proxy back end Node server. Since both of these are also hosted in Heroku you first need to wake them up by clickin on the links below before you click on the Potty-Pal link.
 
 Json Server Link: (https://https://potty-pal-json.herokuapp.com/)
+
 Proxy Back End Node Server Link: (https://https://potty-pal-proxy.herokuapp.com/)
 
 Potty-Pal: (https://https://potty-pal.herokuapp.com/)
